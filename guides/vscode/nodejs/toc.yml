@@ -1,0 +1,23 @@
+items:
+- name: Working with JavaScript
+  homepage: working-with-javascript.md
+- name: Node.js Tutorial
+  homepage: nodejs-tutorial.md
+- name: Node.js Debugging
+  homepage: nodejs-debugging.md
+- name: Node.js Deployment
+  homepage: ../azure/deployment.md
+- name: Browser Debugging
+  homepage: browser-debugging.md
+- name: Angular Tutorial
+  homepage: angular-tutorial.md
+- name: React Tutorial
+  homepage: reactjs-tutorial.md
+- name: Vue Tutorial
+  homepage: vuejs-tutorial.md
+- name: Ember Tutorial
+  homepage: emberjs-tutorial.md
+- name: Debugging Recipes
+  homepage: debugging-recipes.md
+- name: Extensions
+  homepage: extensions.md

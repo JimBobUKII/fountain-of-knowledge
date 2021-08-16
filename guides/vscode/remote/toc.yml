@@ -1,0 +1,31 @@
+items:
+- name: Overview
+  homepage: remote-overview.md
+- name: SSH
+  homepage: ssh.md
+- name: Containers
+  homepage: containers.md
+- name: Windows Subsystem for Linux
+  homepage: wsl.md
+- name: GitHub Codespaces
+  homepage: codespaces.md
+- name: SSH Tutorial
+  homepage: ssh-tutorial.md
+- name: Containers Tutorial
+  homepage: containers-tutorial.md
+- name: WSL Tutorial
+  homepage: wsl-tutorial.md
+- name: Attach to Container
+  homepage: attach-container.md
+- name: Create a Dev Container
+  homepage: create-dev-container.md
+- name: Advanced Containers
+  homepage: containers-advanced.md
+- name: devcontainer CLI
+  homepage: devcontainer-cli.md
+- name: devcontainer.json
+  homepage: devcontainerjson-reference.md
+- name: Tips and Tricks
+  homepage: troubleshooting.md
+- name: FAQ
+  homepage: faq.md

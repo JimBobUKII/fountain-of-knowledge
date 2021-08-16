@@ -1,0 +1,15 @@
+items:
+- name: Overview
+  homepage: setup-overview.md
+- name: Linux
+  homepage: linux.md
+- name: macOS
+  homepage: mac.md
+- name: Windows
+  homepage: windows.md
+- name: Raspberry Pi
+  homepage: raspberry-pi.md
+- name: Network
+  homepage: network.md
+- name: Additional components
+  homepage: additional-components.md

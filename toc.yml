@@ -1,0 +1,11 @@
+# This is an automatically generated file
+items:
+- name: Github
+  href: github/
+  homepage: guides/github/index.md
+- name: Visual Studio Code
+  href: vscode/
+  homepage: guides/vscode/index.md
+- name: '[ Archive ]'
+  href: archive/
+  homepage: archive/index.md
