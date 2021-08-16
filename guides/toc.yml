@@ -6,4 +6,7 @@ items:
 - name: Visual Studio Code
   href: vscode/toc.yml
   topicHref: vscode/index.md
+- name: DocFX
+  href: docfx/toc.yml
+  topicHref: docfx/docfx_getting_started.md
 
