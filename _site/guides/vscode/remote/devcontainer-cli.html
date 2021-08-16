@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>devcontainer command line interface | Fountain of Knowledge </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="devcontainer command line interface | Fountain of Knowledge ">
+    <meta name="generator" content="docfx 2.57.2.0">
+    
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    <meta property="docfx:rel" content="../../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="devcontainer-command-line-interface">devcontainer command line interface</h1>
+
+<p>The <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers">Remote-Containers extension</a> has a <code>devcontainer</code> command line interface (CLI) which allows you to interact with a dev container from your terminal.</p>
+<h2 id="installing-the-devcontainer-cli">Installing the devcontainer CLI</h2>
+<p>To install the devcontainer CLI:</p>
+<ol>
+<li><p>Ensure you have the latest version of the <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers">Remote-Containers extension</a> installed (must be at least <code>v0.188.0</code>).</p>
+</li>
+<li><p>Launch Visual Studio Code and select  <strong>Remote-Containers: Install devcontainer CLI</strong> from the Command Palette (<code>kbstyle(F1)</code>).</p>
+<p><img src="images/devcontainer-cli/install.png" alt="The &quot;Install devcontainer CLI&quot; command"></p>
+</li>
+</ol>
+<ul>
+<li><strong>Windows</strong>: You will be prompted to automatically add the devcontainer CLI to your <code>PATH</code> or to copy the devcontainer CLI path to your clipboard for you to add to your <code>PATH</code>.</li>
+<li><strong>macOS/Linux</strong>: If the extension detects a <code>bin</code> folder (or <code>.local/bin</code> folder) in your user home folder and in your <code>PATH</code>, then you will have the option of adding a symlink to the devcontainer CLI to this location. You will also have the option to copy the devcontainer CLI path to your clipboard for you to add to your <code>PATH</code>.</li>
+</ul>
+<ol start="3">
+<li><p>From an external terminal (one not inside Visual Studio Code), run <code>devcontainer --help</code> to test the installation and see the CLI's built-in help. Note that you may need to restart your shell for <code>PATH</code> changes to take effect.</p>
+<pre><code class="lang-bash"> $ devcontainer --help
+devcontainer &lt;command&gt;
+:
+  devcontainer open [path]             Open a dev container in VS Code
+  devcontainer build [path] [options]  Build a dev container image
+
+Options:
+  -h, --help  Show help  [boolean]
+</code></pre>
+</li>
+</ol>
+<h2 id="opening-a-folder-directly-within-a-dev-container">Opening a folder directly within a dev container</h2>
+<p>Visual Studio Code has many <a href="../editor/command-line.html">command line options</a>, including <code>code .</code> that opens Visual Studio Code with the current folder. When you do this with a folder containing a dev container, Visual Studio Code will prompt you to reopen the folder within a dev container.</p>
+<p><img src="images/devcontainer-cli/reopen-in-container.png" alt="Prompt to reopen folder within a dev container"></p>
+<p>With the devcontainer CLI, you can use the <code>devcontainer open</code> command to open the current folder straight into dev container mode, skipping the prompt.</p>
+<p>You can optionally specify the path to the folder to open, for example <code>devcontainer open ~/source/my-folder</code> to open the <code>~/source/my-folder</code> folder within a dev container.</p>
+<h2 id="building-a-dev-container-image">Building a dev container image</h2>
+<p>The <code>devcontainer build</code> command allows you to build the dev container image for a folder. As with the <code>open</code> command, <code>build</code> accepts a path to the folder to build the image for and defaults to the current working folder in your shell. For example, <code>devcontainer build</code> will build the dev container image for the current folder and <code>devcontainer build ~/source/my-folder</code> will build the container image for the <code>~/source/my-folder</code> folder.</p>
+<h3 id="devcontainer-cli-build-options">devcontainer CLI build options</h3>
+<p>The following options can be used with the <code>build</code> command:</p>
+<ul>
+<li><code>--no-cache</code> : By default, building a Docker container image reuses layers from previous image builds. The <code>--no-cache</code> option prevents the cache being used and forces the image to be rebuilt.</li>
+<li><code>--image-name</code> : The Remote-Containers extension typically determines its own name for the images it builds. You can specify the name to use for the built image using the <code>--image-name</code> option.</li>
+</ul>
+<h2 id="visual-studio-code-insiders">Visual Studio Code Insiders</h2>
+<p>You can install the CLI for the Stable and Insiders builds of Visual Studio Code side-by-side. The Insiders CLI will be <code>devcontainer-insiders</code>, so use this in place of <code>devcontainer</code> in the steps above.</p>
+<h2 id="next-steps">Next steps</h2>
+<ul>
+<li><a href="create-dev-container.html">Create a Development Container</a> - Create a custom container for your work environment.</li>
+<li><a href="containers-advanced.html">Advanced Containers</a> - Find solutions to advanced container scenarios.</li>
+<li><a href="devcontainerjson-reference.html">devcontainer.json reference</a> - Review the <code>devcontainer.json</code> schema.</li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            &#0169; 2021 Jason Rose
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

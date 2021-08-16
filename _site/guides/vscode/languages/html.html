@@ -1,0 +1,232 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>HTML in Visual Studio Code | Fountain of Knowledge </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="HTML in Visual Studio Code | Fountain of Knowledge ">
+    <meta name="generator" content="docfx 2.57.2.0">
+    
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    <meta property="docfx:rel" content="../../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="html-in-visual-studio-code">HTML in Visual Studio Code</h1>
+
+<p>Visual Studio Code provides basic support for HTML programming out of the box. There is syntax highlighting, smart completions with IntelliSense, and customizable formatting. VS Code also includes great Emmet support.</p>
+<h2 id="intellisense">IntelliSense</h2>
+<p>As you type in HTML, we offer suggestions via HTML IntelliSense. In the image below, you can see a suggested HTML element closure <code>&lt;/div&gt;</code> as well as a context specific list of suggested elements.</p>
+<p><img src="images/html/htmlintellisense.png" alt="HTML IntelliSense"></p>
+<p>Document symbols are also available for HTML, allowing you to quickly navigate to DOM nodes by id and class name.</p>
+<p>You can also work with embedded CSS and JavaScript. However, note that script and style includes from other files are not followed, the language support only looks at the content of the HTML file.</p>
+<p>You can trigger suggestions at any time by pressing <code>kb(editor.action.triggerSuggest)</code>.</p>
+<p>You can also control which built-in code completion providers are active. Override these in your user or workspace <a href="../getstarted/settings.html">settings</a> if you prefer not to see the corresponding suggestions.</p>
+<pre><code class="lang-json">// Configures if the built-in HTML language suggests HTML5 tags, properties and values.
+&quot;html.suggest.html5&quot;: true
+</code></pre>
+<h2 id="close-tags">Close tags</h2>
+<p>Tag elements are automatically closed when <code>&gt;</code> of the opening tag is typed.</p>
+<p><img src="images/html/auto-close1.gif" alt="HTML Close1"></p>
+<p>The matching closing tag is inserted when <code>/</code> of the closing tag is entered.</p>
+<p><img src="images/html/auto-close2.gif" alt="HTML Close2"></p>
+<p>You can turn off autoclosing tags with the following <a href="../getstarted/settings.html">setting</a>:</p>
+<pre><code class="lang-json">&quot;html.autoClosingTags&quot;: false
+</code></pre>
+<h2 id="auto-update-tags">Auto update tags</h2>
+<p>When modifying a tag, the linked editing feature automatically updates the matching closing tag. The feature is optional and can be enabled by setting:</p>
+<pre><code class="lang-json">&quot;editor.linkedEditing&quot;: true
+</code></pre>
+<h2 id="color-picker">Color picker</h2>
+<p>The VS Code color picker UI is now available in HTML style sections.</p>
+<p><img src="images/html/color-picker-html.png" alt="color picker in HTML"></p>
+<p>It supports configuration of hue, saturation and opacity for the color that is picked up from the editor. It also provides the ability to trigger between different color modes by clicking on the color string at the top of the picker. The picker appears on a hover when you are over a color definition.</p>
+<h2 id="hover">Hover</h2>
+<p>Move the mouse over HTML tags or embedded styles and JavaScript to get more information on the symbol under the cursor.</p>
+<p><img src="images/html/htmlhover.png" alt="HTML Hover"></p>
+<h2 id="validation">Validation</h2>
+<p>The HTML language support performs validation on all embedded JavaScript and CSS.</p>
+<p>You can turn that validation off with the following settings:</p>
+<pre><code class="lang-json">// Configures if the built-in HTML language support validates embedded scripts.
+&quot;html.validate.scripts&quot;: true,
+
+// Configures if the built-in HTML language support validates embedded styles.
+&quot;html.validate.styles&quot;: true
+</code></pre>
+<h2 id="folding">Folding</h2>
+<p>You can fold regions of source code using the folding icons on the gutter between line numbers and line start. Folding regions are available for all HTML elements for multiline comments in the source code.</p>
+<p>Additionally you can use the following region markers to define a folding region:
+<code>&lt;!-- #region --&gt;</code> and <code>&lt;!-- endregion --&gt;</code></p>
+<p>If you prefer to switch to indentation based folding for HTML use:</p>
+<pre><code class="lang-json">&quot;[html]&quot;: {
+    &quot;editor.foldingStrategy&quot;: &quot;indentation&quot;
+},
+</code></pre>
+<h2 id="formatting">Formatting</h2>
+<p>To improve the formatting of your HTML source code, you can use the <strong>Format Document</strong> command <code>kb(editor.action.formatDocument)</code> to format the entire file or <strong>Format Selection</strong> <code>kb(editor.action.formatSelection)</code> to just format the selected text.</p>
+<p>The HTML formatter is based on <a href="https://www.npmjs.com/package/js-beautify">js-beautify</a>. The formatting options offered by that library are surfaced in the VS Code <a href="../getstarted/settings.html">settings</a>:</p>
+<ul>
+<li><code>html.format.wrapLineLength</code>: Maximum amount of characters per line.</li>
+<li><code>html.format.unformatted</code>: List of tags that shouldn't be reformatted.</li>
+<li><code>html.format.contentUnformatted</code>: List of tags, comma separated, where the content shouldn't be reformatted.</li>
+<li><code>html.format.extraLiners</code>: List of tags that should have an extra newline before them.</li>
+<li><code>html.format.preserveNewLines</code>: Whether existing line breaks before elements should be preserved.</li>
+<li><code>html.format.maxPreserveNewLines</code>: Maximum number of line breaks to be preserved in one chunk.</li>
+<li><code>html.format.endWithNewline</code>: End with a newline.</li>
+<li><code>html.format.indentInnerHtml</code>: Indent <code>&lt;head&gt;</code> and <code>&lt;body&gt;</code> sections.</li>
+<li><code>html.format.wrapAttributes</code>: Wrapping strategy for attributes:
+<ul>
+<li><code>auto</code>: Wrap when the line length is exceeded</li>
+<li><code>force</code>: Wrap all attributes, except first</li>
+<li><code>force-aligned</code>: Wrap all attributes, except first, and align attributes</li>
+<li><code>force-expand-multiline</code>: Wrap all attributes</li>
+<li><code>aligned-multiple</code>: Wrap when line length is exceeded, align attributes vertically</li>
+<li><code>preserve</code>: Preserve wrapping of attributes</li>
+<li><code>preserve-aligned</code>: Preserve wrapping of attributes but align</li>
+</ul>
+</li>
+<li><code>html.format.wrapAttributesIndentSize</code>: Alignment size when using <code>force aligned</code> and <code>aligned multiple</code> in <code>html.format.wrapAttributes</code> or <code>null</code> to use the default indent size.</li>
+<li><code>html.format.templating</code>: Honor django, erb, handlebars and php templating language tags.</li>
+<li><code>html.format.unformattedContentDelimiter</code>: Keep text content together between this string.</li>
+</ul>
+<blockquote>
+<p><strong>Tip:</strong> The formatter doesn't format the tags listed in the <code>html.format.unformatted</code> and <code>html.format.contentUnformatted</code> settings. Embedded JavaScript is formatted unless 'script' tags are excluded.</p>
+</blockquote>
+<p>The Marketplace has several alternative formatters to choose from. If you want to use a different formatter, define
+<code>&quot;html.format.enable&quot;: false</code> in your settings to turn off the built-in formatter.</p>
+<h2 id="emmet-snippets">Emmet snippets</h2>
+<p>VS Code supports <a href="https://emmet.io/">Emmet snippet</a> expansion. Emmet abbreviations are listed along with other suggestions and snippets in the editor auto-completion list.</p>
+<p><img src="images/html/emmetsnippet.gif" alt="Emmet HTML support built-in"></p>
+<blockquote>
+<p><strong>Tip:</strong> See the HTML section of the <a href="https://docs.emmet.io/cheat-sheet">Emmet cheat sheet</a> for valid abbreviations.</p>
+</blockquote>
+<p>If you'd like to use HTML Emmet abbreviations with other languages, you can associate one of the Emmet modes (such as <code>css</code>, <code>html</code>) with other languages with the <code>emmet.includeLanguages</code> <a href="../getstarted/settings.html">setting</a>. The setting takes a <a href="../overview.md#language-id">language id</a> and associates it with the language id of an Emmet supported mode.</p>
+<p>For example, to use Emmet HTML abbreviations inside JavaScript:</p>
+<pre><code class="lang-json">{
+    &quot;emmet.includeLanguages&quot;: {
+        &quot;javascript&quot;: &quot;html&quot;
+     }
+}
+</code></pre>
+<p>We also support <a href="../editor/userdefinedsnippets.html">User Defined Snippets</a>.</p>
+<h2 id="html-custom-data">HTML custom data</h2>
+<p>You can extend VS Code's HTML support through a declarative <a href="https://github.com/microsoft/vscode-html-languageservice/blob/main../customData.md">custom data format</a>. By setting <code>html.customData</code> to a list of JSON files following the custom data format, you can enhance VS Code's understanding of new HTML tags, attributes and attribute values. VS Code will then offer language support such as completion &amp; hover information for the provided tags, attributes and attribute values.</p>
+<p>You can read more about using custom data in the <a href="https://github.com/microsoft/vscode-custom-data">vscode-custom-data</a> repository.</p>
+<h2 id="html-extensions">HTML extensions</h2>
+<p>Install an extension to add more functionality. Go to the <strong>Extensions</strong> view (<code>kb(workbench.view.extensions)</code>) and type 'html' to see a list of relevant extensions to help with creating and editing HTML.</p>
+<div class="marketplace-extensions-html-curated"></div>
+<blockquote>
+<p>Tip: Click on an extension tile above to read the description and reviews to decide which extension is best for you. See more in the <a href="https://marketplace.visualstudio.com">Marketplace</a>.</p>
+</blockquote>
+<h2 id="next-steps">Next steps</h2>
+<p>Read on to find out about:</p>
+<ul>
+<li><a href="../css.md">CSS, SCSS, and Less</a> - VS Code has first class support for CSS including Less and SCSS.</li>
+<li><a href="../editor/emmet.html">Emmet</a> - Learn about VS Code's powerful built-in Emmet support.</li>
+<li><a href="https://docs.emmet.io/">Emmet official documentation</a> - Emmet, the essential toolkit for web-developers.</li>
+</ul>
+<h2 id="common-questions">Common questions</h2>
+<h3 id="does-vs-code-have-html-preview">Does VS Code have HTML preview?</h3>
+<p>No, VS Code doesn't have built-in support for HTML preview but there are extensions available in the VS Code <a href="https://marketplace.visualstudio.com/vscode">Marketplace</a>. Open the <strong>Extensions</strong> view (<code>kb(workbench.view.extensions)</code>) and search on 'live preview' or 'html preview' to see a list of available HTML preview extensions.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            &#0169; 2021 Jason Rose
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

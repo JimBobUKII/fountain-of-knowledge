@@ -1,0 +1,25 @@
+items:
+- name: Overview
+  homepage: overview.md
+- name: Node.js
+  homepage: quickstart-node.md
+- name: Python
+  homepage: quickstart-python.md
+- name: ASP.NET Core
+  homepage: quickstart-aspnet-core.md
+- name: Debug
+  homepage: debug-common.md
+- name: Docker Compose
+  homepage: docker-compose.md
+- name: Registries
+  homepage: quickstart-container-registries.md
+- name: Deploy to Azure
+  homepage: app-service.md
+- name: Choose a dev environment
+  homepage: choosing-dev-environment.md
+- name: Customize
+  homepage: reference.md
+- name: Develop with Kubernetes
+  homepage: bridge-to-kubernetes.md
+- name: Tips and Tricks
+  homepage: troubleshooting.md

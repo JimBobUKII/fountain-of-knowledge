@@ -1,0 +1,214 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Display Language | Fountain of Knowledge </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Display Language | Fountain of Knowledge ">
+    <meta name="generator" content="docfx 2.57.2.0">
+    
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    <meta property="docfx:rel" content="../../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="display-language">Display Language</h1>
+
+<p>Visual Studio Code ships by default with English as the display language and other <a href="#available-locales">languages</a> rely on Language Pack <a href="/docs/editor/extension-marketplace.md">extensions</a> available from the <a href="https://marketplace.visualstudio.com/search?target=VSCode&amp;category=Language%20Packs&amp;sortBy=Downloads">Marketplace</a>.</p>
+<p>VS Code detects the operating system's UI language and will prompt you to install the appropriate Language Pack, if available on the Marketplace. Below is an example recommending a Simplified Chinese Language Pack:</p>
+<p><img src="images/locales/lang-pack-recommendation.png" alt="Language Pack recommendation"></p>
+<p>After installing the Language Pack extension and following the prompt to restart, VS Code will use the Language Pack matching your operating system's UI language.</p>
+<h2 id="changing-the-display-language">Changing the Display Language</h2>
+<p>You can also override the default UI language by explicitly setting the VS Code display language using the <strong>Configure Display Language</strong> command.</p>
+<p>Press <code>kb(workbench.action.showCommands)</code> to bring up the <strong>Command Palette</strong> then start typing &quot;display&quot; to filter and display the <strong>Configure Display Language</strong> command.</p>
+<p><img src="images/locales/configure-language-command.png" alt="configure display language command "></p>
+<p>Press <code>kbstyle(Enter)</code> and a list of installed languages by <a href="#available-locales">locale</a> is displayed, with the current <code>locale</code> highlighted.</p>
+<p><img src="images/locales/installed-languages-list.png" alt="installed languages list"></p>
+<p>Use the <strong>Install additional languages...</strong> option to install more Language Packs from the <a href="https://marketplace.visualstudio.com/search?target=VSCode&amp;category=Language%20Packs&amp;sortBy=Downloads">Marketplace</a>, or select a different <code>locale</code> from the list. Changing the <code>locale</code> requires a restart of VS Code. You will be prompted to restart when you select a <code>locale</code>.</p>
+<p>The <strong>Configure Display Language</strong> command writes to the Runtime Configuration Arguments file <code>argv.json</code> in your user VS Code folder (<code>.vscode</code>).</p>
+<p>The <code>locale</code> can also be changed by editing the <code>argv.json</code> file directly (<strong>Preferences: Configure Runtime Arguments</strong>) and restarting VS Code.</p>
+<h2 id="available-locales">Available locales</h2>
+<table>
+<thead>
+<tr>
+<th>Display Language</th>
+<th>Locale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>English (US)</td>
+<td><code>en</code></td>
+</tr>
+<tr>
+<td>Simplified Chinese</td>
+<td><code>zh-CN</code></td>
+</tr>
+<tr>
+<td>Traditional Chinese</td>
+<td><code>zh-TW</code></td>
+</tr>
+<tr>
+<td>French</td>
+<td><code>fr</code></td>
+</tr>
+<tr>
+<td>German</td>
+<td><code>de</code></td>
+</tr>
+<tr>
+<td>Italian</td>
+<td><code>it</code></td>
+</tr>
+<tr>
+<td>Spanish</td>
+<td><code>es</code></td>
+</tr>
+<tr>
+<td>Japanese</td>
+<td><code>ja</code></td>
+</tr>
+<tr>
+<td>Korean</td>
+<td><code>ko</code></td>
+</tr>
+<tr>
+<td>Russian</td>
+<td><code>ru</code></td>
+</tr>
+<tr>
+<td>Bulgarian</td>
+<td><code>bg</code></td>
+</tr>
+<tr>
+<td>Hungarian</td>
+<td><code>hu</code></td>
+</tr>
+<tr>
+<td>Portuguese (Brazil)</td>
+<td><code>pt-br</code></td>
+</tr>
+<tr>
+<td>Turkish</td>
+<td><code>tr</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="marketplace-language-packs">Marketplace Language Packs</h2>
+<p>As described above, VS Code ships with English as the default display language, but other languages are available through <a href="https://marketplace.visualstudio.com/search?target=VSCode&amp;category=Language%20Packs&amp;sortBy=Downloads">Marketplace Language Packs</a>.</p>
+<p>You can search for Language Packs in the Extensions view (<code>kb(workbench.view.extensions)</code>) by typing the language you are looking for along with <code>category:&quot;Language Packs&quot;</code>.</p>
+<p><img src="images/locales/German-language-pack.png" alt="German Language Pack"></p>
+<p>You can have multiple Language Packs installed and select the current display language with the <strong>Configure Display Language</strong> command.</p>
+<h2 id="setting-the-language">Setting the Language</h2>
+<p>If you want to use a specific language for a VS Code session, you can use the command-line switch <code>--locale</code> to specify a locale when you launch VS Code.</p>
+<p>Below is an example of using the <code>--locale</code> command-line switch to set the VS Code display language to French:</p>
+<pre><code class="lang-bash">code . --locale=fr
+</code></pre>
+<p><strong>Note</strong>: You must have the appropriate Language Pack installed for the language you specify with the command-line switch. If the matching Language Pack is not installed, VS Code will display English.</p>
+<h2 id="common-questions">Common questions</h2>
+<h3 id="unable-to-write-to-file-because-the-file-is-dirty">Unable to write to file because the file is dirty</h3>
+<p>This notification may mean that your <code>argv.json</code> file wasn't saved after a previous change. Check if there are any errors in the file (<strong>Preferences: Configure Runtime Arguments</strong>), make sure the file is saved, and try to install the Language Pack again.</p>
+<h3 id="can-i-contribute-to-a-language-packs-translations">Can I contribute to a language pack's translations?</h3>
+<p>Yes, the <a href="https://aka.ms/vscodeloc">Visual Studio Code Community Localization Project</a> is open to anyone, where contributors can provide new translations, vote on existing translations, or suggest process improvements.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            &#0169; 2021 Jason Rose
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,36 @@
+items:
+
+- name: Basic Editing
+  homepage: codebasics.md
+- name: Extension Marketplace
+  homepage: extension-marketplace.md
+- name: IntelliSense
+  homepage: intellisense.md
+- name: Code Navigation
+  homepage: editingevolved.md
+- name: Refactoring
+  homepage: refactoring.md
+- name: Debugging
+  homepage: debugging.md
+- name: Version Control
+  homepage: versioncontrol.md
+- name: Working with GitHub
+  homepage: github.md
+- name: Integrated Terminal
+  homepage: integrated-terminal.md
+- name: Tasks
+  homepage: tasks.md
+- name: Settings Sync
+  homepage: settings-sync.md
+- name: Snippets
+  homepage: userdefinedsnippets.md
+- name: Emmet
+  homepage: emmet.md
+- name: Command Line
+  homepage: command-line.md
+- name: Workspace Trust
+  homepage: workspace-trust.md
+- name: Multi-root Workspaces
+  homepage: multi-root-workspaces.md
+- name: Accessibility
+  homepage: accessibility.md

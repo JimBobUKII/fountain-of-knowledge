@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>IntelliSense for cross-compiling | Fountain of Knowledge </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="IntelliSense for cross-compiling | Fountain of Knowledge ">
+    <meta name="generator" content="docfx 2.57.2.0">
+    
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    <meta property="docfx:rel" content="../../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="intellisense-for-cross-compiling">IntelliSense for cross-compiling</h1>
+
+<p>The article is about configuring the C/C++ extension to provide proper IntelliSense (code completions) in Visual Studio Code when you compile for a different architecture than your development host machine. For example, when your host machine is x64 but you are compiling for ARM.</p>
+<p>The C/C++ extension isn't a compiler--it provides rich language features such as syntax highlighting and IntelliSense. For the extension to provide correct IntelliSense suggestions, and to reflect the right sizes of data types, you need to configure the C++ extension to emulate the target architecture.</p>
+<p>These configuration settings are stored in your project's <code>c_cpp_properties.json</code> file. To edit this file, in VS Code, select <strong>C/C++: Edit Configurations (UI)</strong> from the Command Palette (<code>kb(workbench.action.showCommands)</code>):</p>
+<p><img src="images/cpp/command-palette.png" alt="Command Palette"></p>
+<h2 id="example-intellisense-configuration">Example IntelliSense configuration</h2>
+<p>The following shows configuring the C/C++ extension for a Linux x64 host machine that targets Linux ARM.  It configures the following IntelliSense settings:</p>
+<ul>
+<li><strong>Compiler path</strong>: the extension queries your compiler at this location to retrieve system libraries and compiler defines.</li>
+<li><strong>IntelliSense mode</strong>: emulates the target architecture and compiler so that the extension can provide correct IntelliSense and reflect the right sizes of data types such as <code>pointer</code>, <code>size_t</code>, <code>long</code>, and so on.</li>
+</ul>
+<p>At a minimum, setting <strong>compiler path</strong> and <strong>IntelliSense mode</strong> provides enough information for the extension to emulate your project's target  architecture.</p>
+<h3 id="compiler-path">Compiler path</h3>
+<p>Set to the full path of the compiler you are using to build your project.</p>
+<p>For example:</p>
+<p><img src="images/intellisense/compiler-path.png" alt="Compiler path setting"></p>
+<h3 id="intellisense-mode">IntelliSense mode</h3>
+<p>Set to the architecture-specific variant of the compiler you are using.</p>
+<p>For example:</p>
+<p><img src="images/intellisense/intellisense-mode.png" alt="IntelliSense mode setting"></p>
+<h3 id="include-path">Include path</h3>
+<p>You only need to modify the <strong>Include path</strong> if your program includes header files that aren't in your workspace, or that are not in the standard library path.</p>
+<p>The C/C++ extension populates the include path by querying the compiler specified by <strong>Compiler path</strong>. If the extension can't find the path for the target system libraries, you can enter the include path manually:</p>
+<p><img src="images/intellisense/include-path.png" alt="Include path setting"></p>
+<p>Given the settings above, your <code>c_cpp_configuration.json</code> file will look something like the following. You can open it by selecting <strong>C/C++: Edit Configurations (JSON)</strong> from the Command Palette:</p>
+<pre><code class="lang-json">{
+    &quot;configurations&quot;: [
+        {
+            &quot;name&quot;: &quot;myConfigurationName&quot;,
+            &quot;includePath&quot;: [
+                &quot;${workspaceFolder}/**&quot;
+            ],
+            &quot;defines&quot;: [],
+            &quot;compilerPath&quot;: &quot;/usr/bin/arm-none-eabi-g++&quot;,
+            &quot;cStandard&quot;: &quot;c11&quot;,
+            &quot;cppStandard&quot;: &quot;c++14&quot;,
+            &quot;IntelliSenseMode&quot;: &quot;gcc-arm&quot;
+        }
+    ],
+    &quot;version&quot;: 4
+}
+</code></pre>
+<h2 id="next-steps">Next steps</h2>
+<ul>
+<li>For more information about IntelliSense configuration, see <a href="/docs/cpp/customize-default-settings-cpp.md">Customizing default settings</a>.</li>
+<li>If you have trouble configuring the settings, file an issue in the <a href="https://github.com/microsoft/vscode-docs/issues">VS Code documentation repository</a>.</li>
+<li>Explore the <a href="/docs/cpp/c-cpp-properties-schema-reference.md">c_cpp_properties schema</a>.</li>
+<li>Review the <a href="/docs/languages/cpp.md">Overview of the C++ extension</a>.</li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            &#0169; 2021 Jason Rose
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,260 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Editing JSON with Visual Studio Code | Fountain of Knowledge </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Editing JSON with Visual Studio Code | Fountain of Knowledge ">
+    <meta name="generator" content="docfx 2.57.2.0">
+    
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    <meta property="docfx:rel" content="../../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="editing-json-with-visual-studio-code">Editing JSON with Visual Studio Code</h1>
+
+<p>JSON is a data format that is common in configuration files like <code>package.json</code> or <code>project.json</code>. We also use it extensively in Visual Studio Code for our configuration files. When opening a file that ends with <code>.json</code>, VS Code provides features to make it simpler to write or modify the file's content.</p>
+<p><img src="images/json/json_hero.png" alt="JSON within VS Code"></p>
+<h2 id="intellisense-and-validation">IntelliSense and validation</h2>
+<p>For properties and values, both for JSON data with or without a schema, we offer up suggestions as you type with IntelliSense. You can also manually see suggestions with the <strong>Trigger Suggestions</strong> command (<code>kb(editor.action.triggerSuggest)</code>). We also perform structural and value verification based on an associated JSON schema giving you red squiggles.</p>
+<p><img src="images/json/intellisense.png" alt="IntelliSense"></p>
+<h3 id="package-and-project-dependencies">Package and project dependencies</h3>
+<p>We also offer IntelliSense for specific value sets such as package and project dependencies in <code>package.json</code>, <code>project.json</code>, and <code>bower.json</code>.</p>
+<h2 id="quick-navigation">Quick navigation</h2>
+<p>JSON files can get large and we support quick navigation to properties using the <strong>Go to Symbol</strong> command (<code>kb(workbench.action.gotoSymbol)</code>).</p>
+<p><img src="images/json/gotosymbol.png" alt="Goto Symbol"></p>
+<h2 id="hovers">Hovers</h2>
+<p>When you hover over properties and values for JSON data with or without schema, we will provide additional context.</p>
+<p><img src="images/json/hoverandtoggle.png" alt="Hover"></p>
+<h2 id="formatting">Formatting</h2>
+<p>You can format your JSON document using <code>kb(editor.action.formatDocument)</code> or <strong>Format Document</strong> from the context menu.</p>
+<h2 id="folding">Folding</h2>
+<p>You can fold regions of source code using the folding icons on the gutter between line numbers and line start. Folding regions are available for all object and array elements.</p>
+<h2 id="json-with-comments">JSON with Comments</h2>
+<p>In addition to the default JSON mode following the <a href="https://www.json.org/">JSON specification</a>, VS Code also has a <strong>JSON with Comments</strong> (jsonc) mode. This mode is used for the VS Code configuration files such as <code>settings.json</code>, <code>tasks.json</code>, or <code>launch.json</code>. When in the <strong>JSON with Comments</strong> mode, you can use single line (//) as well as block comments (/* */) as used in JavaScript. The current editor mode is indicated in the editor's Status Bar. Select the mode indicator to change the mode and to configure how file names and extensions are associated to modes.</p>
+<h2 id="json-schemas-and-settings">JSON schemas and settings</h2>
+<p>To understand the structure of JSON files, we use <a href="https://json-schema.org/">JSON schemas</a>. JSON schemas describe the shape of the JSON file, as well as value sets, default values, and descriptions. The JSON support shipped with VS Code supports JSON Schema Draft 7.</p>
+<p>Servers like <a href="https://www.schemastore.org">JSON Schema Store</a> provide schemas for most of the common JSON-based configuration files. However, schemas can also be defined in a file in the VS Code workspace, as well as the VS Code settings files.</p>
+<p>The association of a JSON file to a schema can be done either in the JSON file itself using the <code>$schema</code> attribute, or in the User or Workspace <a href="../getstarted/settings.html">settings</a> (<strong>File</strong> &gt; <strong>Preferences</strong> &gt; <strong>Settings</strong>) under the property <code>json.schemas</code>.</p>
+<p>VS Code extensions can also define schemas and schema mapping. That's why VS Code already knows about the schema of some well-known JSON files such as <code>package.json</code>, <code>bower.json</code>, and <code>tsconfig.json</code>.</p>
+<h3 id="mapping-in-the-json">Mapping in the JSON</h3>
+<p>In the following example, the JSON file specifies that its contents follow the <a href="http://www.coffeelint.org/">CoffeeLint</a> schema.</p>
+<pre><code class="lang-json">{
+   &quot;$schema&quot;: &quot;https://json.schemastore.org/coffeelint&quot;,
+   &quot;line_endings&quot;: &quot;unix&quot;
+}
+</code></pre>
+<p>Note that this syntax is VS Code-specific and not part of the <a href="https://json-schema.org/latest/json-schema-core.html#rfc.section.7">JSON Schema specification</a>. Adding the <code>$schema</code> key changes the JSON itself, which systems consuming the JSON might not expect, for example, schema validation might fail. If this is the case, you can use one of the other mapping methods.</p>
+<h3 id="mapping-in-the-user-settings">Mapping in the User Settings</h3>
+<p>The following excerpt from User <a href="../getstarted/settings.html">Settings</a> shows how <code>.babelrc</code> files are mapped to the <a href="https://babeljs.io../usage/babelrc">babelrc</a> schema located on <a href="https://json.schemastore.org/babelrc">https://json.schemastore.org/babelrc</a>.</p>
+<pre><code class="lang-json">&quot;json.schemas&quot;: [
+    {
+        &quot;fileMatch&quot;: [
+            &quot;/.babelrc&quot;
+        ],
+        &quot;url&quot;: &quot;https://json.schemastore.org/babelrc&quot;
+    }
+]
+</code></pre>
+<blockquote>
+<p><strong>Tip:</strong> In addition to defining a schema for <code>.babelrc</code>, also make sure that <code>.babelrc</code> is associated to the JSON language mode. This is also done in the settings using the <code>files.association</code> array setting.</p>
+</blockquote>
+<h3 id="mapping-to-a-schema-in-the-workspace">Mapping to a schema in the workspace</h3>
+<p>To map a schema that is located in the workspace, use a relative path. In this example, a file in the workspace root called <code>myschema.json</code> will be used as the schema for all files ending with <code>.foo.json</code>.</p>
+<pre><code class="lang-json">&quot;json.schemas&quot;: [
+    {
+        &quot;fileMatch&quot;: [
+            &quot;/*.foo.json&quot;
+        ],
+        &quot;url&quot;: &quot;./myschema.json&quot;
+    }
+]
+</code></pre>
+<h3 id="mapping-to-a-schema-defined-in-settings">Mapping to a schema defined in settings</h3>
+<p>To map a schema that is defined in the User or Workspace settings, use the <code>schema</code> property. In this example, a schema is defined that will be used for all files named <code>.myconfig</code>.</p>
+<pre><code class="lang-json">&quot;json.schemas&quot;: [
+    {
+        &quot;fileMatch&quot;: [
+            &quot;/.myconfig&quot;
+        ],
+        &quot;schema&quot;: {
+            &quot;type&quot;: &quot;object&quot;,
+            &quot;properties&quot;: {
+                &quot;name&quot; : {
+                    &quot;type&quot;: &quot;string&quot;,
+                    &quot;description&quot;: &quot;The name of the entry&quot;
+                }
+            }
+        }
+    }
+]
+</code></pre>
+<h3 id="mapping-a-schema-in-an-extension">Mapping a schema in an extension</h3>
+<p>Schemas and schema associations can also be defined by an extension. Check out the <a href="/api/references/contribution-points.md#contributes.jsonValidation">jsonValidation contribution point</a>.</p>
+<h3 id="file-match-syntax">File match syntax</h3>
+<p>The file match syntax supports the '*' wildcard. Also, you can define exclusion patterns, starting with '!'. For an association to match, at least one pattern needs to match and the last matching pattern must not be an exclusion pattern.</p>
+<pre><code class="lang-json">  &quot;json.schemas&quot;: [
+    {
+      &quot;fileMatch&quot;: [
+        &quot;/receipts/*.json&quot;,
+        &quot;!/receipts/*.excluded.json&quot;
+      ],
+      &quot;url&quot;: &quot;./receipts.schema.json&quot;
+    }
+  ]
+</code></pre>
+<h3 id="define-snippets-in-json-schemas">Define snippets in JSON schemas</h3>
+<p>JSON schemas describe the shape of the JSON file, as well as value sets and default values, which are used by the JSON language support to provide completion proposals. If you are a schema author and want to provide even more customized completion proposals, you can also specify snippets in the schema.</p>
+<p>The following example shows a schema for a key binding settings file defining a snippet:</p>
+<pre><code class="lang-json">{
+    &quot;type&quot;: &quot;array&quot;,
+    &quot;title&quot;: &quot;Keybindings configuration&quot;,
+    &quot;items&quot;: {
+        &quot;type&quot;: &quot;object&quot;,
+        &quot;required&quot;: [&quot;key&quot;],
+        &quot;defaultSnippets&quot;: [
+            {
+                &quot;label&quot;: &quot;New keybinding&quot;,
+                &quot;description&quot;: &quot;Binds a key to a command for a given state&quot;,
+                &quot;body&quot;: { &quot;key&quot;: &quot;$1&quot;, &quot;command&quot;: &quot;$2&quot;, &quot;when&quot;: &quot;$3&quot; }
+            }
+        ],
+        &quot;properties&quot;: {
+            &quot;key&quot;: {
+                &quot;type&quot;: &quot;string&quot;
+            }
+            ...
+        }
+    }
+}
+</code></pre>
+<p>This is an example in a JSON schema:</p>
+<p><img src="images/json/defaultSnippets.png" alt="Default snippets in JSON schema"></p>
+<p>Use the property <code>defaultSnippets</code> to specify any number of snippets for the given JSON object.</p>
+<ul>
+<li><code>label</code> and <code>description</code> will be shown in the completion selection dialog. If no label is provided, a stringified object representation of the snippet will be shown as label instead.</li>
+<li><code>body</code> is the JSON object that is stringified and inserted when the completion is selected by the user. <a href="../editor/userdefinedsnippets.html#snippet-syntax">Snippet syntax</a> can be used inside strings literals to define tabstops, placeholders, and variables. If a string starts with <code>^</code>, the string content will be inserted as-is, not stringified. You can use this to specify snippets for numbers and booleans.</li>
+</ul>
+<p>Note that <code>defaultSnippets</code> is not part of the JSON schema specification but a VS Code-specific schema extension.</p>
+<h3 id="use-rich-formatting-in-hovers">Use rich formatting in hovers</h3>
+<p>VS Code will use the standard <code>description</code> field from the <a href="https://json-schema.org/latest/json-schema-core.html#rfc.section.7">JSON Schema specification</a> in order to provide information about properties on hover and during autocomplete.</p>
+<p>If you want your descriptions to support formatting like links, you can opt in by using <a href="../markdown.md">Markdown</a> in your formatting with the <code>markdownDescription</code> property.</p>
+<pre><code class="lang-json">{
+   &quot;$schema&quot;: &quot;http://json-schema.org/schema&quot;,
+   &quot;type&quot;: &quot;object&quot;,
+   &quot;properties&quot;: {
+       &quot;name&quot; : {
+           &quot;type&quot;: &quot;string&quot;,
+           &quot;description&quot;: &quot;The name of the entry&quot;,
+           &quot;markdownDescription&quot;: &quot;The name of the entry. [See the documentation](https://example.com)&quot;
+       }
+   }
+}
+</code></pre>
+<p>Note that <code>markdownDescription</code> is not part of the JSON schema specification but a VS Code-specific schema extension.</p>
+<h3 id="offline-mode">Offline mode</h3>
+<p><code>json.schemaDownload.enable</code> controls whether the JSON extension fetches JSON schemas from <code>http</code> and <code>https</code>.</p>
+<p>A warning triangle will show in the status bar when the current editor would like to use schemas that cannot be downloaded.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            &#0169; 2021 Jason Rose
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,227 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>C/C++ for Visual Studio Code | Fountain of Knowledge </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="C/C++ for Visual Studio Code | Fountain of Knowledge ">
+    <meta name="generator" content="docfx 2.57.2.0">
+    
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    <meta property="docfx:rel" content="../../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="cc-for-visual-studio-code">C/C++ for Visual Studio Code</h1>
+
+<p>C/C++ support for Visual Studio Code is provided by a <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools">Microsoft C/C++ extension</a> to enable cross-platform C and C++ development on Windows, Linux, and macOS.</p>
+<p><img src="images/cpp/cpp-extension.png" alt="cpp extension"></p>
+<h2 id="install-the-extension">Install the extension</h2>
+<ol>
+<li>Open VS Code.</li>
+<li>Select the Extensions view icon on the Activity bar or use the keyboard shortcut (<code>kb(workbench.view.extensions)</code>).</li>
+<li>Search for <code>'C++'</code>.</li>
+<li>Select <strong>Install</strong>.</li>
+</ol>
+<p><img src="images/cpp/search-cpp-extension.png" alt="Search for c++ in the Extensions view"></p>
+<p>After you install the extension, when you open or create a <code>*.cpp</code> file, you will have syntax highlighting (colorization), smart completions and hovers (IntelliSense), and error checking.</p>
+<p><img src="images/cpp/msg-intellisense.png" alt="C++ language features"></p>
+<h2 id="install-a-compiler">Install a compiler</h2>
+<p>C++ is a compiled language meaning your program's source code must be translated (compiled) before it can be run on your computer. VS Code is first and foremost an editor, and relies on command-line tools to do much of the development workflow. The C/C++ extension does not include a C++ compiler or debugger. You will need to install these tools or use those already installed on your computer.</p>
+<p>There may already be a C++ compiler and debugger provided by your academic or work development environment. Check with your instructors or colleagues for guidance on installing the recommended C++ toolset (compiler, debugger, project system, linter).</p>
+<p>Some platforms, such as Linux or macOS, have a C++ compiler already installed. Most Linux distributions have the <a href="https://wikipedia.org/wiki/GNU_Compiler_Collection">GNU Compiler Collection</a> (GCC) installed and macOS users can get the <a href="https://wikipedia.org/wiki/Clang">Clang</a> tools with <a href="https://developer.apple.com/xcode/">Xcode</a>.</p>
+<h3 id="check-if-you-have-a-compiler-installed">Check if you have a compiler installed</h3>
+<p>Make sure your compiler executable is in your platform path (<code>%PATH</code> on Windows, <code>$PATH</code> on Linux and macOS) so that the C/C++ extension can find it. You can check availability of your C++ tools by opening the Integrated Terminal (<code>kb(workbench.action.terminal.toggleTerminal)</code>) in VS Code and trying to directly run the compiler.</p>
+<p>Checking for the GCC compiler <code>g++</code>:</p>
+<pre><code class="lang-bash">g++ --version
+</code></pre>
+<p>Checking for the Clang compiler <code>clang</code>:</p>
+<pre><code class="lang-bash">clang --version
+</code></pre>
+<blockquote>
+<p><strong>Note</strong>: If you would prefer a full Integrated Development Environment (IDE), with built-in compilation, debugging, and project templates (File &gt; New Project), there are many options available, such as the <a href="https://visualstudio.microsoft.com/vs/community">Visual Studio Community</a> edition.</p>
+</blockquote>
+<p>If you don't have a compiler installed, in the example below, we describe how to install the Minimalist GNU for Windows (MinGW) C++ tools (compiler and debugger). MinGW is a popular, free toolset for Windows. If you are running VS Code on another platform, you can read the <a href="#tutorials">C++ tutorials</a>, which cover C++ configurations for Linux and macOS.</p>
+<h2 id="example-install-mingw-x64">Example: Install MinGW-x64</h2>
+<p>We will install Mingw-w64 via <a href="https://www.msys2.org/">MSYS2</a>, which provides up-to-date native builds of GCC, Mingw-w64, and other helpful C++ tools and libraries.  <a href="https://github.com/msys2/msys2-installer/releases/download/2021-06-04/msys2-x86_64-20210604.exe">Click here</a> to download the MSYS2 installer. Then follow the instructions on the <a href="https://www.msys2.org/">MSYS2 website</a> to install Mingw-w64.</p>
+<h3 id="add-the-mingw-compiler-to-your-path">Add the MinGW compiler to your path</h3>
+<p>Add the path to your Mingw-w64 <code>bin</code> folder to the Windows <code>PATH</code> environment variable by using the following steps:</p>
+<ol>
+<li>In the Windows search bar, type 'settings' to open your Windows Settings.</li>
+<li>Search for <strong>Edit environment variables for your account</strong>.</li>
+<li>Choose the <code>Path</code> variable and then select <strong>Edit</strong>.</li>
+<li>Select <strong>New</strong> and add the Mingw-w64 destination folder path, with <code>\mingw64\bin</code> appended, to the system path. The exact path depends on which version of Mingw-w64 you have installed and where you installed it. If you used the settings above to install Mingw-w64, then add this to the path: <code>C:\msys64\mingw64\bin</code>.</li>
+<li>Select <strong>OK</strong> to save the updated PATH. You will need to reopen any console windows for the new PATH location to be available.</li>
+</ol>
+<h3 id="check-your-mingw-installation">Check your MinGW installation</h3>
+<p>To check that your Mingw-w64 tools are correctly installed and available, open a <strong>new</strong> Command Prompt and type:</p>
+<pre><code class="lang-bash">g++ --version
+gdb --version
+</code></pre>
+<p>If you don't see the expected output or <code>g++</code> or <code>gdb</code> is not a recognized command, make sure your PATH entry matches the Mingw-w64 binary location where the compiler tools are located.</p>
+<h2 id="hello-world">Hello World</h2>
+<p>To make sure the compiler is installed and configured correctly, we'll create the simplest Hello World C++ program.</p>
+<p>Create a folder called &quot;HelloWorld&quot; and open VS Code in that folder (<code>code .</code> opens VS Code in the current folder):</p>
+<pre><code class="lang-bash">mkdir HelloWorld
+cd HelloWorld
+code .
+</code></pre>
+<p>Now create a new file called <code>helloworld.cpp</code> with the <strong>New File</strong> button in the File Explorer or <strong>File</strong> &gt; <strong>New File</strong> command.</p>
+<p><img src="images/cpp/new-file.png" alt="File Explorer New File button"></p>
+<p><img src="images/cpp/hello-world-cpp.png" alt="helloworld.cpp file"></p>
+<h3 id="add-hello-world-source-code">Add Hello World source code</h3>
+<p>Now paste in this source code:</p>
+<pre><code class="lang-cpp">#include &lt;iostream&gt;
+
+using namespace std;
+
+int main()
+{
+    cout &lt;&lt; &quot;Hello World&quot; &lt;&lt; endl;
+}
+</code></pre>
+<p>Now press <code>kb(workbench.action.files.save)</code> to save the file. You can also enable <a href="../editor/codebasics.html#saveauto-save">Auto Save</a> to automatically save your file changes, by checking <strong>Auto Save</strong> in the main <strong>File</strong> menu.</p>
+<h3 id="build-hello-world">Build Hello World</h3>
+<p>Now that we have a simple C++ program, let's build it. Select the <strong>Terminal</strong> &gt; <strong>Run Build Task</strong> command (<code>kb(workbench.action.tasks.build)</code>) from the main menu.</p>
+<p><img src="images/cpp/run-build-task.png" alt="Run Build Task menu option"></p>
+<p>This will display a dropdown with various compiler task options. If you are using a GCC toolset like MinGW, you would choose <strong>C/C++: g++.exe build active file</strong>.</p>
+<p><img src="images/cpp/gpp-build-task-msys64.png" alt="Select g++.exe task"></p>
+<p>This will compile <code>helloworld.cpp</code> and create an executable file called <code>helloworld.exe</code>, which will appear in the File Explorer.</p>
+<p><img src="images/cpp/hello-world-exe.png" alt="helloworld.exe in the File Explorer"></p>
+<h3 id="run-hello-world">Run Hello World</h3>
+<p>From a command prompt or a new VS Code Integrated Terminal, you can now run your program by typing &quot;.\helloworld&quot;.</p>
+<p><img src="images/cpp/run-hello-world.png" alt="Run hello world in the VS Code Integrated Terminal"></p>
+<p>If everything is set up correctly, you should see the output &quot;Hello World&quot;.</p>
+<p>This has been a very simple example to help you get started with C++ development in VS Code. The next step is to try one of the tutorials listed below on your platform (Windows, Linux, or macOS) with your preferred toolset (GCC, Clang, Microsoft C++) and learn more about the Microsoft C/C++ extension's language features such as IntelliSense, code navigation, build configuration, and debugging.</p>
+<h2 id="tutorials">Tutorials</h2>
+<p>Get started with C++ and VS Code with tutorials for your environment:</p>
+<ul>
+<li><a href="../cpp/config-mingw.html">GCC on Windows via MinGW</a></li>
+<li><a href="../cpp/config-msvc.html">Microsoft C++ on Windows</a></li>
+<li><a href="../cpp/config-linux.html">GCC on Linux</a></li>
+<li><a href="../cpp/config-wsl.html">GCC on Windows Subsystem For Linux</a></li>
+<li><a href="../cpp/config-clang-mac.html">Clang/LLVM on macOS</a></li>
+<li><a href="../cpp/cmake-linux.html">CMake Tools on Linux</a></li>
+</ul>
+<h2 id="documentation">Documentation</h2>
+<p>You can find more documentation on using the Microsoft C/C++ extension under the <a href="../cpp">C++ section</a> of the VS Code website, where you'll find topics on:</p>
+<ul>
+<li><a href="../cpp/cpp-debug.html">Debugging</a></li>
+<li><a href="../cpp/cpp-ide.html">Editing</a></li>
+<li><a href="../cpp/customize-default-settings-cpp.html">Settings</a></li>
+<li><a href="../cpp/faq-cpp.html">FAQ</a></li>
+</ul>
+<p><img src="images/cpp/cpp-toc.png" alt="C++ TOC on code.visualstudio.com"></p>
+<h2 id="remote-development">Remote Development</h2>
+<p>VS Code and the C++ extension support <a href="../remote/remote-overview.html">Remote Development</a> allowing you to work over SSH on a remote machine or VM, inside a Docker container, or in the <a href="https://docs.microsoft.com/windows/wsl">Windows Subsystem for Linux</a> (WSL).</p>
+<p>To install support for Remote Development:</p>
+<ol>
+<li>Install the VS Code <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack">Remote Development Extension Pack</a>.</li>
+<li>If the remote source files are hosted in WSL, use the <strong>Remote - WSL</strong> extension.</li>
+<li>If you are connecting to a remote machine with SSH, use the <strong>Remote - SSH</strong> extension.</li>
+<li>If the remote source files are hosted in a container (for example, Docker), use the <strong>Remote - Containers</strong> extension.</li>
+</ol>
+<h2 id="feedback">Feedback</h2>
+<p>If you run into any issues or have suggestions for the Microsoft C/C++ extension, please file <a href="https://github.com/microsoft/vscode-cpptools/issues">issues and suggestions on GitHub</a>. If you haven't already provided feedback, please take this <a href="https://www.research.net/r/VBVV6C6">quick survey</a> to help shape this extension for your needs.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            &#0169; 2021 Jason Rose
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

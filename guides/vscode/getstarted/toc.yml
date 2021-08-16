@@ -1,0 +1,17 @@
+items:
+- name: Intro Videos
+  homepage: introvideos.md
+- name: Tips and Tricks
+  homepage: tips-and-tricks.md
+- name: User Interface
+  homepage: userinterface.md
+- name: Themes
+  homepage: themes.md
+- name: Settings
+  homepage: settings.md
+- name: Key Bindings
+  homepage: keybindings.md
+- name: Display Language
+  homepage: locales.md
+- name: Telemetry
+  homepage: telemetry.md

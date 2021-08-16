@@ -1,0 +1,158 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>C/C++ extension logging | Fountain of Knowledge </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="C/C++ extension logging | Fountain of Knowledge ">
+    <meta name="generator" content="docfx 2.57.2.0">
+    
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    <meta property="docfx:rel" content="../../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="cc-extension-logging">C/C++ extension logging</h1>
+
+<p>Logging information is available for the language server and the debug adapter. If you are experiencing a problem that we are unable to diagnose based on information in your issue report, we might ask you to enable logging and send us your logs.</p>
+<p>Logging information is delivered directly to the Output panel for the language server and to the Debug Console for the debug adapter.</p>
+<h2 id="enable-logging-for-the-language-server">Enable logging for the language server</h2>
+<p>To turn on full logging for the language server, follow these steps:</p>
+<ol>
+<li><p>Open the <strong>Command Palette</strong> and choose <strong>Preferences: Workspace settings</strong>.</p>
+</li>
+<li><p>Search for &quot;logging&quot; in the search box.</p>
+</li>
+<li><p>Find <strong>C_Cpp: Logging Level</strong> and change the level to <strong>Debug</strong>.</p>
+<p><img src="images/cpp/logging-level.png" alt="Logging level"></p>
+</li>
+<li><p>From the main menu, open the Output panel by choosing <strong>View</strong> &gt; <strong>Output</strong>.</p>
+</li>
+<li><p>Select the <strong>C/C++</strong> option in the log filter selector:</p>
+<p><img src="images/cpp/log-filter-selector.png" alt="Log filter selector"></p>
+</li>
+</ol>
+<h2 id="enable-logging-for-the-debug-adapter">Enable logging for the debug adapter</h2>
+<p>Enabling logging for the debug adapter will show communication information between VS Code and our extension and between our extension and the debug adapter.</p>
+<p>Logging configuration for the debug adapter is configured in <code>launch.json</code>.</p>
+<h3 id="logging-for-lldb-mi-debuggers">Logging for LLDB-MI debuggers</h3>
+<p>The logging block for macOS LLDB-MI debuggers, along with its default configuration, is in <code>launch.json</code>:</p>
+<pre><code class="lang-json">&quot;logging&quot;: {
+    &quot;trace&quot;: false,
+    &quot;traceResponse&quot;: false,
+    &quot;engineLogging&quot;: false
+}
+</code></pre>
+<h2 id="vs-code-and-the-cpptools-extension">VS Code and the CppTools extension</h2>
+<p>The logging here is called <code>trace</code> logging and can be enabled by setting <code>trace</code> and <code>traceResponse</code> to <code>true</code> in the logging block inside <code>launch.json</code>. This will help diagnose issues related to VS Code's communication to our extension and our responses.</p>
+<h3 id="cpptools-extension-and-the-debugger">CppTools extension and the debugger</h3>
+<p>The logging between CppTools and the debugger is called <code>engineLogging</code>. When using an MI debugger such as <code>gdb</code> or <code>lldb</code>, this will show the request, response, and events using the <code>mi</code> interpreter. This logging will help us determine whether the debugger is receiving the right commands and generating the correct responses.</p>
+<h2 id="logging-for-visual-c-debugger">Logging for Visual C++ debugger</h2>
+<p>The logging block for the Visual C++ debugger with its default configuration in <code>launch.json</code> is as follows:</p>
+<pre><code class="lang-json">&quot;logging&quot;: {
+    &quot;engineLogging&quot;: false
+}
+</code></pre>
+<p>The Visual C++ debugger logging will show only the communication to and from VS Code as all communication to the debugger is done internally to the process and is not visible through logging.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            &#0169; 2021 Jason Rose
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

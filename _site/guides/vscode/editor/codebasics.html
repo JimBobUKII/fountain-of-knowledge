@@ -1,0 +1,467 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Basic Editing | Fountain of Knowledge </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Basic Editing | Fountain of Knowledge ">
+    <meta name="generator" content="docfx 2.57.2.0">
+    
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    <meta property="docfx:rel" content="../../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="basic-editing">Basic Editing</h1>
+
+<p>Visual Studio Code is an editor first and foremost, and includes the features you need for highly productive source code editing. This topic takes you through the basics of the editor and helps you get moving with your code.</p>
+<h2 id="keyboard-shortcuts">Keyboard shortcuts</h2>
+<p>Being able to keep your hands on the keyboard when writing code is crucial for high productivity. VS Code has a rich set of default keyboard shortcuts as well as allowing you to customize them.</p>
+<ul>
+<li><a href="../getstarted/keybindings.html#keyboard-shortcuts-reference">Keyboard Shortcuts Reference</a> - Learn the most commonly used and popular keyboard shortcuts by downloading the reference sheet.</li>
+<li><a href="../getstarted/keybindings.html#keymap-extensions">Install a Keymap extension</a> - Use the keyboard shortcuts of your old editor (such as Sublime Text, Atom, and Vim) in VS Code by installing a Keymap extension.</li>
+<li><a href="../getstarted/keybindings.html#customizing-shortcuts">Customize Keyboard Shortcuts</a> - Change the default keyboard shortcuts to fit your style.</li>
+</ul>
+<h2 id="multiple-selections-multi-cursor">Multiple selections (multi-cursor)</h2>
+<p>VS Code supports multiple cursors for fast simultaneous edits. You can add secondary cursors (rendered thinner) with <code>kbstyle(Alt+Click)</code>. Each cursor operates independently based on the context it sits in. A common way to add more cursors is with <code>kb(editor.action.insertCursorBelow)</code> or <code>kb(editor.action.insertCursorAbove)</code> that insert cursors below or above.</p>
+<blockquote>
+<p><strong>Note:</strong> Your graphics card driver (for example NVIDIA) might overwrite these default shortcuts.</p>
+</blockquote>
+<p><img src="images/codebasics/multicursor.gif" alt="Multi-cursor"></p>
+<p><code>kb(editor.action.addSelectionToNextFindMatch)</code> selects the word at the cursor, or the next occurrence of the current selection.</p>
+<p><img src="images/codebasics/multicursor-word.gif" alt="Multi-cursor-next-word"></p>
+<blockquote>
+<p><strong>Tip:</strong> You can also add more cursors with <code>kb(editor.action.selectHighlights)</code>, which will add a selection at each occurrence of the current selected text.</p>
+</blockquote>
+<h3 id="multi-cursor-modifier">Multi-cursor modifier</h3>
+<p>If you'd like to change the modifier key for applying multiple cursors to <code>kbstyle(Cmd+Click)</code> on macOS and <code>kbstyle(Ctrl+Click)</code> on Windows and Linux, you can do so with the <code>editor.multiCursorModifier</code> <a href="../getstarted/settings.html">setting</a>. This lets users coming from other editors such as Sublime Text or Atom continue to use the keyboard modifier they are familiar with.</p>
+<p>The setting can be set to:</p>
+<ul>
+<li><code>ctrlCmd</code> - Maps to <code>kbstyle(Ctrl)</code> on Windows and <code>kbstyle(Cmd)</code> on macOS.</li>
+<li><code>alt</code> - The existing default <code>kbstyle(Alt)</code>.</li>
+</ul>
+<p>There's also a menu item <strong>Use Ctrl+Click for Multi-Cursor</strong> in the <strong>Selection</strong> menu to quickly toggle this setting.</p>
+<p>The <strong>Go To Definition</strong> and <strong>Open Link</strong> gestures will also respect this setting and adapt such that they do not conflict. For example, when the setting is <code>ctrlCmd</code>, multiple cursors can be added with <code>kbstyle(Ctrl/Cmd+Click)</code>, and opening links or going to definition can be invoked with <code>kbstyle(Alt+Click)</code>.</p>
+<h3 id="shrinkexpand-selection">Shrink/expand selection</h3>
+<p>Quickly shrink or expand the current selection. Trigger it with <code>kb(editor.action.smartSelect.shrink)</code> and <code>kb(editor.action.smartSelect.expand)</code>.</p>
+<p>Here's an example of expanding the selection with <code>kb(editor.action.smartSelect.expand)</code>:</p>
+<p><img src="images/codebasics/expandselection.gif" alt="Expand selection"></p>
+<h2 id="column-box-selection">Column (box) selection</h2>
+<p>Place the cursor in one corner and then hold <code>kbstyle(Shift+Alt)</code> while dragging to the opposite corner:</p>
+<p><img src="images/codebasics/column-select.gif" alt="Column text selection"></p>
+<p>Note: This changes to <code>kbstyle(Shift+Ctrl/Cmd)</code> when using <code>kbstyle(Ctrl/Cmd)</code> as <a href="#multi-cursor-modifier">multi-cursor modifier</a>.</p>
+<p>There are also default key bindings for column selection on macOS and Windows, but not on Linux.</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Command</th>
+<th>Command ID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>kb(cursorColumnSelectDown)</code></td>
+<td>Column Select Down</td>
+<td><code>cursorColumnSelectDown</code></td>
+</tr>
+<tr>
+<td><code>kb(cursorColumnSelectUp)</code></td>
+<td>Column Select Up</td>
+<td><code>cursorColumnSelectUp</code></td>
+</tr>
+<tr>
+<td><code>kb(cursorColumnSelectLeft)</code></td>
+<td>Column Select Left</td>
+<td><code>cursorColumnSelectLeft</code></td>
+</tr>
+<tr>
+<td><code>kb(cursorColumnSelectRight)</code></td>
+<td>Column Select Right</td>
+<td><code>cursorColumnSelectRight</code></td>
+</tr>
+<tr>
+<td><code>kb(cursorColumnSelectPageDown)</code></td>
+<td>Column Select Page Down</td>
+<td><code>cursorColumnSelectPageDown</code></td>
+</tr>
+<tr>
+<td><code>kb(cursorColumnSelectPageUp)</code></td>
+<td>Column Select Page Up</td>
+<td><code>cursorColumnSelectPageUp</code></td>
+</tr>
+</tbody>
+</table>
+<p>You can <a href="../getstarted/keybindings.html">edit</a> your <code>keybindings.json</code> to bind them to something more familiar if you want.</p>
+<h3 id="column-selection-mode">Column Selection mode</h3>
+<p>The user setting <strong>Editor: Column Selection</strong> controls this feature. Once this mode is entered, as indicated in the Status bar, the mouse gestures and the arrow keys will create a column selection by default. This global toggle is also accessible via the <strong>Selection</strong> &gt; <strong>Column Selection Mode</strong> menu item. In addition, one can also disable Column Selection mode from the Status bar.</p>
+<h2 id="save--auto-save">Save / Auto Save</h2>
+<p>By default, VS Code requires an explicit action to save your changes to disk, <code>kb(workbench.action.files.save)</code>.</p>
+<p>However, it's easy to turn on <code>Auto Save</code>, which will save your changes after a configured delay or when focus leaves the editor. With this option turned on, there is no need to explicitly save the file. The easiest way to turn on <code>Auto Save</code> is with the <strong>File</strong> &gt; <strong>Auto Save</strong> toggle that turns on and off save after a delay.</p>
+<p>For more control over <code>Auto Save</code>, open User or Workspace <a href="../getstarted/settings.html">settings</a> and find the associated settings:</p>
+<ul>
+<li><code>files.autoSave</code>: Can have the values:
+<ul>
+<li><code>off</code> - to disable auto save.</li>
+<li><code>afterDelay</code> - to save files after a configured delay (default 1000 ms).</li>
+<li><code>onFocusChange</code> - to save files when focus moves out of the editor of the dirty file.</li>
+<li><code>onWindowChange</code> - to save files when the focus moves out of the VS Code window.</li>
+</ul>
+</li>
+<li><code>files.autoSaveDelay</code>: Configures the delay in milliseconds when <code>files.autoSave</code> is configured to <code>afterDelay</code>. The default is 1000 ms.</li>
+</ul>
+<h2 id="hot-exit">Hot Exit</h2>
+<p>VS Code will remember unsaved changes to files when you exit by default. Hot exit is triggered when the application is closed via <strong>File</strong> &gt; <strong>Exit</strong> (<strong>Code</strong> &gt; <strong>Quit</strong> on macOS) or when the last window is closed.</p>
+<p>You can configure hot exit by setting <code>files.hotExit</code> to the following values:</p>
+<ul>
+<li><code>&quot;off&quot;</code>: Disable hot exit.</li>
+<li><code>&quot;onExit&quot;</code>: Hot exit will be triggered when the application is closed, that is when the last window is closed on Windows/Linux or when the <code>workbench.action.quit</code> command is triggered (from the <strong>Command Palette</strong>, keyboard shortcut or menu). All windows without folders opened will be restored upon next launch.</li>
+<li><code>&quot;onExitAndWindowClose&quot;</code>: Hot exit will be triggered when the application is closed, that is when the last window is closed on Windows/Linux or when the <code>workbench.action.quit</code> command is triggered (from the <strong>Command Palette</strong>, keyboard shortcut or menu), and also for any window with a folder opened regardless of whether it is the last window. All windows without folders opened will be restored upon next launch. To restore folder windows as they were before shutdown, set <code>window.restoreWindows</code> to <code>all</code>.</li>
+</ul>
+<p>If something happens to go wrong with hot exit, all backups are stored in the following folders for standard install locations:</p>
+<ul>
+<li><strong>Windows</strong> <code>%APPDATA%\Code\Backups</code></li>
+<li><strong>macOS</strong> <code>$HOME/Library/Application Support/Code/Backups</code></li>
+<li><strong>Linux</strong> <code>$HOME/.config/Code/Backups</code></li>
+</ul>
+<h2 id="find-and-replace">Find and Replace</h2>
+<p>VS Code allows you to quickly find text and replace in the currently opened file. Press <code>kb(actions.find)</code> to open the Find Widget in the editor, search results will be highlighted in the editor, overview ruler and minimap.</p>
+<p>If there are more than one matched result in the current opened file, you can press <code>kb(editor.action.nextMatchFindAction)</code> and <code>kb(editor.action.previousMatchFindAction)</code> to navigate to next or previous result when the find input box is focused.</p>
+<h3 id="seed-search-string-from-selection">Seed Search String From Selection</h3>
+<p>When the Find Widget is opened, it will automatically populate the selected text in the editor into the find input box. If the selection is empty, the word under the cursor will be inserted into the input box instead.</p>
+<p><img src="images/codebasics/seed-search-string-from-selection.gif" alt="Seed Search String From Selection"></p>
+<p>This feature can be turned off by setting <code>editor.find.seedSearchStringFromSelection</code> to <code>false</code>.</p>
+<h3 id="find-in-selection">Find In Selection</h3>
+<p>By default, the find operations are run on the entire file in the editor. It can also be run on selected text. You can turn this feature on by clicking the hamburger icon on the Find Widget.</p>
+<p><img src="images/codebasics/find-in-selection.gif" alt="Find In Selection"></p>
+<p>If you want it to be the default behavior of the Find Widget, you can set <code>editor.find.autoFindInSelection</code> to <code>always</code>, or to <code>multiline</code>, if you want it to be run on selected text only when multiple lines of content are selected.</p>
+<h3 id="advanced-find-and-replace-options">Advanced find and replace options</h3>
+<p>In addition to find and replace with plain text, the Find Widget also has three advanced search options:</p>
+<ul>
+<li>Match Case</li>
+<li>Match Whole Word</li>
+<li>Regular Expression</li>
+</ul>
+<p>The replace input box support case preserving, you can turn it on by clicking the Preserve Case (<strong>AB</strong>) button.</p>
+<h3 id="multiline-support-and-find-widget-resizing">Multiline support and Find Widget resizing</h3>
+<p>You can search multiple line text by pasting the text into the Find input box and Replace input box. Pressing <code>Ctrl+Enter</code> inserts a new line in the input box.</p>
+<p><img src="images/codebasics/multiple-line-support.gif" alt="Multiple Line Support"></p>
+<p>While searching long text, the default size of Find Widget might be too small. You can drag the left sash to enlarge the Find Widget or double click the left sash to maximize it or shrink it to its default size.</p>
+<p><img src="images/codebasics/resize-find-widget.gif" alt="Resize Find Widget"></p>
+<h2 id="search-across-files">Search across files</h2>
+<p>VS Code allows you to quickly search over all files in the currently opened folder.  Press <code>kb(workbench.view.search)</code> and enter your search term. Search results are grouped into files containing the search term, with an indication of the hits in each file and its location. Expand a file to see a preview of all of the hits within that file. Then single-click on one of the hits to view it in the editor.</p>
+<p><img src="images/codebasics/search.png" alt="A simple text search across files"></p>
+<blockquote>
+<p><strong>Tip:</strong> We support regular expression searching in the search box, too.</p>
+</blockquote>
+<p>You can configure advanced search options by clicking the ellipsis (<strong>Toggle Search Details</strong>) below the search box on the right (or press <code>kb(workbench.action.search.toggleQueryDetails)</code>). This will show additional fields to configure the search.</p>
+<h3 id="advanced-search-options">Advanced search options</h3>
+<p><img src="images/codebasics/searchadvanced.png" alt="Advanced search options"></p>
+<p>In the two input boxes below the search box, you can enter patterns to include or exclude from the search. If you enter <code>example</code>, that will match every folder and file named <code>example</code> in the workspace. If you enter <code>./example</code>, that will match the folder <code>example/</code> at the top level of your workspace. Use <code>,</code> to separate multiple patterns. Paths must use forward slashes. You can also use glob syntax:</p>
+<ul>
+<li><code>*</code> to match one or more characters in a path segment</li>
+<li><code>?</code> to match on one character in a path segment</li>
+<li><code>**</code> to match any number of path segments, including none</li>
+<li><code>{}</code> to group conditions (for example <code>{**/*.html,**/*.txt}</code> matches all HTML and text files)</li>
+<li><code>[]</code> to <strong>declare</strong> a range of characters to match (<code>example.[0-9]</code> to match on <code>example.0</code>, <code>example.1</code>, …)</li>
+</ul>
+<p>VS Code excludes some folders by default to reduce the number of search results that you are not interested in (for example: <code>node_modules</code>). Open <a href="../getstarted/settings.html">settings</a> to change these rules under the <code>files.exclude</code> and <code>search.exclude</code> section.</p>
+<p>Note that glob patterns in the search view work differently than in settings such as <code>files.exclude</code> and <code>search.exclude</code>. In the settings, you must use <code>**/example</code> to match a folder named <code>example</code> in subfolder <code>folder1/example</code> in your workspace. In the search view, the <code>**</code> prefix is assumed.</p>
+<p>Also note the <strong>Use Exclude Settings and Ignore Files</strong> toggle button in the <strong>files to exclude</strong> box. The toggle determines whether to exclude files that are ignored by your <code>.gitignore</code> files and/or matched by your <code>files.exclude</code> and <code>search.exclude</code> settings.</p>
+<blockquote>
+<p><strong>Tip:</strong> From the Explorer, you can right-click on a folder and select <strong>Find in Folder</strong> to search inside a folder only.</p>
+</blockquote>
+<h3 id="search-and-replace">Search and replace</h3>
+<p>You can also Search and Replace across files. Expand the Search widget to display the Replace text box.</p>
+<p><img src="images/codebasics/global-search-replace.png" alt="search and replace"></p>
+<p>When you type text into the Replace text box, you will see a diff display of the pending changes. You can replace across all files from the Replace text box, replace all in one file or replace a single change.</p>
+<p><img src="images/codebasics/search-replace-example.png" alt="search and replace diff view"></p>
+<blockquote>
+<p><strong>Tip:</strong> You can quickly reuse a previous search term by using <code>kb(history.showNext)</code> and <code>kb(history.showPrevious)</code> to navigate through your search term history.</p>
+</blockquote>
+<h2 id="intellisense">IntelliSense</h2>
+<p>We'll always offer word completion, but for the rich <a href="../languages/overview.html">languages</a>, such as JavaScript, JSON, HTML, CSS, SCSS, Less, C# and TypeScript, we offer a true IntelliSense experience. If a language service knows possible completions, the IntelliSense suggestions will pop up as you type. You can always manually trigger it with <code>kb(editor.action.triggerSuggest)</code>.  By default, <code>kbstyle(Tab)</code> or <code>kbstyle(Enter)</code> are the accept keyboard triggers but you can also <a href="../getstarted/keybindings.html">customize these key bindings</a>.</p>
+<blockquote>
+<p><strong>Tip:</strong> The suggestions filtering supports CamelCase so you can type the letters which are upper cased in a method name to limit the suggestions. For example, &quot;cra&quot; will quickly bring up &quot;createApplication&quot;.</p>
+</blockquote>
+<blockquote>
+<p><strong>Tip:</strong> IntelliSense suggestions can be configured via the <code>editor.quickSuggestions</code> and <code>editor.suggestOnTriggerCharacters</code> <a href="../getstarted/settings.html">settings</a>.</p>
+</blockquote>
+<p>JavaScript and TypeScript developers can take advantage of the <a href="https://www.npmjs.com">npmjs</a> type declaration (typings) file repository to get IntelliSense for common JavaScript libraries (Node.js, React, Angular). You can find a good explanation on using type declaration files in the <a href="../languages/javascript.html#intellisense">JavaScript language</a> topic and the <a href="../nodejs/nodejs-tutorial.html">Node.js</a> tutorial.</p>
+<p>Learn more in the <a href="intellisense.html">IntelliSense document</a>.</p>
+<h2 id="formatting">Formatting</h2>
+<p>VS Code has great support for source code formatting. The editor has two explicit format actions:</p>
+<ul>
+<li><strong>Format Document</strong> (<code>kb(editor.action.formatDocument)</code>) - Format the entire active file.</li>
+<li><strong>Format Selection</strong> (<code>kb(editor.action.formatSelection)</code>) - Format the selected text.</li>
+</ul>
+<p>You can invoke these from the <strong>Command Palette</strong> (<code>kb(workbench.action.showCommands)</code>) or the editor context menu.</p>
+<p>VS Code has default formatters for JavaScript, TypeScript, JSON, and HTML. Each language has specific formatting options (for example, <code>html.format.indentInnerHtml</code>) which you can tune to your preference in your user or workspace <a href="../getstarted/settings.html">settings</a>. You can also disable the default language formatter if you have another extension installed that provides formatting for the same language.</p>
+<pre><code class="lang-json">&quot;html.format.enable&quot;: false
+</code></pre>
+<p>Along with manually invoking code formatting, you can also trigger formatting based on user gestures such as typing, saving or pasting. These are off by default but you can enable these behaviors through the following <a href="../getstarted/settings.html">settings</a>:</p>
+<ul>
+<li><code>editor.formatOnType</code> - Format the line after typing.</li>
+<li><code>editor.formatOnSave</code> - Format a file on save.</li>
+<li><code>editor.formatOnPaste</code> - Format the pasted content.</li>
+</ul>
+<blockquote>
+<p>Note: Not all formatters support format on paste as to do so they must support formatting a selection or range of text.</p>
+</blockquote>
+<p>In addition to the default formatters, you can find extensions on the Marketplace to support other languages or formatting tools. There is a <code>Formatters</code> category so you can easily search and find <a href="https://marketplace.visualstudio.com/search?target=VSCode&amp;category=Formatters&amp;sortBy=Downloads">formatting extensions</a>. In the <strong>Extensions</strong> view search box, type 'formatters' or 'category:formatters' to see a filtered list of extensions within VS Code.</p>
+<h2 id="folding">Folding</h2>
+<p>You can fold regions of source code using the folding icons on the gutter between line numbers and line start. Move the mouse over the gutter and click to fold and unfold regions. Use <code>kbstyle(Shift + Click)</code> on the folding icon to fold or unfold the region and all regions inside.</p>
+<p><img src="images/codebasics/folding.png" alt="Folding"></p>
+<p>You can also use the following actions:</p>
+<ul>
+<li>Fold (<code>kb(editor.fold)</code>) folds the innermost uncollapsed region at the cursor.</li>
+<li>Unfold (<code>kb(editor.unfold)</code>) unfolds the collapsed region at the cursor.</li>
+<li>Toggle Fold (<code>kb(editor.toggleFold)</code>) folds or unfolds the region at the cursor.</li>
+<li>Fold Recursively (<code>kb(editor.foldRecursively)</code>) folds the innermost uncollapsed region at the cursor and all regions inside that region.</li>
+<li>Unfold Recursively (<code>kb(editor.unfoldRecursively)</code>) unfolds the region at the cursor and all regions inside that region.</li>
+<li>Fold All (<code>kb(editor.foldAll)</code>) folds all regions in the editor.</li>
+<li>Unfold All (<code>kb(editor.unfoldAll)</code>) unfolds all regions in the editor.</li>
+<li>Fold Level X (<code>kb(editor.foldLevel2)</code> for level 2) folds all regions of level X, except the region at the current cursor position.</li>
+<li>Fold All Block Comments (<code>kb(editor.foldAllBlockComments)</code>) folds all regions that start with a block comment token.</li>
+</ul>
+<p>Folding regions are by default evaluated based on the indentation of lines. A folding region starts when a line has a smaller indent than one or more following lines, and ends when there is a line with the same or smaller indent.</p>
+<p>Since the 1.22 release, folding regions can also be computed based on syntax tokens of the editor's configured language. The following languages already provide syntax aware folding: Markdown, HTML, CSS, LESS, SCSS, and JSON.</p>
+<p>If you prefer to switch back to indentation-based folding for one (or all) of the languages above, use:</p>
+<pre><code class="lang-json">  &quot;[html]&quot;: {
+    &quot;editor.foldingStrategy&quot;: &quot;indentation&quot;
+  },
+</code></pre>
+<p>Regions can also be defined by markers defined by each language. The following languages currently have markers defined:</p>
+<table>
+<thead>
+<tr>
+<th>Language</th>
+<th>Start region</th>
+<th>End region</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bat</td>
+<td><code>::#region</code> or <code>REM #region</code></td>
+<td><code>::#endregion</code> or <code>REM #endregion</code></td>
+</tr>
+<tr>
+<td>C#</td>
+<td><code>#region</code></td>
+<td><code>#endregion</code></td>
+</tr>
+<tr>
+<td>C/C++</td>
+<td><code>#pragma region</code></td>
+<td><code>#pragma endregion</code></td>
+</tr>
+<tr>
+<td>CSS/Less/SCSS</td>
+<td><code>/*#region*/</code></td>
+<td><code>/*#endregion*/</code></td>
+</tr>
+<tr>
+<td>Coffeescript</td>
+<td><code>#region</code></td>
+<td><code>#endregion</code></td>
+</tr>
+<tr>
+<td>F#</td>
+<td><code>//#region</code> or <code>(#region)</code></td>
+<td><code>//#endregion</code> or <code>(#endregion)</code></td>
+</tr>
+<tr>
+<td>Java</td>
+<td><code>//#region</code> or <code>//&lt;editor-fold&gt;</code></td>
+<td><code>// #endregion</code> or <code>//&lt;/editor-fold&gt;</code></td>
+</tr>
+<tr>
+<td>Markdown</td>
+<td><code>&lt;!-- #region --&gt;</code></td>
+<td><code>&lt;!-- #endregion --&gt;</code></td>
+</tr>
+<tr>
+<td>Perl5</td>
+<td><code>#region</code> or <code>=pod</code></td>
+<td><code>#endregion</code> or <code>=cut</code></td>
+</tr>
+<tr>
+<td>PHP</td>
+<td><code>#region</code></td>
+<td><code>#endregion</code></td>
+</tr>
+<tr>
+<td>PowerShell</td>
+<td><code>#region</code></td>
+<td><code>#endregion</code></td>
+</tr>
+<tr>
+<td>Python</td>
+<td><code>#region</code> or <code># region</code></td>
+<td><code>#endregion</code> or <code># endregion</code></td>
+</tr>
+<tr>
+<td>TypeScript/JavaScript</td>
+<td><code>//#region</code></td>
+<td><code>//#endregion</code></td>
+</tr>
+<tr>
+<td>Visual Basic</td>
+<td><code>#Region</code></td>
+<td><code>#End Region</code></td>
+</tr>
+</tbody>
+</table>
+<p>To fold and unfold only the regions defined by markers use:</p>
+<ul>
+<li>Fold Marker Regions (<code>kb(editor.foldAllMarkerRegions)</code>) folds all marker regions.</li>
+<li>Unfold Marker Regions (<code>kb(editor.unfoldAllMarkerRegions)</code>) unfolds all marker regions.</li>
+</ul>
+<h2 id="indentation">Indentation</h2>
+<p>VS Code lets you control text indentation and whether you'd like to use spaces or tab stops. By default, VS Code inserts spaces and uses 4 spaces per <code>kbstyle(Tab)</code> key. If you'd like to use another default, you can modify the <code>editor.insertSpaces</code> and <code>editor.tabSize</code> <a href="../getstarted/settings.html">settings</a>.</p>
+<pre><code class="lang-json">    &quot;editor.insertSpaces&quot;: true,
+    &quot;editor.tabSize&quot;: 4,
+</code></pre>
+<h3 id="auto-detection">Auto-detection</h3>
+<p>VS Code analyzes your open file and determines the indentation used in the document. The auto-detected indentation overrides your default indentation settings. The detected setting is displayed on the right side of the Status Bar:</p>
+<p><img src="images/codebasics/indentation-detection.png" alt="auto detect indentation"></p>
+<p>You can click on the Status Bar indentation display to bring up a dropdown with indentation commands allowing you to change the default settings for the open file or convert between tab stops and spaces.</p>
+<p><img src="images/codebasics/indentation-commands.png" alt="indentation commands"></p>
+<blockquote>
+<p><strong>Note:</strong> VS Code auto-detection checks for indentations of 2, 4, 6 or 8 spaces. If your file uses a different number of spaces, the indentation may not be correctly detected. For example, if your convention is to indent with 3 spaces, you may want to turn off <code>editor.detectIndentation</code> and explicitly set the tab size to 3.</p>
+</blockquote>
+<pre><code class="lang-json">    &quot;editor.detectIndentation&quot;: false,
+    &quot;editor.tabSize&quot;: 3,
+</code></pre>
+<h2 id="file-encoding-support">File encoding support</h2>
+<p>Set the file encoding globally or per workspace by using the <code>files.encoding</code> setting in <strong>User Settings</strong> or <strong>Workspace Settings</strong>.</p>
+<p><img src="images/codebasics/filesencodingsetting.png" alt="files.encoding setting"></p>
+<p>You can view the file encoding in the status bar.</p>
+<p><img src="images/codebasics/fileencoding.png" alt="Encoding in status bar"></p>
+<p>Click on the encoding button in the status bar to reopen or save the active file with a different encoding.</p>
+<p><img src="images/codebasics/encodingclicked.png" alt="Reopen or save with a different encoding"></p>
+<p>Then choose an encoding.</p>
+<p><img src="images/codebasics/encodingselection.png" alt="Select an encoding"></p>
+<h2 id="next-steps">Next steps</h2>
+<p>You've covered the basic user interface - there is a lot more to VS Code.  Read on to find out about:</p>
+<ul>
+<li><a href="../introvideos/basics.html">Intro Video - Setup and Basics</a> - Watch a tutorial on the basics of VS Code.</li>
+<li><a href="../getstarted/settings.html">User/Workspace Settings</a> - Learn how to configure VS Code to your preferences through user and workspace settings.</li>
+<li><a href="editingevolved.html">Code Navigation</a> - Peek and Goto Definition, and more.</li>
+<li><a href="integrated-terminal.html">Integrated Terminal</a> - Learn about the integrated terminal for quickly performing command-line tasks from within VS Code.</li>
+<li><a href="intellisense.html">IntelliSense</a> - VS Code brings smart code completions.</li>
+<li><a href="debugging.html">Debugging</a> - This is where VS Code really shines.</li>
+</ul>
+<h2 id="common-questions">Common questions</h2>
+<h3 id="is-it-possible-to-globally-search-and-replace">Is it possible to globally search and replace?</h3>
+<p>Yes, expand the Search view text box to include a replace text field. You can search and replace across all the files in your workspace. Note that if you did not open VS Code on a folder, the search will only run on the currently open files.</p>
+<p><img src="images/codebasics/global-search-replace.png" alt="global search and replace"></p>
+<h3 id="how-do-i-turn-on-word-wrap">How do I turn on word wrap?</h3>
+<p>You can control word wrap through the <code>editor.wordWrap</code> <a href="../getstarted/settings.html">setting</a>. By default, <code>editor.wordWrap</code> is <code>off</code> but if you set to it to <code>on</code>, text will wrap on the editor's viewport width.</p>
+<pre><code class="lang-json">    &quot;editor.wordWrap&quot;: &quot;on&quot;
+</code></pre>
+<p>You can toggle word wrap for the VS Code session with <code>kb(editor.action.toggleWordWrap)</code>.</p>
+<p>You can also add vertical column rulers to the editor with the <code>editor.rulers</code> setting, which takes an array of column character positions where you'd like vertical rulers.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            &#0169; 2021 Jason Rose
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

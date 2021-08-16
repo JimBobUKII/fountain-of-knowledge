@@ -1,0 +1,12 @@
+items:
+- name: Introduction
+  href: index.md
+- name: Set up Git
+  href: set-up-git.md
+- name: Creating a repository
+  href: create-a-repo.md
+- name: Forking a repository
+  href: fork-a-repo.md
+- name: Git Cheat Sheets
+  href: git-cheatsheats.md
+  

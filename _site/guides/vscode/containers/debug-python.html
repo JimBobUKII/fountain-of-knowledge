@@ -1,0 +1,440 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Debug Python within a container | Fountain of Knowledge </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Debug Python within a container | Fountain of Knowledge ">
+    <meta name="generator" content="docfx 2.57.2.0">
+    
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    <meta property="docfx:rel" content="../../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="debug-python-within-a-container">Debug Python within a container</h1>
+
+<p>When adding Docker files to a Python project, tasks and launch configurations are added to enable debugging the application within a Docker container. To accommodate the various scenarios of Python projects, some apps may require additional configuration.</p>
+<h2 id="configuring-the-docker-container-entry-point">Configuring the Docker container entry point</h2>
+<p>You can configure the entry point of the Docker container by setting properties in <code>tasks.json</code>. VS Code automatically configures the container entry point when you first use the <strong>Docker: Add Docker Files to Workspace...</strong> command.</p>
+<h3 id="example-configuring-the-entry-point-for-a-python-module">Example: Configuring the entry point for a Python module</h3>
+<pre><code class="lang-json">{
+  &quot;tasks&quot;: [
+    {
+      &quot;type&quot;: &quot;docker-run&quot;,
+      &quot;label&quot;: &quot;docker-run: debug&quot;,
+      &quot;dependsOn&quot;: [
+        &quot;docker-build&quot;
+      ],
+      &quot;python&quot;: {
+        &quot;module&quot;: &quot;myapp&quot;
+      }
+    }
+  ]
+}
+</code></pre>
+<h3 id="example-configuring-the-entry-point-for-a-python-file">Example: Configuring the entry point for a Python file</h3>
+<pre><code class="lang-json">{
+  &quot;tasks&quot;: [
+    {
+      &quot;type&quot;: &quot;docker-run&quot;,
+      &quot;label&quot;: &quot;docker-run: debug&quot;,
+      &quot;dependsOn&quot;: [
+        &quot;docker-build&quot;
+      ],
+      &quot;python&quot;: {
+        &quot;args&quot;: [
+          &quot;runserver&quot;,
+          &quot;0.0.0.0:8000&quot;,
+          &quot;--nothreading&quot;,
+          &quot;--noreload&quot;
+        ],
+        &quot;file&quot;: &quot;manage.py&quot;
+      }
+    }
+  ]
+}
+</code></pre>
+<h2 id="automatically-launching-the-browser-to-the-entry-page-of-the-application">Automatically launching the browser to the entry page of the application</h2>
+<p>You can select the <strong>Docker: Python - Django</strong> or <strong>Docker: Python - Flask</strong> launch configurations to automatically launch the browser to the main page of the app. This feature is enabled by default, but you can configure this behavior explicitly by setting the <code>dockerServerReadyAction</code> object in <code>launch.json</code>.</p>
+<p>This feature depends on several aspects of the application:</p>
+<ul>
+<li>The application <strong>must output to the debug console or Docker logs</strong>.</li>
+<li>The application must log a &quot;server ready&quot; message.</li>
+<li>The application must serve a browsable page.</li>
+</ul>
+<p>Here is an example of using <code>dockerServerReadyAction</code> to launch the browser to open the <code>about.html</code> page based on a specific server message pattern:</p>
+<pre><code class="lang-json">{
+  &quot;configurations&quot;: [
+    {
+      &quot;name&quot;: &quot;Docker: Python - Django&quot;,
+      &quot;type&quot;: &quot;docker&quot;,
+      &quot;request&quot;: &quot;launch&quot;,
+      &quot;preLaunchTask&quot;: &quot;docker-run: debug&quot;,
+      &quot;python&quot;: {
+        &quot;pathMappings&quot;: [
+          {
+            &quot;localRoot&quot;: &quot;${workspaceFolder}&quot;,
+            &quot;remoteRoot&quot;: &quot;/app&quot;
+          }
+        ],
+        &quot;projectType&quot;: &quot;django&quot;
+      },
+      &quot;dockerServerReadyAction&quot;: {
+        &quot;action&quot;: &quot;openExternally&quot;,
+        &quot;pattern&quot;: &quot;Starting development server at (https?://\\S+|[0-9]+)&quot;,
+        &quot;uriFormat&quot;: &quot;%s://localhost:%s/about.html&quot;
+      }
+    }
+  ]
+}
+</code></pre>
+<blockquote>
+<p><strong>Note</strong>: The regex found in the <code>pattern</code> attribute simply attempts to capture a logged message similar to &quot;Starting development server at <code>http://localhost:8000</code>&quot;. It accommodates variations in the url for http or https, any host name, and any port.</p>
+</blockquote>
+<h3 id="important-dockerserverreadyaction-object-properties">Important dockerServerReadyAction object properties</h3>
+<ul>
+<li><p><code>action</code>: The action to take when the pattern is found. Can be <code>debugWithChrome</code> or <code>openExternally</code>.</p>
+</li>
+<li><p><code>pattern</code>: If the application logs a different message than shown above, set the <code>pattern</code> property of the <a href="debug-common.html#dockerserverreadyaction-object-properties">dockerServerReadyAction</a> object to a <a href="https://developer.mozilla.org../Web/JavaScript/Guide/Regular_Expressions">JavaScript regular expression</a> that matches that message. The regular expression should include a capture group that corresponds to the port on which the application is listening.</p>
+</li>
+<li><p><code>uriFormat</code>: By default, the Docker extension will open the main page of the browser (however that is determined by the application). If you want the browser to open a specific page like the example above, the <code>uriFormat</code> property of the <a href="debug-common.html#dockerserverreadyaction-object-properties">dockerServerReadyAction</a> object should be set to a format string with two string tokens to indicate the protocol and port substitution.</p>
+</li>
+</ul>
+<h2 id="how-to-enable-hot-reloading-in-django-or-flask-apps">How to enable hot reloading in Django or Flask apps</h2>
+<p>When you select <strong>Docker: Add Docker Files to Workspace</strong> for Django or Flask, we provide you a Dockerfile and <code>tasks.json</code> configured for static deployment. Each time you make changes to your app code, you need to rebuild and re-run your container. Hot reloading allows you to visualize changes in your app code as your container continues to run. Enable hot reloading with these steps:</p>
+<h3 id="for-django-apps">For Django Apps</h3>
+<ol>
+<li><p>In the Dockerfile, comment out the line that adds app code to the container.</p>
+<pre><code class="lang-dockerfile">#ADD . /app
+</code></pre>
+</li>
+<li><p>Within the <code>docker-run</code> task in the <code>tasks.json</code> file, create a new dockerRun attribute with a <code>volumes</code> property. This will create a mapping from the current workspace folder (app code) to the <code>/app</code> folder in the container.</p>
+<pre><code class="lang-json">{
+  &quot;type&quot;: &quot;docker-run&quot;,
+  &quot;label&quot;: &quot;docker-run: debug&quot;,
+  &quot;dependsOn&quot;: [
+    &quot;docker-build&quot;
+  ],
+  &quot;dockerRun&quot;: {
+    &quot;volumes&quot;: [
+      {
+        &quot;containerPath&quot;: &quot;/app&quot;, &quot;localPath&quot;: &quot;${workspaceFolder}&quot;
+      }
+    ]
+  },
+  ...
+}
+</code></pre>
+</li>
+<li><p>Edit the python attribute by <strong>removing</strong> <code>--noreload</code> and <code>--nothreading</code>.</p>
+<pre><code class="lang-json">{
+  ...
+  &quot;dockerRun&quot;: {
+    &quot;volumes&quot;: [
+      {
+        &quot;containerPath&quot;: &quot;/app&quot;, &quot;localPath&quot;: &quot;${workspaceFolder}&quot;
+      }
+    ]
+  },
+  &quot;python&quot;: {
+    &quot;args&quot;: [
+      &quot;runserver&quot;,
+      &quot;0.0.0.0:8000&quot;,
+    ],
+    &quot;file&quot;: &quot;manage.py&quot;
+  }
+}
+</code></pre>
+</li>
+<li><p>Select the <strong>Docker: Python – Django</strong> launch configuration and hit <code>kb(workbench.action.debug.start)</code> to build and run your container.</p>
+</li>
+<li><p>Modify and save any file.</p>
+</li>
+<li><p>Refresh the browser and validate changes have been made.</p>
+</li>
+</ol>
+<h3 id="for-flask-apps">For Flask Apps</h3>
+<ol>
+<li><p>In the Dockerfile, comment out the line that adds app code to the container.</p>
+<pre><code class="lang-dockerfile">#ADD . /app
+</code></pre>
+</li>
+<li><p>Within the <code>docker-run</code> task in the <code>tasks.json</code> file, edit the existing dockerRun attribute by adding a <code>FLASK_ENV</code> in the <code>env</code> property as well as a <code>volumes</code> property. This will create a mapping from the current workspace folder (app code) to the <code>/app</code> folder in the container.</p>
+<pre><code class="lang-json">{
+  &quot;type&quot;: &quot;docker-run&quot;,
+  &quot;label&quot;: &quot;docker-run: debug&quot;,
+  &quot;dependsOn&quot;: [
+    &quot;docker-build&quot;
+  ],
+  &quot;dockerRun&quot;: {
+    &quot;env&quot;: {
+      &quot;FLASK_APP&quot;: &quot;path_to/flask_entry_point.py&quot;,
+      &quot;FLASK_ENV&quot;: &quot;development&quot;
+    },
+    &quot;volumes&quot;: [
+      {
+        &quot;containerPath&quot;: &quot;/app&quot;, &quot;localPath&quot;: &quot;${workspaceFolder}&quot;
+      }
+    ]
+  },
+  ...
+}
+</code></pre>
+</li>
+<li><p>Edit the python attribute by <strong>removing</strong> <code>--no-reload</code> and <code>--no-debugger</code>.</p>
+<pre><code class="lang-json">{
+  ...
+  &quot;dockerRun&quot;: {
+    &quot;env&quot;: {
+      &quot;FLASK_APP&quot;: &quot;path_to/flask_entry_point.py&quot;,
+      &quot;FLASK_ENV&quot;: &quot;development&quot;
+    },
+    &quot;volumes&quot;: [
+      {
+        &quot;containerPath&quot;: &quot;/app&quot;, &quot;localPath&quot;: &quot;${workspaceFolder}&quot;
+      }
+    ]
+  },
+  &quot;python&quot;: {
+    &quot;args&quot;: [
+      &quot;run&quot;,
+      &quot;--host&quot;, &quot;0.0.0.0&quot;,
+      &quot;--port&quot;, &quot;5000&quot;
+    ],
+    &quot;module&quot;: &quot;flask&quot;
+  }
+}
+</code></pre>
+</li>
+<li><p>Select the <strong>Docker: Python – Flask</strong> launch configuration and hit <code>kb(workbench.action.debug.start)</code> to build and run your container.</p>
+</li>
+<li><p>Modify and save any file.</p>
+</li>
+<li><p>Refresh the browser and validate changes have been made.</p>
+</li>
+</ol>
+<h2 id="how-to-build-and-run-a-container-together">How to build and run a container together</h2>
+<ol>
+<li>In the previously mentioned <code>tasks.json</code> file, there is a dependency on the <code>docker-build</code> task. The task is part of the <code>tasks</code> array in <code>tasks.json</code>. For example:</li>
+</ol>
+<pre><code class="lang-json">&quot;tasks&quot;:
+[
+  {
+    ...
+  },
+  {
+    &quot;label&quot;: &quot;docker-build&quot;,
+    &quot;type&quot;: &quot;docker-build&quot;,
+    &quot;dockerBuild&quot;: {
+        &quot;context&quot;: &quot;${workspaceFolder}&quot;,
+        &quot;dockerfile&quot;: &quot;${workspaceFolder}/Dockerfile&quot;,
+        &quot;tag&quot;: &quot;YOUR_IMAGE_NAME:YOUR_IMAGE_TAG&quot;
+    }
+  }
+]
+</code></pre>
+<p><strong>Tip:</strong> As the dependency clearly states <code>docker-build</code> as its dependency, the name has to match this task. It can be changed to anything though.</p>
+<ol>
+<li><p>The <code>dockerBuild</code> object in the JSON allows for the following parameters:</p>
+<ul>
+<li>context: The docker build context, from which your Dockerfile is called</li>
+<li>dockerfile: The path to the Dockerfile to execute</li>
+<li>tag: The name of the image to be built, with its version tag</li>
+</ul>
+</li>
+<li><p>Overall, a VS Code setup for building and debugging your Flask application can be:</p>
+<ul>
+<li><p><code>launch.json</code></p>
+<pre><code class="lang-json">{
+    &quot;version&quot;: &quot;0.2.0&quot;,
+    &quot;configurations&quot;: [
+      {
+        &quot;name&quot;: &quot;Debug Flask App&quot;,
+        &quot;type&quot;: &quot;docker&quot;,
+        &quot;request&quot;: &quot;launch&quot;,
+
+        &quot;preLaunchTask&quot;: &quot;docker-run: debug&quot;,
+        &quot;python&quot;: {
+          &quot;pathMappings&quot;: [
+            {
+              &quot;localRoot&quot;: &quot;${workspaceFolder}&quot;,
+              &quot;remoteRoot&quot;: &quot;/app&quot;
+            }
+          ],
+          &quot;projectType&quot;: &quot;flask&quot;
+        },
+        &quot;dockerServerReadyAction&quot;: {
+          &quot;action&quot;: &quot;openExternally&quot;,
+          &quot;pattern&quot;: &quot;Running on (http?://\\S+|[0-9]+)&quot;,
+          &quot;uriFormat&quot;: &quot;%s://localhost:%s/&quot;
+        }
+      }
+    ]
+}
+</code></pre>
+</li>
+<li><p><code>tasks.json</code></p>
+<pre><code class="lang-json">{
+  &quot;version&quot;: &quot;2.0.0&quot;,
+  &quot;tasks&quot;: [
+    {
+      &quot;type&quot;: &quot;docker-run&quot;,
+      &quot;label&quot;: &quot;docker-run: debug&quot;,
+      &quot;dependsOn&quot;: [
+          &quot;docker-build&quot;
+      ],
+      &quot;dockerRun&quot;: {
+          &quot;containerName&quot;: &quot;YOUR_IMAGE_NAME&quot;,
+          &quot;image&quot;: &quot;YOUR_IMAGE_NAME:YOUR_IMAGE_TAG&quot;,
+          &quot;env&quot;: {
+              &quot;FLASK_APP&quot;: &quot;path_to/flask_entry_point.py&quot;,
+              &quot;FLASK_ENV&quot;: &quot;development&quot;
+          },
+          &quot;volumes&quot;: [
+              {
+                  &quot;containerPath&quot;: &quot;/app&quot;,
+                  &quot;localPath&quot;: &quot;${workspaceFolder}&quot;
+              }
+          ],
+          &quot;ports&quot;: [
+              {
+                  &quot;containerPort&quot;: 5000,
+                  &quot;hostPort&quot;: 5000
+              }
+          ]
+      },
+      &quot;python&quot;: {
+          &quot;args&quot;: [
+              &quot;run&quot;,
+              &quot;--host&quot;,
+              &quot;0.0.0.0&quot;,
+              &quot;--port&quot;,
+              &quot;5000&quot;
+          ],
+          &quot;module&quot;: &quot;flask&quot;
+      }
+  },
+  {
+      &quot;label&quot;: &quot;docker-build&quot;,
+      &quot;type&quot;: &quot;docker-build&quot;,
+      &quot;dockerBuild&quot;: {
+          &quot;context&quot;: &quot;${workspaceFolder}&quot;,
+          &quot;dockerfile&quot;: &quot;${workspaceFolder}/Dockerfile&quot;,
+          &quot;tag&quot;: &quot;YOUR_IMAGE_NAME:YOUR_IMAGE_TAG&quot;
+      }
+    }
+  ]
+}
+</code></pre>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="next-steps">Next steps</h2>
+<p>Learn more about:</p>
+<ul>
+<li><a href="python-configure-containers.html">Configuring a non-root user in your container</a></li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            &#0169; 2021 Jason Rose
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

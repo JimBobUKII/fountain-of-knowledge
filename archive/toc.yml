@@ -1,0 +1,5 @@
+items:
+
+- name: '[ Template ]'
+  href: intune/toc.yml
+  topicHref: intune/index.md

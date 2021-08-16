@@ -1,0 +1,509 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Appendix | Fountain of Knowledge </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Appendix | Fountain of Knowledge ">
+    <meta name="generator" content="docfx 2.57.2.0">
+    
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    <meta property="docfx:rel" content="../../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="appendix">Appendix</h1>
+
+<p>This is additional information for Visual Studio Code <a href="tasks.html">tasks</a>.</p>
+<h2 id="schema-for-tasksjson">Schema for tasks.json</h2>
+<p>The following interfaces define the basic schema of the <code>tasks.json</code> file.</p>
+<blockquote>
+<p><strong>Note</strong>: Some task options are contributed by VS Code extensions. You can use <code>tasks.json</code> IntelliSense to find a complete list, using the <strong>Trigger Suggestions</strong> command (<code>kb(editor.action.triggerSuggest)</code>).</p>
+</blockquote>
+<pre><code class="lang-typescript">
+interface TaskConfiguration extends BaseTaskConfiguration {
+
+    /**
+     * The configuration's version number
+     */
+    version: &quot;2.0.0&quot;;
+
+    /**
+     * Windows specific task configuration
+     */
+    windows?: BaseTaskConfiguration;
+
+    /**
+     * macOS specific task configuration
+     */
+    osx?: BaseTaskConfiguration;
+
+    /**
+     * Linux specific task configuration
+     */
+    linux?: BaseTaskConfiguration;
+}
+
+interface BaseTaskConfiguration {
+
+    /**
+     * The type of a custom task. Tasks of type &quot;shell&quot; are executed
+     * inside a shell (e.g. bash, cmd, powershell, ...)
+     */
+    type: &quot;shell&quot; | &quot;process&quot;;
+
+    /**
+     * The command to be executed. Can be an external program or a shell
+     * command.
+     */
+    command: string;
+
+    /**
+     * Specifies whether a global command is a background task.
+     */
+    isBackground?: boolean;
+
+    /**
+     * The command options used when the command is executed. Can be omitted.
+     */
+    options?: CommandOptions;
+
+    /**
+     * The arguments passed to the command. Can be omitted.
+     */
+    args?: string[];
+
+    /**
+     * The presentation options.
+     */
+    presentation?: PresentationOptions;
+
+    /**
+     * The problem matcher to be used if a global command is executed (e.g. no tasks
+     * are defined). A tasks.json file can either contain a global problemMatcher
+     * property or a tasks property but not both.
+     */
+    problemMatcher?: string | ProblemMatcher | (string | ProblemMatcher)[];
+
+    /**
+     * The configuration of the available tasks. A tasks.json file can either
+     * contain a global problemMatcher property or a tasks property but not both.
+     */
+    tasks?: TaskDescription[];
+}
+
+
+/**
+ * Options to be passed to the external program or shell
+ */
+export interface CommandOptions {
+
+    /**
+     * The current working directory of the executed program or shell.
+     * If omitted the current workspace's root is used.
+     */
+    cwd?: string;
+
+    /**
+     * The environment of the executed program or shell. If omitted
+     * the parent process' environment is used.
+     */
+    env?: { [key:string]:string; };
+
+    /**
+      * Configuration of the shell when task type is `shell`
+      */
+     shell: {
+
+        /**
+        * The shell to use.
+        */
+        executable: string;
+
+        /**
+        * The arguments to be passed to the shell executable to run in command mode
+        * (e.g ['-c'] for bash or ['/S', '/C'] for cmd.exe).
+        */
+        args?: string[];
+    }
+}
+
+/**
+ * The description of a task.
+ */
+interface TaskDescription {
+
+    /**
+     * The task's name
+     */
+    label: string;
+
+    /**
+     * The type of a custom task. Tasks of type &quot;shell&quot; are executed
+     * inside a shell (e.g. bash, cmd, powershell, ...)
+     */
+    type: &quot;shell&quot; | &quot;process&quot;;
+
+    /**
+     * The command to execute. If the type is &quot;shell&quot; it should be the full
+     * command line including any additional arguments passed to the command.
+     */
+    command: string;
+
+    /**
+     * Whether the executed command is kept alive and runs in the background.
+     */
+    isBackground?: boolean;
+
+    /**
+     * Additional arguments passed to the command. Should be used if type
+     * is &quot;process&quot;.
+     */
+    args?: string[];
+
+    /**
+     * Defines the group to which this task belongs. Also supports to mark
+     * a task as the default task in a group.
+     */
+    group?: &quot;build&quot; | &quot;test&quot; | { kind: &quot;build&quot; | &quot;test&quot;; isDefault: boolean };
+
+    /**
+     * The presentation options.
+     */
+    presentation?: PresentationOptions;
+
+    /**
+     * The problem matcher(s) to use to capture problems in the tasks
+     * output.
+     */
+    problemMatcher?: string | ProblemMatcher | (string | ProblemMatcher)[];
+
+    /**
+     * Defines when and how a task is run.
+     */
+    runOptions?: RunOptions;
+}
+
+interface PresentationOptions {
+
+    /**
+     * Controls whether the task output is reveal in the user interface.
+     * Defaults to `always`.
+     */
+    reveal?: &quot;never&quot; | &quot;silent&quot; | &quot;always&quot;;
+
+    /**
+     * Controls whether the command associated with the task is echoed
+     * in the user interface.
+     */
+    echo?: boolean;
+
+    /**
+     * Controls whether the panel showing the task output is taking focus.
+     */
+    focus?: boolean;
+
+    /**
+     * Controls if the task panel is used for this task only (dedicated),
+     * shared between tasks (shared) or if a new panel is created on
+     * every task execution (new). Defaults to `shared`
+     */
+    panel?: &quot;shared&quot; | &quot;dedicated&quot; | &quot;new&quot;;
+}
+
+/**
+ * A description of a problem matcher that detects problems
+ * in build output.
+ */
+interface ProblemMatcher {
+
+    /**
+     * The name of a base problem matcher to use. If specified the
+     * base problem matcher will be used as a template and properties
+     * specified here will replace properties of the base problem
+     * matcher
+     */
+    base?: string;
+
+    /**
+     * The owner of the produced VS Code problem. This is typically
+     * the identifier of a VS Code language service if the problems are
+     * to be merged with the one produced by the language service
+     * or 'external'. Defaults to 'external' if omitted.
+     */
+    owner?: string;
+
+    /**
+     * The severity of the VS Code problem produced by this problem matcher.
+     *
+     * Valid values are:
+     *   &quot;error&quot;: to produce errors.
+     *   &quot;warning&quot;: to produce warnings.
+     *   &quot;info&quot;: to produce infos.
+     *
+     * The value is used if a pattern doesn't specify a severity match group.
+     * Defaults to &quot;error&quot; if omitted.
+     */
+    severity?: string;
+
+    /**
+     * Defines how filename reported in a problem pattern
+     * should be read. Valid values are:
+     *  - &quot;absolute&quot;: the filename is always treated absolute.
+     *  - &quot;relative&quot;: the filename is always treated relative to
+     *    the current working directory. This is the default.
+     *  - [&quot;relative&quot;, &quot;path value&quot;]: the filename is always
+     *    treated relative to the given path value.
+     *  - &quot;autodetect&quot;: the filename is treated relative to
+     *    the current workspace directory, and if the file
+     *    does not exist, it is treated as absolute.
+     *  - [&quot;autodetect&quot;, &quot;path value&quot;]: the filename is treated
+     *    relative to the given path value, and if it does not
+     *    exist, it is treated as absolute.
+     */
+    fileLocation?: string | string[];
+
+    /**
+     * The name of a predefined problem pattern, the inline definition
+     * of a problem pattern or an array of problem patterns to match
+     * problems spread over multiple lines.
+     */
+    pattern?: string | ProblemPattern | ProblemPattern[];
+
+    /**
+     * Additional information used to detect when a background task (like a watching task in Gulp)
+     * is active.
+     */
+    background?: BackgroundMatcher;
+}
+
+/**
+ * A description to track the start and end of a background task.
+ */
+interface BackgroundMatcher {
+
+    /**
+     * If set to true the watcher is in active mode when the task
+     * starts. This is equals of issuing a line that matches the
+     * beginPattern.
+     */
+    activeOnStart?: boolean;
+
+    /**
+     * If matched in the output the start of a background task is signaled.
+     */
+    beginsPattern?: string;
+
+    /**
+     * If matched in the output the end of a background task is signaled.
+     */
+    endsPattern?: string;
+}
+
+interface ProblemPattern {
+
+    /**
+     * The regular expression to find a problem in the console output of an
+     * executed task.
+     */
+    regexp: string;
+
+    /**
+     * Whether the pattern matches a problem for the whole file or for a location
+     * inside a file.
+     *
+     * Defaults to &quot;location&quot;.
+     */
+    kind?: &quot;file&quot; | &quot;location&quot;;
+
+    /**
+     * The match group index of the filename.
+     */
+    file: number;
+
+    /**
+     * The match group index of the problem's location. Valid location
+     * patterns are: (line), (line,column) and (startLine,startColumn,endLine,endColumn).
+     * If omitted the line and column properties are used.
+     */
+    location?: number;
+
+    /**
+     * The match group index of the problem's line in the source file.
+     * Can only be omitted if location is specified.
+     */
+    line?: number;
+
+    /**
+     * The match group index of the problem's column in the source file.
+     */
+    column?: number;
+
+    /**
+     * The match group index of the problem's end line in the source file.
+     *
+     * Defaults to undefined. No end line is captured.
+     */
+    endLine?: number;
+
+    /**
+     * The match group index of the problem's end column in the source file.
+     *
+     * Defaults to undefined. No end column is captured.
+     */
+    endColumn?: number;
+
+    /**
+     * The match group index of the problem's severity.
+     *
+     * Defaults to undefined. In this case the problem matcher's severity
+     * is used.
+     */
+    severity?: number;
+
+    /**
+     * The match group index of the problem's code.
+     *
+     * Defaults to undefined. No code is captured.
+     */
+    code?: number;
+
+    /**
+     * The match group index of the message. Defaults to 0.
+     */
+    message: number;
+
+    /**
+     * Specifies if the last pattern in a multi line problem matcher should
+     * loop as long as it does match a line consequently. Only valid on the
+     * last problem pattern in a multi line problem matcher.
+     */
+    loop?: boolean;
+}
+
+/**
+ * A description to when and how run a task.
+ */
+interface RunOptions {
+
+    /**
+     * Controls how variables are evaluated when a task is executed through
+     * the Rerun Last Task command.
+     * The default is `true`, meaning that variables will be re-evaluated when
+     * a task is rerun. When set to `false`, the resolved variable values from
+     * the previous run of the task will be used.
+     */
+    reevaluateOnRerun?: boolean;
+
+    /**
+     * Specifies when a task is run.
+     *
+     * Valid values are:
+     *   &quot;default&quot;: The task will only be run when executed through the Run Task command.
+     *   &quot;folderOpen&quot;: The task will be run when the containing folder is opened.
+     */
+    runOn?: string;
+}
+</code></pre>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            &#0169; 2021 Jason Rose
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

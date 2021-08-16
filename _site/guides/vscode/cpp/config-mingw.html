@@ -1,0 +1,392 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Using GCC with MinGW | Fountain of Knowledge </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Using GCC with MinGW | Fountain of Knowledge ">
+    <meta name="generator" content="docfx 2.57.2.0">
+    
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    <meta property="docfx:rel" content="../../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="using-gcc-with-mingw">Using GCC with MinGW</h1>
+
+<p>In this tutorial, you configure Visual Studio Code to use the GCC C++ compiler (g++) and GDB debugger from <a href="http://mingw-w64.org/doku.php/start">mingw-w64</a> to create programs that run on Windows.</p>
+<p>After configuring VS Code, you will compile and debug a simple Hello World program in VS Code. This tutorial does not teach you about GCC, GDB, Mingw-w64, or the C++ language. For those subjects, there are many good resources available on the Web.</p>
+<p>If you have any problems, feel free to file an issue for this tutorial in the <a href="https://github.com/microsoft/vscode-docs/issues">VS Code documentation repository</a>.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>To successfully complete this tutorial, you must do the following steps:</p>
+<ol>
+<li><p>Install <a href="/download">Visual Studio Code</a>.</p>
+</li>
+<li><p>Install the <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools">C/C++ extension for VS Code</a>. You can install the C/C++ extension by searching for 'c++' in the Extensions view (<code>kb(workbench.view.extensions)</code>).</p>
+<p><img src="images/cpp/cpp-extension.png" alt="C/C++ extension"></p>
+</li>
+<li><p>Get the latest version of Mingw-w64 via <a href="https://www.msys2.org/">MSYS2</a>, which provides up-to-date native builds of GCC, Mingw-w64, and other helpful C++ tools and libraries.  <a href="https://github.com/msys2/msys2-installer/releases/download/2021-06-04/msys2-x86_64-20210604.exe">Click here</a> to download the MSYS2 installer. Then follow the instructions on the <a href="https://www.msys2.org/">MSYS2 website</a> to install Mingw-w64.</p>
+</li>
+<li><p>Add the path to your Mingw-w64 <code>bin</code> folder to the Windows <code>PATH</code> environment variable by using the following steps:</p>
+<ol>
+<li>In the Windows search bar, type 'settings' to open your Windows Settings.</li>
+<li>Search for <strong>Edit environment variables for your account</strong>.</li>
+<li>Choose the <code>Path</code> variable and then select <strong>Edit</strong>.</li>
+<li>Select <strong>New</strong> and add the Mingw-w64 destination folder path to the system path. The exact path depends on which version of Mingw-w64 you have installed and where you installed it. If you used the settings above to install Mingw-w64, then add this to the path: <code>C:\msys64\mingw64\bin</code>.</li>
+<li>Select <strong>OK</strong> to save the updated PATH. You will need to reopen any console windows for the new PATH location to be available.</li>
+</ol>
+</li>
+</ol>
+<h3 id="check-your-mingw-installation">Check your MinGW installation</h3>
+<p>To check that your Mingw-w64 tools are correctly installed and available, open a <strong>new</strong> Command Prompt and type:</p>
+<pre><code class="lang-bash">g++ --version
+gdb --version
+</code></pre>
+<p>If you don't see the expected output or <code>g++</code> or <code>gdb</code> is not a recognized command, make sure your PATH entry matches the Mingw-w64 binary location where the compilers are located.</p>
+<h2 id="create-hello-world">Create Hello World</h2>
+<p>From a Windows command prompt, create an empty folder called <code>projects</code> where you can place all your VS Code projects. Then create a sub-folder called <code>helloworld</code>, navigate into it, and open VS Code in that folder by entering the following commands:</p>
+<pre><code class="lang-cmd">mkdir projects
+cd projects
+mkdir helloworld
+cd helloworld
+code .
+</code></pre>
+<p>The &quot;code .&quot; command opens VS Code in the current working folder, which becomes your &quot;workspace&quot;. As you go through the tutorial, you will see three files created in a <code>.vscode</code> folder in the workspace:</p>
+<ul>
+<li><code>tasks.json</code> (build instructions)</li>
+<li><code>launch.json</code> (debugger settings)</li>
+<li><code>c_cpp_properties.json</code> (compiler path and IntelliSense settings)</li>
+</ul>
+<h3 id="add-a-source-code-file">Add a source code file</h3>
+<p>In the File Explorer title bar, select the <strong>New File</strong> button and name the file <code>helloworld.cpp</code>.</p>
+<p><img src="images/mingw/new-file-button.png" alt="New File title bar button"></p>
+<h3 id="add-hello-world-source-code">Add hello world source code</h3>
+<p>Now paste in this source code:</p>
+<pre><code class="lang-cpp">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;string&gt;
+
+using namespace std;
+
+int main()
+{
+    vector&lt;string&gt; msg {&quot;Hello&quot;, &quot;C++&quot;, &quot;World&quot;, &quot;from&quot;, &quot;VS Code&quot;, &quot;and the C++ extension!&quot;};
+
+    for (const string&amp; word : msg)
+    {
+        cout &lt;&lt; word &lt;&lt; &quot; &quot;;
+    }
+    cout &lt;&lt; endl;
+}
+</code></pre>
+<p>Now press <code>kb(workbench.action.files.save)</code> to save the file. Notice how the file you just added appears in the <strong>File Explorer</strong> view (<code>kb(workbench.view.explorer)</code>) in the side bar of VS Code:</p>
+<p><img src="images/mingw/file-explorer-mingw.png" alt="File Explorer"></p>
+<p>You can also enable <a href="/docs/editor/codebasics.md#saveauto-save">Auto Save</a> to automatically save your file changes, by checking <strong>Auto Save</strong> in the main <strong>File</strong> menu.</p>
+<p>The Activity Bar on the far left lets you open different views such as <strong>Search</strong>, <strong>Source Control</strong>, and <strong>Run</strong>. You'll look at the <strong>Run</strong> view later in this tutorial. You can find out more about the other views in the VS Code <a href="/docs/getstarted/userinterface.md">User Interface documentation</a>.</p>
+<blockquote>
+<p><strong>Note</strong>: When you save or open a C++ file, you may see a notification from the C/C++ extension about the availability of an Insiders version, which lets you test new features and fixes. You can ignore this notification by selecting the <code>X</code> (<strong>Clear Notification</strong>).</p>
+</blockquote>
+<h2 id="explore-intellisense">Explore IntelliSense</h2>
+<p>In your new <code>helloworld.cpp</code> file, hover over <code>vector</code> or <code>string</code> to see type information. After the declaration of the <code>msg</code> variable, start typing <code>msg.</code> as you would when calling a member function. You should immediately see a completion list that shows all the member functions, and a window that shows the type information for the <code>msg</code> object:</p>
+<p><img src="images/wsl/msg-intellisense.png" alt="Statement completion IntelliSense"></p>
+<p>You can press the <code>kbstyle(Tab)</code> key to insert the selected member; then, when you add the opening parenthesis, you will see information about any arguments that the function requires.</p>
+<h2 id="build-helloworldcpp">Build helloworld.cpp</h2>
+<p>Next, you'll create a <code>tasks.json</code> file to tell VS Code how to build (compile) the program. This task will invoke the g++ compiler to create an executable file based on the source code.</p>
+<p>From the main menu, choose <strong>Terminal</strong> &gt; <strong>Configure Default Build Task</strong>. In the dropdown, which will display a tasks dropdown listing various predefined build tasks for C++ compilers. Choose <strong>g++.exe build active file</strong>, which will build the file that is currently displayed (active) in the editor.</p>
+<p><img src="images/mingw/build-active-file.png" alt="Tasks C++ build dropdown"></p>
+<p>This will create a <code>tasks.json</code> file in a <code>.vscode</code> folder and open it in the editor.</p>
+<p>Your new <code>tasks.json</code> file should look similar to the JSON below:</p>
+<pre><code class="lang-json">{
+    &quot;tasks&quot;: [
+        {
+            &quot;type&quot;: &quot;cppbuild&quot;,
+            &quot;label&quot;: &quot;C/C++: g++.exe build active file&quot;,
+            &quot;command&quot;: &quot;C:/msys64/mingw64/bin/g++.exe&quot;,
+            &quot;args&quot;: [
+                &quot;-g&quot;,
+                &quot;${file}&quot;,
+                &quot;-o&quot;,
+                &quot;${fileDirname}\\${fileBasenameNoExtension}.exe&quot;
+            ],
+            &quot;options&quot;: {
+                &quot;cwd&quot;: &quot;${fileDirname}&quot;
+            },
+            &quot;problemMatcher&quot;: [
+                &quot;$gcc&quot;
+            ],
+            &quot;group&quot;: {
+                &quot;kind&quot;: &quot;build&quot;,
+                &quot;isDefault&quot;: true
+            },
+            &quot;detail&quot;: &quot;compiler: C:/msys64/mingw64/bin/g++.exe&quot;
+        }
+    ],
+    &quot;version&quot;: &quot;2.0.0&quot;
+}
+</code></pre>
+<p>The <code>command</code> setting specifies the program to run; in this case that is g++. The <code>args</code> array specifies the command-line arguments that will be passed to g++. These arguments must be specified in the order expected by the compiler. This task tells g++ to take the active file (<code>${file}</code>), compile it, and create an executable file in the current directory (<code>${fileDirname}</code>) with the same name as the active file but with the <code>.exe</code> extension (<code>${fileBasenameNoExtension}.exe</code>), resulting in <code>helloworld.exe</code> for our example.</p>
+<blockquote>
+<p><strong>Note</strong>: You can learn more about <code>tasks.json</code> variables in the <a href="/docs/editor/variables-reference.md">variables reference</a>.</p>
+</blockquote>
+<p>The <code>label</code> value is what you will see in the tasks list; you can name this whatever you like.</p>
+<p>The <code>&quot;isDefault&quot;: true</code> value in the <code>group</code> object specifies that this task will be run when you press <code>kb(workbench.action.tasks.build)</code>. This property is for convenience only; if you set it to false, you can still run it from the Terminal menu with <strong>Tasks: Run Build Task</strong>.</p>
+<h3 id="running-the-build">Running the build</h3>
+<ol>
+<li><p>Go back to <code>helloworld.cpp</code>. Your task builds the active file and you want to build <code>helloworld.cpp</code>.</p>
+</li>
+<li><p>To run the build task defined in <code>tasks.json</code>, press <code>kb(workbench.action.tasks.build)</code> or from the <strong>Terminal</strong> main menu choose <strong>Run Build Task</strong>.</p>
+</li>
+<li><p>When the task starts, you should see the Integrated Terminal panel appear below the source code editor. After the task completes, the terminal shows output from the compiler that indicates whether the build succeeded or failed. For a successful g++ build, the output looks something like this:</p>
+<p><img src="images/mingw/mingw-build-output.png" alt="G++ build output in terminal"></p>
+</li>
+<li><p>Create a new terminal using the <strong>+</strong> button and you'll have a new terminal with the <code>helloworld</code> folder as the working directory. Run <code>dir</code> and you should now see the executable <code>helloworld.exe</code>.</p>
+<p><img src="images/mingw/mingw-dir-output.png" alt="Hello World in PowerShell terminal"></p>
+</li>
+<li><p>You can run <code>helloworld</code> in the terminal by typing <code>helloworld.exe</code> (or <code>.\helloworld.exe</code> if you use a PowerShell terminal).</p>
+</li>
+</ol>
+<blockquote>
+<p><strong>Note</strong>: You might need to press <code>kbstyle(Enter)</code> a couple of times initially to see the PowerShell prompt in the terminal. This issue should be fixed in a future release of Windows.</p>
+</blockquote>
+<h3 id="modifying-tasksjson">Modifying tasks.json</h3>
+<p>You can modify your <code>tasks.json</code> to build multiple C++ files by using an argument like <code>&quot;${workspaceFolder}\\*.cpp&quot;</code> instead of <code>${file}</code>. This will build all <code>.cpp</code> files in your current folder. You can also modify the output filename by replacing <code>&quot;${fileDirname}\\${fileBasenameNoExtension}.exe&quot;</code> with a hard-coded filename (for example <code>&quot;${workspaceFolder}\\myProgram.exe&quot;</code>).</p>
+<h2 id="debug-helloworldcpp">Debug helloworld.cpp</h2>
+<p>Next, you'll create a <code>launch.json</code> file to configure VS Code to launch the GDB debugger when you press <code>kb(workbench.action.debug.start)</code> to debug the program.</p>
+<ol>
+<li>From the main menu, choose <strong>Run</strong> &gt; <strong>Add Configuration...</strong> and then choose <strong>C++ (GDB/LLDB)</strong>.</li>
+<li>You'll then see a dropdown for various predefined debugging configurations. Choose <strong>g++.exe build and debug active file</strong>.</li>
+</ol>
+<p><img src="images/mingw/build-and-debug-active-file.png" alt="C++ debug configuration dropdown"></p>
+<p>VS Code creates a <code>launch.json</code> file, opens it in the editor, and builds and runs 'helloworld'.</p>
+<pre><code class="lang-json">{
+    &quot;version&quot;: &quot;0.2.0&quot;,
+    &quot;configurations&quot;: [
+        {
+            &quot;name&quot;: &quot;g++.exe - Build and debug active file&quot;,
+            &quot;type&quot;: &quot;cppdbg&quot;,
+            &quot;request&quot;: &quot;launch&quot;,
+            &quot;program&quot;: &quot;${fileDirname}\\${fileBasenameNoExtension}.exe&quot;,
+            &quot;args&quot;: [],
+            &quot;stopAtEntry&quot;: false,
+            &quot;cwd&quot;: &quot;${fileDirname}&quot;,
+            &quot;environment&quot;: [],
+            &quot;externalConsole&quot;: false,
+            &quot;MIMode&quot;: &quot;gdb&quot;,
+            &quot;miDebuggerPath&quot;: &quot;C:\\msys64\\mingw64\\bin\\gdb.exe&quot;,
+            &quot;setupCommands&quot;: [
+                {
+                    &quot;description&quot;: &quot;Enable pretty-printing for gdb&quot;,
+                    &quot;text&quot;: &quot;-enable-pretty-printing&quot;,
+                    &quot;ignoreFailures&quot;: true
+                }
+            ],
+            &quot;preLaunchTask&quot;: &quot;C/C++: g++.exe build active file&quot;
+        }
+    ]
+}
+</code></pre>
+<p>The <code>program</code> setting specifies the program you want to debug. Here it is set to the active file folder <code>${fileDirname}</code> and active filename with the <code>.exe</code> extension <code>${fileBasenameNoExtension}.exe</code>, which if <code>helloworld.cpp</code> is the active file will be <code>helloworld.exe</code>.</p>
+<p>By default, the C++ extension won't add any breakpoints to your source code and the <code>stopAtEntry</code> value is set to <code>false</code>.</p>
+<p>Change the <code>stopAtEntry</code> value to <code>true</code> to cause the debugger to stop on the <code>main</code> method when you start debugging.</p>
+<blockquote>
+<p><strong>Note</strong>: The <code>preLaunchTask</code> setting is used to specify task to be executed before launch. Make sure it is consistent with the <code>tasks.json</code> file <code>label</code> setting.</p>
+</blockquote>
+<h3 id="start-a-debugging-session">Start a debugging session</h3>
+<ol>
+<li>Go back to <code>helloworld.cpp</code> so that it is the active file.</li>
+<li>Press <code>kb(workbench.action.debug.start)</code> or from the main menu choose <strong>Run &gt; Start Debugging</strong>. Before you start stepping through the source code, let's take a moment to notice several changes in the user interface:</li>
+</ol>
+<ul>
+<li><p>The Integrated Terminal appears at the bottom of the source code editor. In the <strong>Debug Output</strong> tab, you see output that indicates the debugger is up and running.</p>
+</li>
+<li><p>The editor highlights the first statement in the <code>main</code> method. This is a breakpoint that the C++ extension automatically sets for you:</p>
+<p><img src="images/mingw/stopAtEntry.png" alt="Initial breakpoint"></p>
+</li>
+<li><p>The Run view on the left shows debugging information. You'll see an example later in the tutorial.</p>
+</li>
+<li><p>At the top of the code editor, a debugging control panel appears. You can move this around the screen by grabbing the dots on the left side.</p>
+</li>
+</ul>
+<h2 id="step-through-the-code">Step through the code</h2>
+<p>Now you're ready to start stepping through the code.</p>
+<ol>
+<li><p>Click or press the <strong>Step over</strong> icon in the debugging control panel.</p>
+<p><img src="images/cpp/step-over-button.png" alt="Step over button"></p>
+<p>This will advance program execution to the first line of the for loop, and skip over all the internal function calls within the <code>vector</code> and <code>string</code> classes that are invoked when the <code>msg</code> variable is created and initialized. Notice the change in the <strong>Variables</strong> window on the left.</p>
+<p><img src="images/wsl/debug-view-variables.png" alt="Debugging windows"></p>
+<p>In this case, the errors are expected because, although the variable names for the loop are now visible to the debugger, the statement has not executed yet, so there is nothing to read at this point. The contents of <code>msg</code> are visible, however, because that statement has completed.</p>
+</li>
+<li><p>Press <strong>Step over</strong> again to advance to the next statement in this program (skipping over all the internal code that is executed to initialize the loop). Now, the <strong>Variables</strong> window shows information about the loop variables.</p>
+</li>
+<li><p>Press <strong>Step over</strong> again to execute the <code>cout</code> statement. (Note that as of the March 2019 release, the C++ extension does not print any output to the <strong>Debug Console</strong> until the loop exits.)</p>
+</li>
+<li><p>If you like, you can keep pressing <strong>Step over</strong> until all the words in the vector have been printed to the console. But if you are curious, try pressing the <strong>Step Into</strong> button to step through source code in the C++ standard library!</p>
+<p><img src="images/cpp/gcc-system-header-stepping.png" alt="Breakpoint in gcc standard library header"></p>
+<p>To return to your own code, one way is to keep pressing <strong>Step over</strong>. Another way is to set a breakpoint in your code by switching to the <code>helloworld.cpp</code> tab in the code editor, putting the insertion point somewhere on the <code>cout</code> statement inside the loop, and pressing <code>kb(editor.debug.action.toggleBreakpoint)</code>. A red dot appears in the gutter on the left to indicate that a breakpoint has been set on this line.</p>
+<p><img src="images/cpp/breakpoint-in-main.png" alt="Breakpoint in main"></p>
+<p>Then press <code>kb(workbench.action.debug.start)</code> to start execution from the current line in the standard library header. Execution will break on <code>cout</code>. If you like, you can press <code>kb(editor.debug.action.toggleBreakpoint)</code> again to toggle off the breakpoint.</p>
+<p>When the loop has completed, you can see the output in the Integrated Terminal, along with some other diagnostic information that is output by GDB.</p>
+<p><img src="images/mingw/mingw-debug-output.png" alt="Debug output in terminal"></p>
+</li>
+</ol>
+<h2 id="set-a-watch">Set a watch</h2>
+<p>Sometimes you might want to keep track of the value of a variable as your program executes. You can do this by setting a <strong>watch</strong> on the variable.</p>
+<ol>
+<li><p>Place the insertion point inside the loop. In the <strong>Watch</strong> window, click the plus sign and in the text box, type <code>word</code>, which is the name of the loop variable. Now view the Watch window as you step through the loop.</p>
+<p><img src="images/cpp/watch-window.png" alt="Watch window"></p>
+</li>
+<li><p>Add another watch by adding this statement before the loop: <code>int i = 0;</code>. Then, inside the loop, add this statement: <code>++i;</code>. Now add a watch for <code>i</code> as you did in the previous step.</p>
+</li>
+<li><p>To quickly view the value of any variable while execution is paused on a breakpoint, you can hover over it with the mouse pointer.</p>
+<p><img src="images/cpp/mouse-hover.png" alt="Mouse hover"></p>
+</li>
+</ol>
+<h2 id="cc-configurations">C/C++ configurations</h2>
+<p>If you want more control over the C/C++ extension, you can create a <code>c_cpp_properties.json</code> file, which will allow you to change settings such as the path to the compiler, include paths, C++ standard (default is C++17), and more.</p>
+<p>You can view the C/C++ configuration UI by running the command <strong>C/C++: Edit Configurations (UI)</strong> from the Command Palette (<code>kb(workbench.action.showCommands)</code>).</p>
+<p><img src="images/cpp/command-palette.png" alt="Command Palette"></p>
+<p>This opens the <strong>C/C++ Configurations</strong> page. When you make changes here, VS Code writes them to a file called <code>c_cpp_properties.json</code> in the <code>.vscode</code> folder.</p>
+<p>Here, we've changed the <strong>Configuration name</strong> to <strong>GCC</strong>, set the <strong>Compiler  path</strong> dropdown to the g++ compiler, and the <strong>IntelliSense mode</strong> to match the compiler (<strong>gcc-x64</strong>)</p>
+<p><img src="images/mingw/intellisense-configurations-mingw.png" alt="Command Palette"></p>
+<p>Visual Studio Code places these settings in <code>.vscode\c_cpp_properties.json</code>. If you open that file directly, it should look something like this:</p>
+<pre><code class="lang-json">{
+    &quot;configurations&quot;: [
+        {
+            &quot;name&quot;: &quot;GCC&quot;,
+            &quot;includePath&quot;: [
+                &quot;${workspaceFolder}/**&quot;
+            ],
+            &quot;defines&quot;: [
+                &quot;_DEBUG&quot;,
+                &quot;UNICODE&quot;,
+                &quot;_UNICODE&quot;
+            ],
+            &quot;windowsSdkVersion&quot;: &quot;10.0.18362.0&quot;,
+            &quot;compilerPath&quot;: &quot;C:/msys64/mingw64/bin/g++.exe&quot;,
+            &quot;cStandard&quot;: &quot;c17&quot;,
+            &quot;cppStandard&quot;: &quot;c++17&quot;,
+            &quot;intelliSenseMode&quot;: &quot;windows-gcc-x64&quot;
+        }
+    ],
+    &quot;version&quot;: 4
+}
+</code></pre>
+<p>You only need to add to the <strong>Include path</strong> array setting if your program includes header files that are not in your workspace or in the standard library path.</p>
+<h3 id="compiler-path">Compiler path</h3>
+<p>The extension uses the <code>compilerPath</code> setting to infer the path to the C++ standard library header files. When the extension knows where to find those files, it can provide features like smart completions and <strong>Go to Definition</strong> navigation.</p>
+<p>The C/C++ extension attempts to populate <code>compilerPath</code> with the default compiler location based on what it finds on your system. The extension looks in several common compiler locations.</p>
+<p>The <code>compilerPath</code> search order is:</p>
+<ul>
+<li>First check for the Microsoft Visual C++ compiler</li>
+<li>Then look for g++ on Windows Subsystem for Linux (WSL)</li>
+<li>Then g++ for Mingw-w64.</li>
+</ul>
+<p>If you have Visual Studio or WSL installed, you may need to change <code>compilerPath</code> to match the preferred compiler for your project. For example, if you installed Mingw-w64 version 8.1.0 using the i686 architecture, Win32 threading, and sjlj exception handling install options, the path would look like this: <code>C:\Program Files (x86)\mingw-w64\i686-8.1.0-win32-sjlj-rt_v6-rev0\mingw64\bin\g++.exe</code>.</p>
+<h2 id="next-steps">Next steps</h2>
+<ul>
+<li>Explore the <a href="/docs/editor/codebasics.md">VS Code User Guide</a>.</li>
+<li>Review the <a href="/docs/languages/cpp.md">Overview of the C++ extension</a>.</li>
+<li>Create a new workspace, copy your <code>.vscode</code> JSON files to it, adjust the necessary settings for the new workspace path, program name, and so on, and start coding!</li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            &#0169; 2021 Jason Rose
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

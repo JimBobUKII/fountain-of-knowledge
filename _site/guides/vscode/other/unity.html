@@ -1,0 +1,260 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Unity Development with VS Code | Fountain of Knowledge </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Unity Development with VS Code | Fountain of Knowledge ">
+    <meta name="generator" content="docfx 2.57.2.0">
+    
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    <meta property="docfx:rel" content="../../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="unity-development-with-vs-code">Unity Development with VS Code</h1>
+
+<p>Visual Studio Code can be a great companion to Unity for editing and debugging C# files.  All of the <a href="/docs/languages/csharp.md">C#</a> features are supported and more.  In the screen below, you can see code colorization, bracket matching, IntelliSense, CodeLens and that's just the start.</p>
+<p><img src="images/unity/wow.gif" alt="Unity Example"></p>
+<p>Read on to find out how to configure Unity and your project to get the best possible experience.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>From <a href="/docs/languages/dotnet.md">Using .NET Core in Visual Studio Code</a>:</p>
+<ol>
+<li><p>Install the <a href="https://dotnet.microsoft.com/download">.NET Core SDK</a>, which includes the Runtime and the <code>dotnet</code> command.</p>
+</li>
+<li><p>[Windows only] Logout or restart Windows to allow changes to <code>%PATH%</code> to take effect.</p>
+</li>
+<li><p>[macOS only] To avoid seeing &quot;Some projects have trouble loading. Please review the output for more details&quot;, make sure to install the latest stable <a href="https://www.mono-project.com/download/">Mono</a> release.</p>
+<p><strong>Note</strong>: This version of Mono, which is installed into your system, will not interfere with the version of MonoDevelop that is installed by Unity.</p>
+</li>
+<li><p>Install the <a href="https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csharp">C# extension</a> from the VS Code Marketplace.</p>
+</li>
+</ol>
+<h2 id="setup-vs-code-as-unity-script-editor">Setup VS Code as Unity Script Editor</h2>
+<p>Open up <strong>Unity Preferences</strong>, <strong>External Tools</strong>, then browse for the Visual Studio Code executable as <strong>External Script Editor</strong>.</p>
+<p><img src="images/unity/Unity_Preferences_External_Script_Editor.gif" alt="Unity Preferences"></p>
+<blockquote>
+<p>The Visual Studio Code executable can be found at <code>/Applications/Visual Studio Code.app</code> on macOS, <code>%localappdata%\Programs\Microsoft VS Code\Code.exe</code> on Windows by default.</p>
+</blockquote>
+<p><strong>Unity has built-in support for opening scripts in Visual Studio Code</strong> as an external script editor on Windows and macOS. Unity will detect when Visual Studio Code is selected as an external script editor and pass the correct arguments to it when opening scripts from Unity. Unity will also set up a default <code>.vscode/settings.json</code> with file excludes, if it does not already exist (from <a href="https://unity3d.com/unity/whats-new/unity-5.5.0">Unity 5.5 Release notes</a>).</p>
+<h2 id="unity-version-20192-or-above">Unity version 2019.2 or above</h2>
+<p><a href="https://unity.com/releases/2019-2/">Since 2019.2</a>, it is required to use the Visual Studio Code editor package. The built-in support for opening scripts from Unity and getting <code>csproj</code> and <code>sln</code> files generated has been removed.</p>
+<h2 id="editing-evolved">Editing Evolved</h2>
+<p>With the solution file selected, you are now ready to start editing with VS Code. Here is a list of some of the things you can expect:</p>
+<ul>
+<li>Syntax Highlighting</li>
+<li>Bracket matching</li>
+<li>IntelliSense</li>
+<li>Snippets</li>
+<li>CodeLens</li>
+<li>Peek</li>
+<li>Go-to Definition</li>
+<li>Code Actions/Lightbulbs</li>
+<li>Go to symbol</li>
+<li>Hover</li>
+</ul>
+<p>Two topics that will help you are <a href="/docs/editor/codebasics.md">Basic Editing</a> and <a href="/docs/languages/csharp.md">C#</a>. In the image below, you can see VS Code showing hover context, peeking references and more.</p>
+<p><img src="images/unity/peekreferences.png" alt="editing evolved example"></p>
+<h2 id="unity-extensions">Unity Extensions</h2>
+<p>The community is continually developing more and more valuable extensions for Unity. Here are some popular extensions that you might find useful. You can search for more extensions in the <a href="https://marketplace.visualstudio.com/search?term=Unity&amp;target=VSCode">VS Code Extension Marketplace</a>.</p>
+<div class="marketplace-extensions-unity"></div>
+<p>The extensions shown above are dynamically queried. Select an extension tile above to read the description and reviews to decide which extension is best for you. See more in the <a href="https://marketplace.visualstudio.com/vscode">Marketplace</a>.</p>
+<h2 id="enabling-code-completion-for-recent-versions-of-unity">Enabling code completion (For recent versions of Unity)</h2>
+<p>If you are installing VS Code for the first time, you might be missing targeting packs required for Unity's code-completion (IntelliSense) in VS Code.</p>
+<p>Targeting pack download links:</p>
+<ul>
+<li><a href="https://www.microsoft.com/download/details.aspx?id=48136">Windows: .NET Framework 4.6 Targeting Pack</a></li>
+<li><a href="https://dotnet.microsoft.com/download">macOS: Download .NET SDK</a></li>
+</ul>
+<p>Steps:</p>
+<ol>
+<li>Stop VS Code or Unity running.</li>
+<li>Download and install the targeting pack for your targeted framework version / preferred version from one of the above links.</li>
+<li>Start Unity.</li>
+<li>Create and/or open an existing script in VS Code, through Unity, and you should now see code completions.</li>
+</ol>
+<h2 id="enabling-unity-warnings">Enabling Unity warnings</h2>
+<p>Unity has <a href="https://github.com/microsoft/Microsoft.Unity.Analyzers">a set of custom C# warnings</a>, called analyzers, that check for common issues with your source code. These analyzers ship out of the box with Visual Studio but need to be set up manually in Visual Studio Code.</p>
+<p>Due to how Unity handles its <code>.csproj</code> files, it does not seem possible to install packages automatically. You will need to download the analyzers from the <a href="https://www.nuget.org/packages/Microsoft.Unity.Analyzers/">NuGet website</a> manually. When you're done, open the package file using a tool such as 7zip and extract <code>Microsoft.Unity.Analyzers.dll</code> onto your project's root folder. You can place it inside a folder named <code>NuGet</code>, for example. Do not place it inside <code>Assets</code> or <code>Packages</code>, as that will cause Unity to try to process the <code>.dll</code>, which will make it output an error in the console.</p>
+<p>Next, create an <code>omnisharp.json</code> file at the root folder of your project, as explained <a href="https://www.strathweb.com/2019/04/roslyn-analyzers-in-code-fixes-in-omnisharp-and-vs-code/">here</a>. Analyzer support in OmniSharp is experimental at the moment, so we need to enable it explicitly. We also need to point it to the <code>.dll</code> file we just extracted.</p>
+<p>Your <code>omnisharp.json</code> file should end up looking like this:</p>
+<pre><code class="lang-json">{
+    &quot;RoslynExtensionsOptions&quot;: {
+        &quot;EnableAnalyzersSupport&quot;: true,
+        &quot;LocationPaths&quot;: [
+            &quot;./NuGet/microsoft.unity.analyzers.1.9.0&quot;
+        ]
+    }
+}
+</code></pre>
+<p>where <code>&quot;./NuGet/microsoft.unity.analyzers.1.9.0&quot;</code> is a relative path pointing to the folder containing the <code>.dll</code> file. Depending on where you placed it, your path may look different.</p>
+<p>The Unity analyzers should now be working in your project. You can test them by creating an empty <code>FixedUpdate()</code> method inside one of your <code>MonoBehavior</code> classes, which should trigger a <code>The Unity message 'FixedUpdate' is empty</code> warning (<a href="https://github.com/microsoft/Microsoft.Unity.Analyzers/blob/main/doc/UNT0001.md">UNT0001</a>).</p>
+<p>Note that while it is possible to activate these analyzers, the suppressors they ship with the package (that turn off other C# warnings that may conflict with these custom ones) may not be picked up by OmniSharp at the moment, <a href="https://github.com/microsoft/Microsoft.Unity.Analyzers/issues/122#issuecomment-743747554">according to this thread</a>. You can still turn off specific rules manually by following these steps:</p>
+<ol>
+<li>Create a <code>.editorconfig</code> file in your project's root folder (next to Unity's <code>.csproj</code> files).</li>
+<li>Add the following contents to the file:</li>
+</ol>
+<pre><code class="lang-ini">root=true
+
+[*.cs]
+dotnet_diagnostic.IDE0051.severity = none
+</code></pre>
+<p><code>root=true</code> tells OmniSharp that this is your project root and it should stop looking for parent <code>.editorconfig</code> files outside of this folder.</p>
+<p><code>dotnet_diagnostic.IDE0051.severity = none</code> is an example of turning off the analyzer with ID <code>IDE0051</code> by setting its severity level to <code>none</code>. You can read more about these settings in the <a href="https://docs.microsoft.com/visualstudio/code-quality/use-roslyn-analyzers">Analyzer overview</a>. You can add as many of these rules as you want to this file.</p>
+<p><code>[*.cs]</code> indicates that our custom rules should apply to all C# scripts (files with the <code>.cs</code> extension).</p>
+<p>You are now ready to code in Visual Studio Code, while getting the same warnings as you would when using Visual Studio!</p>
+<h2 id="next-steps">Next steps</h2>
+<p>Read on to learn more about:</p>
+<ul>
+<li><a href="/docs/editor/codebasics.md">Basic Editing</a> - Learn about the powerful VS Code editor.</li>
+<li><a href="/docs/editor/editingevolved.md">Code Navigation</a> - Move quickly through your source code.</li>
+<li><a href="/docs/editor/debugging.md">Debugging</a> - how to use the debugger with your project</li>
+<li><a href="/docs/languages/csharp.md">C#</a> - learn about the C# support in VS Code</li>
+</ul>
+<h2 id="common-questions">Common questions</h2>
+<h3 id="i-dont-have-intellisense">I don't have IntelliSense</h3>
+<p>You need to ensure that your solution is open in VS Code (not just a single file).  Open the folder with your solution and you usually will not need to do anything else.  If for some reason VS Code has not selected the right solution context, you can change the selected project by clicking on the OmniSharp flame icon on the status bar.</p>
+<p><img src="images/unity/omnisharp.png" alt="OmniSharp Flame on the Status Bar"></p>
+<p>Choose the <code>-CSharp</code> version of the solution file and VS Code will light up.</p>
+<p><img src="images/unity/selectsln.png" alt="Choose Solution"></p>
+<h3 id="how-can-i-change-the-file-exclusions">How can I change the file exclusions?</h3>
+<p>Unity creates a number of additional files that can clutter your workspace in VS Code.  You can easily hide these so that you can focus on the files you actually want to edit.</p>
+<p>To do this, add the following JSON to your <a href="/docs/getstarted/settings.md">workspace settings</a>.</p>
+<pre><code class="lang-json">    // Configure glob patterns for excluding files and folders.
+    &quot;files.exclude&quot;: {
+        &quot;**/.git&quot;: true,
+        &quot;**/.DS_Store&quot;: true,
+        &quot;**/*.meta&quot;: true,
+        &quot;**/*.*.meta&quot;: true,
+        &quot;**/*.unity&quot;: true,
+        &quot;**/*.unityproj&quot;: true,
+        &quot;**/*.mat&quot;: true,
+        &quot;**/*.fbx&quot;: true,
+        &quot;**/*.FBX&quot;: true,
+        &quot;**/*.tga&quot;: true,
+        &quot;**/*.cubemap&quot;: true,
+        &quot;**/*.prefab&quot;: true,
+        &quot;**/Library&quot;: true,
+        &quot;**/ProjectSettings&quot;: true,
+        &quot;**/Temp&quot;: true
+    }
+</code></pre>
+<p>As you can see below this will clean things up a lot...</p>
+<table>
+<thead>
+<tr>
+<th>Before</th>
+<th>After</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="images/unity/unfilteredfiles.png" alt="Unfiltered files"></td>
+<td><img src="images/unity/filteredfiles.png" alt="filtered files"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="how-can-i-debug-unity">How can I debug Unity?</h3>
+<p>Install the <a href="https://marketplace.visualstudio.com/items/Unity.unity-debug">Debugger for Unity</a> extension. And check out <a href="/docs/editor/debugging.md">Debugging with VS Code</a> to learn more about VS Code debugging support.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            &#0169; 2021 Jason Rose
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

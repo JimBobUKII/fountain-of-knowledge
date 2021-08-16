@@ -1,0 +1,375 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Configure VS Code for Microsoft C++ | Fountain of Knowledge </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Configure VS Code for Microsoft C++ | Fountain of Knowledge ">
+    <meta name="generator" content="docfx 2.57.2.0">
+    
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    <meta property="docfx:rel" content="../../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="configure-vs-code-for-microsoft-c">Configure VS Code for Microsoft C++</h1>
+
+<p>In this tutorial, you configure Visual Studio Code to use the Microsoft Visual C++ compiler and debugger on Windows.</p>
+<p>After configuring VS Code, you will compile and debug a simple Hello World program in VS Code. This tutorial does not teach you details about the Microsoft C++ toolset or the C++ language. For those subjects, there are many good resources available on the Web.</p>
+<p>If you have any problems, feel free to file an issue for this tutorial in the <a href="https://github.com/microsoft/vscode-docs/issues">VS Code documentation repository</a>.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>To successfully complete this tutorial, you must do the following:</p>
+<ol>
+<li><p>Install <a href="/download">Visual Studio Code</a>.</p>
+</li>
+<li><p>Install the <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools">C/C++ extension for VS Code</a>. You can install the C/C++ extension by searching for 'c++' in the Extensions view (<code>kb(workbench.view.extensions)</code>).</p>
+<p><img src="images/cpp/cpp-extension.png" alt="C/C++ extension"></p>
+</li>
+<li><p>Install the Microsoft Visual C++ (MSVC) compiler toolset.</p>
+<p>If you have a recent version of Visual Studio, open the Visual Studio Installer from the Windows Start menu and verify that the C++ workload is checked. If it's not installed, then check the box and click the <strong>Modify</strong> button in the installer.</p>
+<p>You can also install the <strong>Desktop development with C++</strong> workload without a full Visual Studio IDE installation. From the Visual Studio <a href="https://visualstudio.microsoft.com/downloads#other">Downloads</a> page, scroll down until you see <strong>Tools for Visual Studio 2019</strong> under the <strong>All Downloads</strong> section and select the download for <strong>Build Tools for Visual Studio 2019</strong>.</p>
+<p><img src="images/msvc/build-tools-for-vs.png" alt="Build Tools for Visual Studio download"></p>
+<p>This will launch the Visual Studio Installer, which will bring up a dialog showing the available Visual Studio Build Tools workloads. Check the <strong>Desktop development with C++</strong> workload and select <strong>Install</strong>.</p>
+<p><img src="images/msvc/desktop_development_with_cpp.png" alt="Cpp build tools workload"></p>
+</li>
+</ol>
+<blockquote>
+<p><strong>Note</strong>: You can use the C++ toolset from Visual Studio Build Tools along with Visual Studio Code to compile, build, and verify any C++ codebase as long as you also have a valid Visual Studio license (either Community, Pro, or Enterprise) that you are actively using to develop that C++ codebase.</p>
+</blockquote>
+<h3 id="check-your-microsoft-visual-c-installation">Check your Microsoft Visual C++ installation</h3>
+<p>To use MSVC from a command line or VS Code, you must run from a <strong>Developer Command Prompt for Visual Studio</strong>. An ordinary shell such as PowerShell, Bash, or the Windows command prompt does not have the necessary path environment variables set.</p>
+<p>To open the Developer Command Prompt for VS, start typing 'developer' in the Windows Start menu, and you should see it appear in the list of suggestions. The exact name depends on which version of Visual Studio or the Visual Studio Build Tools you have installed. Click on the item to open the prompt.</p>
+<p><img src="images/msvc/developer-cmd-prompt-menu.png" alt="Developer Command Prompt"></p>
+<p>You can test that you have the C++ compiler, <code>cl.exe</code>, installed correctly by typing 'cl' and you should see a copyright message with the version and basic usage description.</p>
+<p><img src="images/msvc/check-cl-exe.png" alt="Checking cl.exe installation"></p>
+<p>If the Developer Command Prompt is using the BuildTools location as the starting directory (you wouldn't want to put projects there), navigate to your user folder (<code>C:\users\{your username}\</code>) before you start creating new projects.</p>
+<h2 id="create-hello-world">Create Hello World</h2>
+<p>From the Developer Command Prompt, create an empty folder called &quot;projects&quot; where you can store all your VS Code projects, then create a subfolder called &quot;helloworld&quot;, navigate into it, and open VS Code (<code>code</code>) in that folder (<code>.</code>) by entering the following commands:</p>
+<pre><code class="lang-cmd">mkdir projects
+cd projects
+mkdir helloworld
+cd helloworld
+code .
+</code></pre>
+<p>The &quot;code .&quot; command opens VS Code in the current working folder, which becomes your &quot;workspace&quot;. As you go through the tutorial, you will see three files created in a <code>.vscode</code> folder in the workspace:</p>
+<ul>
+<li><code>tasks.json</code> (build instructions)</li>
+<li><code>launch.json</code> (debugger settings)</li>
+<li><code>c_cpp_properties.json</code> (compiler path and IntelliSense settings)</li>
+</ul>
+<h3 id="add-a-source-code-file">Add a source code file</h3>
+<p>In the File Explorer title bar, select the <strong>New File</strong> button and name the file <code>helloworld.cpp</code>.</p>
+<p><img src="images/msvc/new-file-button.png" alt="New File title bar button"></p>
+<h3 id="add-hello-world-source-code">Add hello world source code</h3>
+<p>Now paste in this source code:</p>
+<pre><code class="lang-cpp">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;string&gt;
+
+using namespace std;
+
+int main()
+{
+    vector&lt;string&gt; msg {&quot;Hello&quot;, &quot;C++&quot;, &quot;World&quot;, &quot;from&quot;, &quot;VS Code&quot;, &quot;and the C++ extension!&quot;};
+
+    for (const string&amp; word : msg)
+    {
+        cout &lt;&lt; word &lt;&lt; &quot; &quot;;
+    }
+    cout &lt;&lt; endl;
+}
+</code></pre>
+<p>Now press <code>kb(workbench.action.files.save)</code> to save the file. Notice how the file you just added appears in the <strong>File Explorer</strong> view (<code>kb(workbench.view.explorer)</code>) in the side bar of VS Code:</p>
+<p><img src="images/msvc/file-explorer.png" alt="File Explorer"></p>
+<p>You can also enable <a href="/docs/editor/codebasics.md#saveauto-save">Auto Save</a> to automatically save your file changes, by checking <strong>Auto Save</strong> in the main <strong>File</strong> menu.</p>
+<p>The Activity Bar on the far left lets you open different views such as <strong>Search</strong>, <strong>Source Control</strong>, and <strong>Run</strong>. You'll look at the <strong>Run</strong> view later in this tutorial. You can find out more about the other views in the VS Code <a href="/docs/getstarted/userinterface.md">User Interface documentation</a>.</p>
+<blockquote>
+<p><strong>Note</strong>: When you save or open a C++ file, you may see a notification from the C/C++ extension about the availability of an Insiders version, which lets you test new features and fixes. You can ignore this notification by selecting the <code>X</code> (<strong>Clear Notification</strong>).</p>
+</blockquote>
+<h2 id="explore-intellisense">Explore IntelliSense</h2>
+<p>In your new <code>helloworld.cpp</code> file, hover over <code>vector</code> or <code>string</code> to see type information. After the declaration of the <code>msg</code> variable, start typing <code>msg.</code> as you would when calling a member function. You should immediately see a completion list that shows all the member functions, and a window that shows the type information for the <code>msg</code> object:</p>
+<p><img src="images/wsl/msg-intellisense.png" alt="Statement completion IntelliSense"></p>
+<p>You can press the <code>kbstyle(Tab)</code> key to insert the selected member; then, when you add the opening parenthesis, you will see information about any arguments that the function requires.</p>
+<h2 id="build-helloworldcpp">Build helloworld.cpp</h2>
+<p>Next, you will create a <code>tasks.json</code> file to tell VS Code how to build (compile) the program. This task will invoke the Microsoft C++ compiler to create an executable file based on the source code.</p>
+<p>From the main menu, choose <strong>Terminal</strong> &gt; <strong>Configure Default Build Task</strong>. In the dropdown, which will display a tasks dropdown listing various predefined build tasks for C++ compilers. Choose <strong>cl.exe build active file</strong>, which will build the file that is currently displayed (active) in the editor.</p>
+<p><img src="images/msvc/build-active-file.png" alt="Tasks C++ build dropdown"></p>
+<p>This will create a <code>tasks.json</code> file in a <code>.vscode</code> folder and open it in the editor.</p>
+<p>Your new <code>tasks.json</code> file should look similar to the JSON below:</p>
+<pre><code class="lang-json">{
+&quot;version&quot;: &quot;2.0.0&quot;,
+&quot;tasks&quot;: [
+    {
+        &quot;type&quot;: &quot;shell&quot;,
+        &quot;label&quot;: &quot;cl.exe build active file&quot;,
+        &quot;command&quot;: &quot;cl.exe&quot;,
+        &quot;args&quot;: [
+            &quot;/Zi&quot;,
+            &quot;/EHsc&quot;,
+            &quot;/Fe:&quot;,
+            &quot;${fileDirname}\\${fileBasenameNoExtension}.exe&quot;,
+            &quot;${file}&quot;
+        ],
+        &quot;problemMatcher&quot;: [
+            &quot;$msCompile&quot;
+        ],
+        &quot;group&quot;: {
+            &quot;kind&quot;: &quot;build&quot;,
+            &quot;isDefault&quot;: true
+        }
+    }
+]
+}
+</code></pre>
+<p>The <code>command</code> setting specifies the program to run; in this case that is &quot;cl.exe&quot;. The <code>args</code> array specifies the command-line arguments that will be passed to cl.exe. These arguments must be specified in the order expected by the compiler. This task tells the C++ compiler to take the active file (<code>${file}</code>), compile it, and create an executable file (<code>/Fe:</code> switch) in the current directory (<code>${fileDirname}</code>) with the same name as the active file but with the <code>.exe</code> extension (<code>${fileBasenameNoExtension}.exe</code>), resulting in <code>helloworld.exe</code> for our example.</p>
+<blockquote>
+<p><strong>Note</strong>: You can learn more about <code>tasks.json</code> variables in the <a href="/docs/editor/variables-reference.md">variables reference</a>.</p>
+</blockquote>
+<p>The <code>label</code> value is what you will see in the tasks list; you can name this whatever you like.</p>
+<p>The <code>problemMatcher</code> value selects the output parser to use for finding errors and warnings in the compiler output. For cl.exe, you'll get the best results if you use the <code>$msCompile</code> problem matcher.</p>
+<p>The <code>&quot;isDefault&quot;: true</code> value in the <code>group</code> object specifies that this task will be run when you press <code>kb(workbench.action.tasks.build)</code>. This property is for convenience only; if you set it to false, you can still run it from the Terminal menu with <strong>Tasks: Run Build Task</strong>.</p>
+<h3 id="running-the-build">Running the build</h3>
+<ol>
+<li><p>Go back to <code>helloworld.cpp</code>. Your task builds the active file and you want to build <code>helloworld.cpp</code>.</p>
+</li>
+<li><p>To run the build task defined in <code>tasks.json</code>, press <code>kb(workbench.action.tasks.build)</code> or from the <strong>Terminal</strong> main menu choose <strong>Tasks: Run Build Task</strong>.</p>
+</li>
+<li><p>When the task starts, you should see the Integrated Terminal panel appear below the source code editor. After the task completes, the terminal shows output from the compiler that indicates whether the build succeeded or failed. For a successful C++ build, the output looks something like this:</p>
+<p><img src="images/msvc/build-output-in-terminal.png" alt="C++ build output in terminal"></p>
+</li>
+<li><p>Create a new terminal using the <strong>+</strong> button and you'll have a new terminal (running PowerShell) with the <code>helloworld</code> folder as the working directory. Run <code>ls</code> and you should now see the executable <code>helloworld.exe</code> along with various intermediate C++ output and debugging files (<code>helloworld.obj</code>, <code>helloworld.pdb</code>).</p>
+<p><img src="images/msvc/helloworld-in-terminal.png" alt="Hello World in PowerShell terminal"></p>
+</li>
+<li><p>You can run <code>helloworld</code> in the terminal by typing <code>.\helloworld.exe</code>.</p>
+</li>
+</ol>
+<blockquote>
+<p><strong>Note</strong>: You might need to press <code>kbstyle(Enter)</code> a couple of times initially to see the PowerShell prompt in the terminal. This issue should be fixed in a future release of Windows.</p>
+</blockquote>
+<h3 id="modifying-tasksjson">Modifying tasks.json</h3>
+<p>You can modify your <code>tasks.json</code> to build multiple C++ files by using an argument like <code>&quot;${workspaceFolder}\\*.cpp&quot;</code> instead of <code>${file}</code>. This will build all <code>.cpp</code> files in your current folder. You can also modify the output filename by replacing <code>&quot;${fileDirname}\\${fileBasenameNoExtension}.exe&quot;</code> with a hard-coded filename (for example <code>&quot;${workspaceFolder}\\myProgram.exe&quot;</code>).</p>
+<h2 id="debug-helloworldcpp">Debug helloworld.cpp</h2>
+<p>Next, you'll create a <code>launch.json</code> file to configure VS Code to launch the Microsoft C++ debugger when you press <code>kb(workbench.action.debug.start)</code> to debug the program. From the main menu, choose <strong>Run</strong> &gt; <strong>Add Configuration...</strong> and then choose <strong>C++ (Windows)</strong>.</p>
+<p>You'll then see a dropdown for various predefined debugging configurations. Choose <strong>cl.exe build and debug active file</strong>.</p>
+<p><img src="images/msvc/build-and-debug-active-file.png" alt="C++ debug configuration dropdown"></p>
+<p>VS Code creates a <code>launch.json</code> file, opens it in the editor, and builds and runs 'helloworld'.</p>
+<pre><code class="lang-json">{
+&quot;version&quot;: &quot;0.2.0&quot;,
+&quot;configurations&quot;: [
+    {
+        &quot;name&quot;: &quot;cl.exe build and debug active file&quot;,
+        &quot;type&quot;: &quot;cppvsdbg&quot;,
+        &quot;request&quot;: &quot;launch&quot;,
+        &quot;program&quot;: &quot;${fileDirname}\\${fileBasenameNoExtension}.exe&quot;,
+        &quot;args&quot;: [],
+        &quot;stopAtEntry&quot;: false,
+        &quot;cwd&quot;: &quot;${workspaceFolder}&quot;,
+        &quot;environment&quot;: [],
+        &quot;externalConsole&quot;: false,
+        &quot;preLaunchTask&quot;: &quot;cl.exe build active file&quot;
+    }
+]
+}
+</code></pre>
+<p>The <code>program</code> setting specifies the program you want to debug. Here it is set to the active file folder <code>${fileDirname}</code> and active filename with the <code>.exe</code> extension <code>${fileBasenameNoExtension}.exe</code>, which if <code>helloworld.cpp</code> is the active file will be <code>helloworld.exe</code>.</p>
+<p>By default, the C++ extension won't add any breakpoints to your source code and the <code>stopAtEntry</code> value is set to <code>false</code>. Change the <code>stopAtEntry</code> value to <code>true</code> to cause the debugger to stop on the <code>main</code> method when you start debugging.</p>
+<h3 id="start-a-debugging-session">Start a debugging session</h3>
+<ol>
+<li>Go back to <code>helloworld.cpp</code> so that it is the active file.</li>
+<li>Press <code>kb(workbench.action.debug.start)</code> or from the main menu choose <strong>Run &gt; Start Debugging</strong>. Before you start stepping through the source code, let's take a moment to notice several changes in the user interface:</li>
+</ol>
+<ul>
+<li><p>The Integrated Terminal appears at the bottom of the source code editor. In the <strong>Debug Output</strong> tab, you see output that indicates the debugger is up and running.</p>
+</li>
+<li><p>The editor highlights the first statement in the <code>main</code> method. This is a breakpoint that the C++ extension automatically sets for you:</p>
+<p><img src="images/msvc/stopAtEntry.png" alt="Initial breakpoint"></p>
+</li>
+<li><p>The Run view on the left shows debugging information. You'll see an example later in the tutorial.</p>
+</li>
+<li><p>At the top of the code editor, a debugging control panel appears. You can move this around the screen by grabbing the dots on the left side.</p>
+</li>
+</ul>
+<h2 id="step-through-the-code">Step through the code</h2>
+<p>Now you're ready to start stepping through the code.</p>
+<ol>
+<li><p>Click or press the <strong>Step over</strong> icon in the debugging control panel until the <code>for (const string&amp; word : msg)</code> statement is highlighted.</p>
+<p><img src="images/cpp/step-over-button.png" alt="Step over button"></p>
+<p>The <strong>Step Over</strong> command skip over all the internal function calls within the <code>vector</code> and <code>string</code> classes that are invoked when the <code>msg</code> variable is created and initialized. Notice the change in the <strong>Variables</strong> window on the left. In this case, the errors are expected because, although the variable names for the loop are now visible to the debugger, the statement has not executed yet, so there is nothing to read at this point. The contents of <code>msg</code> are visible, however, because that statement has completed.</p>
+</li>
+<li><p>Press <strong>Step over</strong> again to advance to the next statement in this program (skipping over all the internal code that is executed to initialize the loop). Now, the <strong>Variables</strong> window shows information about the loop variables.</p>
+</li>
+<li><p>Press <strong>Step over</strong> again to execute the <code>cout</code> statement. <strong>Note</strong> As of the March 2019 version of the extension, no output is displayed until the loop completes.</p>
+</li>
+<li><p>If you like, you can keep pressing <strong>Step over</strong> until all the words in the vector have been printed to the console. But if you are curious, try pressing the <strong>Step Into</strong> button to step through source code in the C++ standard library!</p>
+<p><img src="images/msvc/msvc-system-header-stepping.png" alt="Breakpoint in gcc standard library header"></p>
+<p>To return to your own code, one way is to keep pressing <strong>Step over</strong>. Another way is to set a breakpoint in your code by switching to the <code>helloworld.cpp</code> tab in the code editor, putting the insertion point somewhere on the <code>cout</code> statement inside the loop, and pressing <code>kb(editor.debug.action.toggleBreakpoint)</code>. A red dot appears in the gutter on the left to indicate that a breakpoint has been set on this line.</p>
+<p><img src="images/cpp/breakpoint-in-main.png" alt="Breakpoint in main"></p>
+<p>Then press <code>kb(workbench.action.debug.start)</code> to start execution from the current line in the standard library header. Execution will break on <code>cout</code>. If you like, you can press <code>kb(editor.debug.action.toggleBreakpoint)</code> again to toggle off the breakpoint.</p>
+</li>
+</ol>
+<h2 id="set-a-watch">Set a watch</h2>
+<p>Sometimes you might want to keep track of the value of a variable as your program executes. You can do this by setting a <strong>watch</strong> on the variable.</p>
+<ol>
+<li><p>Place the insertion point inside the loop. In the <strong>Watch</strong> window, click the plus sign and in the text box, type <code>word</code>, which is the name of the loop variable. Now view the Watch window as you step through the loop.</p>
+<p><img src="images/cpp/watch-window.png" alt="Watch window"></p>
+</li>
+<li><p>Add another watch by adding this statement before the loop: <code>int i = 0;</code>. Then, inside the loop, add this statement: <code>++i;</code>. Now add a watch for <code>i</code> as you did in the previous step.</p>
+</li>
+<li><p>To quickly view the value of any variable while execution is paused on a breakpoint, you can hover over it with the mouse pointer.</p>
+<p><img src="images/cpp/mouse-hover.png" alt="Mouse hover"></p>
+</li>
+</ol>
+<h2 id="cc-configurations">C/C++ configurations</h2>
+<p>If you want more control over the C/C++ extension, you can create a <code>c_cpp_properties.json</code> file, which will allow you to change settings such as the path to the compiler, include paths, C++ standard (default is C++17), and more.</p>
+<p>You can view the C/C++ configuration UI by running the command <strong>C/C++: Edit Configurations (UI)</strong> from the Command Palette (<code>kb(workbench.action.showCommands)</code>).</p>
+<p><img src="images/cpp/command-palette.png" alt="Command Palette"></p>
+<p>This opens the <strong>C/C++ Configurations</strong> page. When you make changes here, VS Code writes them to a file called <code>c_cpp_properties.json</code> in the <code>.vscode</code> folder.</p>
+<p><img src="images/msvc/configurations-ui.png" alt="Command Palette"></p>
+<p>Visual Studio Code places these settings in <code>.vscode\c_cpp_properties.json</code>. If you open that file directly, it should look something like this:</p>
+<pre><code class="lang-json">{
+&quot;configurations&quot;: [
+    {
+        &quot;name&quot;: &quot;Win32&quot;,
+        &quot;includePath&quot;: [
+            &quot;${workspaceFolder}/**&quot;
+        ],
+        &quot;defines&quot;: [
+            &quot;_DEBUG&quot;,
+            &quot;UNICODE&quot;,
+            &quot;_UNICODE&quot;
+        ],
+        &quot;windowsSdkVersion&quot;: &quot;10.0.18362.0&quot;,
+        &quot;compilerPath&quot;: &quot;C:/Program Files (x86)/Microsoft Visual Studio/2019/BuildTools/VC/Tools/MSVC/14.24.28314/bin/Hostx64/x64/cl.exe&quot;,
+        &quot;cStandard&quot;: &quot;c11&quot;,
+        &quot;cppStandard&quot;: &quot;c++17&quot;,
+        &quot;intelliSenseMode&quot;: &quot;msvc-x64&quot;
+    }
+],
+&quot;version&quot;: 4
+}
+</code></pre>
+<p>You only need to add to the <strong>Include path</strong> array setting if your program includes header files that are not in your workspace or in the standard library path.</p>
+<h3 id="compiler-path">Compiler path</h3>
+<p>The <code>compilerPath</code> setting is an important setting in your configuration. The extension uses it to infer the path to the C++ standard library header files. When the extension knows where to find those files, it can provide useful features like smart completions and <strong>Go to Definition</strong> navigation.</p>
+<p>The C/C++ extension attempts to populate <code>compilerPath</code> with the default compiler location based on what it finds on your system. The extension looks in several common compiler locations.</p>
+<p>The <code>compilerPath</code> search order is:</p>
+<ul>
+<li>First check for the Microsoft Visual C++ compilerOpe</li>
+<li>Then look for g++ on Windows Subsystem for Linux (WSL)</li>
+<li>Then g++ for Mingw-w64.</li>
+</ul>
+<p>If you have g++ or WSL installed, you might need to change <code>compilerPath</code> to match the preferred compiler for your project. For Microsoft C++, the path should look something like this, depending on which specific version you have installed: &quot;C:/Program Files (x86)/Microsoft Visual Studio/2017/BuildTools/VC/Tools/MSVC/14.16.27023/bin/Hostx64/x64/cl.exe&quot;.</p>
+<h2 id="reusing-your-c-configuration">Reusing your C++ configuration</h2>
+<p>VS Code is now configured to use the Microsoft C++ compiler. The configuration applies to the current workspace. To reuse the configuration, just copy the JSON files to a <code>.vscode</code> folder in a new project folder (workspace) and change the names of the source file(s) and executable as needed.</p>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="the-term-clexe-is-not-recognized">The term 'cl.exe' is not recognized</h3>
+<p>If you see the error &quot;The term 'cl.exe' is not recognized as the name of a cmdlet, function, script file, or operable program.&quot;, this usually means you are running VS Code outside of a <strong>Developer Command Prompt for Visual Studio</strong> and VS Code doesn't know the path to the <code>cl.exe</code> compiler.</p>
+<p>You can always check that you are running VS Code in the context of the Developer Command Prompt by opening a new Terminal (<code>kb(workbench.action.terminal.new)</code>) and typing 'cl' to verify <code>cl.exe</code> is available to VS Code.</p>
+<h2 id="next-steps">Next steps</h2>
+<ul>
+<li>Explore the <a href="/docs/editor/codebasics.md">VS Code User Guide</a>.</li>
+<li>Review the <a href="/docs/languages/cpp.md">Overview of the C++ extension</a>.</li>
+<li>Create a new workspace, copy your <code>.vscode</code> JSON files to it, adjust the necessary settings for the new workspace path, program name, and so on, and start coding!</li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            &#0169; 2021 Jason Rose
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

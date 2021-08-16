@@ -1,0 +1,186 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Troubleshoot Terminal launch failures | Fountain of Knowledge </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Troubleshoot Terminal launch failures | Fountain of Knowledge ">
+    <meta name="generator" content="docfx 2.57.2.0">
+    
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    <meta property="docfx:rel" content="../../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="troubleshoot-terminal-launch-failures">Troubleshoot Terminal launch failures</h1>
+
+<p>If you are new to using the Visual Studio Code Integrated Terminal, you can learn more in the <a href="/docs/editor/integrated-terminal.md">Integrated Terminal</a> user guide. There you can read how to <a href="/docs/editor/integrated-terminal.md#configuration">configure</a> the terminal, as well as review answers to <a href="/docs/editor/integrated-terminal.md#common-questions">common questions</a>.</p>
+<p>Below are specific troubleshooting steps, if the user guide hasn't helped you diagnose the launch failure. The troubleshooting steps, such as checking your settings and enabling logging, apply to all platforms that support VS Code; macOS, Linux, and Windows.</p>
+<blockquote>
+<p><strong>Note</strong>: If you're on Windows, review the <a href="#common-issues-on-windows">common issues on Windows</a> section first.</p>
+</blockquote>
+<h2 id="troubleshooting-steps">Troubleshooting steps</h2>
+<p>To troubleshoot Integrated Terminal launch failures in Visual Studio Code, follow these steps to diagnose issues:</p>
+<ol>
+<li><p><strong>Check your user settings.</strong> Review these <code>terminal.integrated</code> <a href="/docs/getstarted/settings.md">settings</a> that could affect the launch:</p>
+<ul>
+<li><code>terminal.integrated.shell.{platform}</code> - The path of the shell that the terminal uses.</li>
+<li><code>terminal.integrated.shellArgs.{platform}</code> - The command-line arguments when launching the shell process.</li>
+<li><code>terminal.integrated.cwd</code> - The current working directory (cwd) for the shell process.</li>
+<li><code>terminal.integrated.env.{platform}</code> - Environment variables that will be added to the shell process.</li>
+<li><code>terminal.integrated.inheritEnv</code> - Whether new shells should inherit their environment from VS Code.</li>
+<li><code>terminal.integrated.automationShell.{platform}</code> - Shell path for automation-related terminal usage like tasks and debug.</li>
+<li><code>terminal.integrated.splitCwd</code> - Controls the current working directory a split terminal starts with.</li>
+<li><code>terminal.integrated.windowsEnableConpty</code> - Whether to use ConPTY for Windows terminal process communication.</li>
+</ul>
+<p>You can review settings in the Settings editor (<strong>File</strong> &gt; <strong>Preferences</strong> &gt; <strong>Settings</strong>) and search for specific settings by the setting ID.</p>
+<p><img src="images/troubleshoot-terminal-launch/search-for-settings.png" alt="Search for Integrated terminal settings"></p>
+<p>A quick way to check if you have changed settings that you might not be aware of, is to use the <code>@modified</code> filter in the Settings editor.</p>
+<p><img src="images/troubleshoot-terminal-launch/search-for-modified-settings.png" alt="Filter for modified settings"></p>
+<p>Most Integrated Terminal settings will need to be modified directly in your user <code>settings.json</code> JSON file. You can open <code>settings.json</code> via the <strong>Edit in settings.json</strong> link in the Settings editor or with the <strong>Preferences: Open Settings (JSON)</strong> command from the Command Palette (<code>kb(workbench.action.showCommands)</code>).</p>
+<p><img src="images/troubleshoot-terminal-launch/settings-json-file.png" alt="A user's settings.json file"></p>
+</li>
+<li><p><strong>Test your shell directly.</strong> Try running your designated integrated terminal shell outside VS Code from an external terminal or command prompt. Some terminal launch failures may be due to your shell installation and are not specific to VS Code. The exit codes displayed come from the shell and you may be able to diagnose shell issues by searching on the internet for the specific shell and exit code.</p>
+</li>
+<li><p><strong>Use the most recent version of VS Code.</strong> Each VS Code monthly release has many updates and fixes and may include integrated terminal improvements. You can check your VS Code version via <strong>Help</strong> &gt; <strong>About</strong> (on macOS <strong>Code</strong> &gt; <strong>About Visual Studio Code</strong>). To find the latest version of VS Code, go to the VS Code <a href="/updates">release notes</a>. You may also want to check that you have installed the latest version of your shell.</p>
+</li>
+<li><p><strong>Enable trace logging.</strong> You can enable <a href="https://github.com/microsoft/vscode/wiki/Terminal-Issues#enabling-trace-logging">trace logging</a> and capture a log when launching the terminal. Logging often reveals what is wrong as all arguments used to create the terminal process/pty are recorded. Bad shell names, arguments, or environment variables can cause the terminal to not launch. Keep this log for later if your problem isn't solved.</p>
+</li>
+</ol>
+<h2 id="additional-troubleshooting-steps">Additional troubleshooting steps</h2>
+<p>If none of these steps helped solve the issue, you can also try:</p>
+<ul>
+<li>Ask about it on <a href="https://stackoverflow.com/">Stack Overflow</a>, often launch issues are related to environment setup and not a problem with VS Code.</li>
+<li>If the terminal is being launched from an extension, report the issue to the extension by opening the issue reporter (Help &gt; Report Issue) and set File On = &quot;An Extension&quot;</li>
+<li>If you believe it to be a bug with VS Code, report the issue using the issue reporter (<strong>Help</strong> &gt; <strong>Report Issue</strong>). The issue reporter will autofill relevant information, see <a href="https://github.com/microsoft/vscode/wiki/Terminal-Issues#creating-great-terminal-issues">Creating great terminal issues</a> for what else to include in the report.</li>
+<li>If you're on Windows 10 1809 (build 17763) or below, the issue is related to the legacy &quot;winpty&quot; backend. Upgrading to Windows 1903 (build 18362) will move you onto the new &quot;conpty&quot; backend that is built by Microsoft and could fix your problem.</li>
+</ul>
+<h2 id="exit-codes">Exit codes</h2>
+<p>The exit codes displayed in the terminal launch failure notification are returned from the shell process and are not generated by VS Code. There are many available shells that can be used in the terminal and hundreds of possible exit codes. Try searching on the internet for your specific shell and exit code (for example, &quot;PowerShell 4294901760&quot;) and you may find specific suggestions or known issues related to your terminal launch failure.</p>
+<h2 id="common-issues-on-windows">Common issues on Windows</h2>
+<h3 id="make-sure-compatibility-mode-is-disabled">Make sure compatibility mode is disabled</h3>
+<p>When upgrading to Windows 10, some apps may have compatibility mode turned on automatically. When this happens with VS Code, the terminal breaks as it does some low level things to enable the emulation it uses. You can check and disable compatibility mode by right-clicking on the VS Code executable and selecting properties, then uncheck the <strong>Run this program in compatibility mode</strong> option in the compatibility tab.</p>
+<h3 id="the-terminal-exited-with-code-1-on-windows-10-with-wsl-as-the-default-shell">The terminal exited with code 1 on Windows 10 (with WSL as the default shell)</h3>
+<p>This can happen if Windows Subsystem for Linux (WSL) is not set up with a valid default Linux distribution.</p>
+<p><strong>Note:</strong> 'docker-desktop-data' is not a valid distribution.</p>
+<ul>
+<li>Open PowerShell and enter <code>wslconfig.exe /l</code> to confirm WSL is installed correctly and list the currently available Linux distributions within your system. Confirm a valid distribution has <strong>(default)</strong> next to it.</li>
+<li>To change the default distribution, enter <code>wslconfig.exe /setdefault &quot;distributionNameAsShownInList&quot;</code></li>
+</ul>
+<h3 id="the-terminal-not-working-when-running-the-32-bit-windows-client-on-64-bit-windows">The terminal not working when running the 32-bit Windows client on 64-bit Windows?</h3>
+<p>The easy fix for this issue is to use the 64-bit version. If you must use the 32-bit version, you need to use the sysnative path when configuring your shell path instead of System32. Adding this setting should fix the issue:</p>
+<pre><code class="lang-json">&quot;terminal.integrated.shell.windows&quot;: &quot;C:\\Windows\\Sysnative\\cmd.exe&quot;
+</code></pre>
+<h3 id="a-native-exception-occurred">A native exception occurred</h3>
+<p>Typically this error occurs due to anti-virus software intercepting and blocking the winpty/conpty components from creating the terminal process. To work around this error, you can exclude the following file from your anti-virus scanning:</p>
+<pre><code>{install_path}\resources\app\node_modules.asar.unpacked\node-pty\build\Release\winpty.dll
+{install_path}\resources\app\node_modules.asar.unpacked\node-pty\build\Release\winpty-agent.exe
+{install_path}\resources\app\node_modules.asar.unpacked\node-pty\build\Release\conpty.node
+{install_path}\resources\app\node_modules.asar.unpacked\node-pty\build\Release\conpty_console_list.node
+</code></pre>
+<p>Reporting this issue to the Anti-virus team can also help stamp out the issue all together.</p>
+<h3 id="terminal-exits-with-code-3221225786-or-similar">Terminal exits with code 3221225786 (or similar)</h3>
+<p>This can happen when you have legacy console mode enabled in conhost's properties. To change this, open cmd.exe from the start menu, right-click the title bar, go to <strong>Properties</strong> and under the <strong>Options</strong> tab, uncheck <strong>Use legacy console</strong>.</p>
+<p><img src="images/troubleshoot-terminal-launch/legacy-console-mode.png" alt="Use legacy mode checkbox"></p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            &#0169; 2021 Jason Rose
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

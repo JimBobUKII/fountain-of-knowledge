@@ -1,0 +1,182 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Frequent Asked Questions | Fountain of Knowledge </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Frequent Asked Questions | Fountain of Knowledge ">
+    <meta name="generator" content="docfx 2.57.2.0">
+    
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    <meta property="docfx:rel" content="../../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="frequent-asked-questions">Frequent Asked Questions</h1>
+
+<p>Thanks for your interest in Java on Visual Studio Code! This FAQ will hopefully answer some of the questions you may have.</p>
+<h2 id="are-these-java-extensions-open-source">Are these Java extensions open source?</h2>
+<p>Yes. All the <a href="/docs/java/extensions.md">Java Extensions</a> provided by Red Hat, Microsoft, and Pivotal are open source, as well as most extensions supported by the community. You can find their corresponding repositories on GitHub from the Marketplace pages.</p>
+<h2 id="are-there-any-other-features-coming-to-java-on-visual-studio-code">Are there any other features coming to Java on Visual Studio Code?</h2>
+<p>Definitely. We use GitHub issues to track incoming requests and planned work for each of our extensions. Currently we're working on adding more refactoring and linting features to enhance the editing productivity, as well as some performance improvements to make it even faster.</p>
+<p>Most of our work is collected from and prioritized by customer feedback. If you're interested in providing your thoughts, you can go directly to our project repositories to submit a new issue to share your thoughts.</p>
+<p>We do have limited capacity within the team and we'd really like to encourage more contributions from the great Java community. If you're passionate about your idea and would like to help fellow Java developers, you're welcome to join us! Some areas worth considering including Gradle support, code analysis and test coverage tools, profiler, and additional framework support including DropWizard, JavaFX, JPA, Play, Akka, OSGi.</p>
+<h2 id="can-i-use-keyboard-shortcuts-from-other-ide">Can I use keyboard shortcuts from other IDE?</h2>
+<p>Sure. <a href="/docs/getstarted/keybindings.md#keymap-extensions">Keymap extensions</a> in VS Code modify the VS Code shortcuts to match those of other editors. You can find <a href="https://marketplace.visualstudio.com/items?itemName=k--kato.intellij-idea-keybindings">IntelliJ IDEA Keybindings</a>, <a href="https://marketplace.visualstudio.com/items?itemName=alphabotsec.vscode-eclipse-keybindings">Eclipse Keymap</a> as well as keymaps for other popular editors in <a href="https://marketplace.visualstudio.com/search?target=VSCode&amp;category=Keymaps&amp;sortBy=Downloads">Keymaps category</a> of extensions in the Marketplace.</p>
+<h2 id="where-can-i-find-the-latest-progress-of-java-support-on-visual-studio-code">Where can I find the latest progress of Java support on Visual Studio Code?</h2>
+<p>You can follow us on the <a href="https://devblogs.microsoft.com/java/">Java at Microsoft</a> blog, which will keep you updated on our progress.</p>
+<p>While you're using Java within VS Code, you may also see a <strong>Release Notes</strong> section after you update the <a href="https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-pack">Java Extension Pack</a>. The notes will give you an overview on the notable updates included in the extensions.</p>
+<h2 id="how-can-i-use-visual-studio-code-with-new-java-versions">How can I use Visual Studio Code with new Java versions?</h2>
+<p>Thanks to the upstream update from JDT, you can now build your project up to Java 14 with VS Code as well. To use the experimental/preview language features, you need to modify your project settings.</p>
+<p>Maven - modify <code>pom.xml</code>:</p>
+<pre><code class="lang-xml">  &lt;build&gt;
+    &lt;pluginManagement&gt;
+      &lt;plugins&gt;
+        &lt;plugin&gt;
+          &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;
+          &lt;configuration&gt;
+            &lt;release&gt;14&lt;/release&gt;
+            &lt;compilerArgs&gt;--enable-preview&lt;/compilerArgs&gt;
+          &lt;/configuration&gt;
+        &lt;/plugin&gt;
+      &lt;/plugins&gt;
+    &lt;/pluginManagement&gt;
+  &lt;/build&gt;
+</code></pre>
+<p>Gradle:</p>
+<pre><code class="lang-groovy">sourceCompatibility = 14
+tasks.withType(JavaCompile) {
+    options.compilerArgs += '--enable-preview'
+}
+tasks.withType(Test) {
+    jvmArgs += &quot;--enable-preview&quot;
+}
+</code></pre>
+<blockquote>
+<p>Note: If you are modifying a project that was already opened in VS Code, you may need to force clean the workspace and reload. To do so, run command <strong>Java: Clean Java Language Server Workspace</strong>.</p>
+</blockquote>
+<h2 id="how-can-i-use-it-behind-a-corporate-proxy">How can I use it behind a corporate proxy?</h2>
+<p>When using the Java extension behind a corporate proxy, you might need to let the Java Language server know how to connect to the Internet, in order to download build runtimes, Java dependencies, and their sources through that proxy.</p>
+<p>This is done by configuring the <code>java.jdt.ls.vmargs</code> setting in VS Code preferences (all on one line):</p>
+<pre><code class="lang-json">{
+&quot;java.jdt.ls.vmargs&quot;: &quot;-Dhttp.proxyHost=webproxy.corp.net -Dhttp.proxyPort=proxyport -Dhttp.proxyUser=user -Dhttp.proxyPassword=password -Dhttps.proxyHost=webproxy.corp.net -Dhttps.proxyPort=proxyport -Dhttps.proxyUser=user -Dhttps.proxyPassword=password&quot;
+}
+</code></pre>
+<h2 id="will-this-be-available-for-visual-studio">Will this be available for Visual Studio?</h2>
+<p>Currently we don't plan to extend the Java support to Visual Studio. There are already great IDEs for Java and we're focusing on VS Code to provide a lightweight experience in a polyglot editor.</p>
+<h2 id="does-vs-code-java-support-other-display-languages">Does VS Code Java support other display languages?</h2>
+<p>Currently we support Chinese in addition to English for a few extensions including <a href="https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-debug">Debugger for Java</a>, <a href="https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-test">Java Test Runner</a>, <a href="https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-maven">Maven for Java</a>, <a href="https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-dependency">Project Manager for Java</a>. To learn how to switch the VS Code display language, see <a href="/docs/getstarted/locales.md">Display Languages</a>.</p>
+<p>You can contribute to the extension repositories if you're interested in additional display language support.</p>
+<h2 id="how-to-troubleshoot-and-contribute-to-the-java-language-server">How to troubleshoot and contribute to the Java Language Server</h2>
+<p>You can visit the <a href="https://github.com/redhat-developer/vscode-java/wiki">Java for Visual Studio Code wiki</a> to find answers regarding:</p>
+<ol>
+<li><a href="https://github.com/redhat-developer/vscode-java/wiki/%22Classpath-is-incomplete%22-warning">&quot;Classpath is incomplete&quot; warning</a></li>
+<li><a href="https://github.com/redhat-developer/vscode-java/wiki/Annotation-Processing-support-for-Maven-projects">Annotation Processing support for Maven projects</a></li>
+<li><a href="https://github.com/redhat-developer/vscode-java/wiki/Contribute-a-Java-Extension">Contribute a Java extension</a></li>
+<li><a href="https://github.com/redhat-developer/vscode-java/wiki/Formatter-settings">Formatter settings</a></li>
+<li><a href="https://github.com/redhat-developer/vscode-java/wiki/Lombok-support">Lombok Support</a></li>
+<li><a href="https://github.com/redhat-developer/vscode-java/wiki/Using-a-Proxy">Using a Proxy</a></li>
+<li><a href="https://github.com/redhat-developer/vscode-java/wiki/Troubleshooting">Troubleshooting</a></li>
+</ol>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            &#0169; 2021 Jason Rose
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

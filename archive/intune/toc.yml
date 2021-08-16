@@ -1,0 +1,16 @@
+items:
+- name: Introduction
+  href: index.md
+- name: Plan and implement Windows 10 by using Windows Autopilot
+  href: plan-and-implement-windows-10-by-using-windows-autopilot.md
+- name: Manage Intune device enrollment and inventory
+  href: manage-intune-device-enrollment-and-inventory.md
+- name: Working with Device Profiles
+  href: working-with-device-profiles.md
+- name: Implementing Conditional Access and Compliance Policies
+  href: implementing-conditional-access-and-compliance-policies.md
+- name: Application Deployment with the help of Mobile Application Management (MAM)
+  href: application-deployment-with-the-help-of-mobile-application-management.md
+- name: Managing and Implementing Updates using Intune
+  href: managing-and-implementing-updates-using-intune.md
+  

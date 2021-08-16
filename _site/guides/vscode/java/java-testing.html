@@ -1,0 +1,214 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Testing Java with Visual Studio Code | Fountain of Knowledge </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Testing Java with Visual Studio Code | Fountain of Knowledge ">
+    <meta name="generator" content="docfx 2.57.2.0">
+    
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    <meta property="docfx:rel" content="../../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="testing-java-with-visual-studio-code">Testing Java with Visual Studio Code</h1>
+
+<p>Testing Java in Visual Studio Code is enabled by the <a href="https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-test">Java Test Runner</a> extension. It's a lightweight extension to run and debug Java test cases.</p>
+<h2 id="overview">Overview</h2>
+<p>The extension supports the following test frameworks:</p>
+<ul>
+<li><a href="https://junit.org/junit4/">JUnit 4</a> (v4.8.0+)</li>
+<li><a href="https://junit.org/junit5/">JUnit 5</a> (v5.1.0+)</li>
+<li><a href="https://testng.org/doc/">TestNG</a> (v6.8.0+)</li>
+</ul>
+<blockquote>
+<p>Note: JUnit 3 styled tests are not supported in this extension (for example, <code>extends junit.framework.TestCase</code>).</p>
+</blockquote>
+<p>The <a href="https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-test">Java Test Runner</a> works with the <a href="https://marketplace.visualstudio.com/items?itemName=redhat.java">Language Support for Java by Red Hat</a> and <a href="https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-debug">Debugger for Java</a> extensions to provide the following features:</p>
+<ul>
+<li>Run/Debug test cases</li>
+<li>Customize test configurations</li>
+<li>View test report</li>
+<li>View tests in Test Explorer</li>
+</ul>
+<p><a class="tutorial-install-extension-btn" href="vscode:extension/vscjava.vscode-java-test">Install the Java Test Runner</a></p>
+<p>If you run into any issues when using the features below, you can contact us by clicking the <strong>Report an issue</strong> button below.</p>
+<p><a class="tutorial-feedback-btn" onclick="reportIssue('java-tutorial', 'testing')" href="javascript:void(0)">Report an issue</a></p>
+<h2 id="requirements">Requirements</h2>
+<ul>
+<li>JDK (version 11 or later)</li>
+<li>VS Code (version 1.59.0 or later)</li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=redhat.java">Language Support for Java by Red Hat</a></li>
+<li><a href="https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-debug">Debugger for Java</a></li>
+</ul>
+<h2 id="features">Features</h2>
+<h3 id="rundebug-test-cases">Run/Debug Test Cases</h3>
+<p>The extension will generate shortcuts (the green play button) on the left side of the class and method definition. To run the target test cases, select the green play button. You can also right-click on the play button to see more options.</p>
+<p><img src="images/java-testing/editor-decoration.png" alt="Run/Debug Test Cases"></p>
+<h3 id="test-explorer">Test Explorer</h3>
+<p>The Test Explorer shows all the test cases in your workspace. You can also run/debug your test cases from there.</p>
+<p><img src="images/java-testing/test_explorer.png" alt="Test Explorer"></p>
+<h3 id="customize-test-configurations">Customize test configurations</h3>
+<p>Sometimes you may want to customize the configuration to run your test cases. To achieve this, you can add the configuration into your workspace <a href="/docs/getstarted/settings.md">settings</a> under the section: <code>java.test.config</code>.</p>
+<p><img src="images/java-testing/configuration.png" alt="Customize test configurations"></p>
+<p>More details can be found on the <a href="https://github.com/Microsoft/vscode-java-test/wiki/Run-with-Configuration">vscode-java-test Wiki</a>.</p>
+<h3 id="view-test-results">View test results</h3>
+<p>After running/debugging the test cases, the state of the related test items will be updated in both editor decorations and the Test Explorer.</p>
+<p><img src="images/java-testing/test_report.png" alt="View test results"></p>
+<p>You can trigger the command <strong>Test: Peek Output</strong> to peek the results view. You can select the links in the stack trace to navigate to the source location.</p>
+<h3 id="vs-code-testing-commands">VS Code testing commands</h3>
+<p>There are other testing commands (for example, <strong>Run Tests in Current File</strong>) that can be found by searching for 'Test:' in the Command Palette (<code>kb(workbench.action.showCommands)</code>).</p>
+<p><img src="images/java-testing/command_palette.png" alt="Testing commands in the Command Palette"></p>
+<h2 id="settings">Settings</h2>
+<table>
+<thead>
+<tr>
+<th>Setting Name</th>
+<th>Description</th>
+<th>Default Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>java.test.config</code></td>
+<td>Specify the configuration for the test cases to run with. <a href="https://aka.ms/java-test-config">More details</a>.</td>
+<td><code>{}</code></td>
+</tr>
+<tr>
+<td><code>java.test.defaultConfig</code></td>
+<td>Specify the name of the default test configuration.</td>
+<td><code>&quot;&quot;</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="vs-code-testing-settings">VS Code testing settings</h3>
+<p>There are VS Code settings specific to testing that can be found by searching for 'testing' in the Settings editor (<code>kb(workbench.action.openSettings)</code>).</p>
+<p><img src="images/java-testing/settings.png" alt="Testing settings in the Settings editor"></p>
+<h2 id="project-setup">Project Setup</h2>
+<h3 id="junit-5">JUnit 5</h3>
+<p>Please refer to <a href="https://junit.org/junit5/docs/current/user-guide/#overview-getting-started">Getting Started</a> from the JUnit 5's official website for getting started documentation.</p>
+<blockquote>
+<p>Note: If your project does not use build tools (Maven/Gradle/...), make sure <a href="https://search.maven.org/search?q=g:org.junit.platform%20AND%20a:junit-platform-console-standalone">junit-platform-console-standalone.jar</a> is on your project classpath.</p>
+</blockquote>
+<h3 id="junit-4">JUnit 4</h3>
+<p>Refer to <a href="https://github.com/junit-team/junit4/wiki/Download-and-Install">Download and Install</a> from the JUnit 4's official website for the getting started documentation.</p>
+<h3 id="testng">TestNG</h3>
+<p>Refer to the <a href="https://testng.org/doc/">TestNG documentation</a> from the TestNG official website for getting started information.</p>
+<h2 id="faq">FAQ</h2>
+<p>If you meet any problem when using the extension, you can review the <a href="https://github.com/microsoft/vscode-java-test/wiki/FAQ">FAQ</a> and our <a href="https://github.com/microsoft/vscode-java-test/issues">issue list</a> to check if there is an answer to your problem.</p>
+<h2 id="contributing-and-feedback">Contributing and Feedback</h2>
+<p>If you are interested in providing feedback or contributing directly to the code base, please read <a href="https://github.com/Microsoft/vscode-java-test/blob/main/CONTRIBUTING.md">Contributing to Java Test Runner</a>, which covers the following:</p>
+<ul>
+<li><a href="https://github.com/Microsoft/vscode-java-test/blob/main/CONTRIBUTING.md#questions-and-feedback">Questions and Feedback</a></li>
+<li><a href="https://github.com/Microsoft/vscode-java-test/blob/main/CONTRIBUTING.md#reporting-issues">Reporting Issues</a></li>
+<li><a href="https://github.com/Microsoft/vscode-java-test/blob/main/CONTRIBUTING.md#contributing-fixes">Contributing Fixes</a></li>
+</ul>
+<h2 id="next-steps">Next steps</h2>
+<p>Read on to find out about:</p>
+<ul>
+<li><a href="/docs/java/java-debugging.md">Debugging</a> - Find out how to debug your Java project with VS Code.</li>
+<li><a href="/docs/java/extensions.md">Java Extensions</a> - Learn about more useful Java extensions for VS Code.</li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            &#0169; 2021 Jason Rose
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>
