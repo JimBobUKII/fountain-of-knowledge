@@ -56,7 +56,7 @@
         "cleanupCacheHistory": true,
         "globalMetadata": {
             "_appTitle": "Fountain of Knowledge",
-            "_appFooter": "&#0169; 2021 Jason Rose",
+            "_appFooter": "Copyright &#0169; 2021 Jason Rose",
             "_enableSearch": true,
             "_disableContribution": false,
             "_disableAffix": false,
