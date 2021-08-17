@@ -3,42 +3,32 @@ items:
 - name: Overview
   homepage: overview.md
 - name: JavaScript
-  homepage: XXXXXXXXXXXX.md
+  homepage: javascript.md
 - name: JSON
-  homepage: XXXXXXXXXXXX.md
+  homepage: json.md
 - name: HTML
-  homepage: XXXXXXXXXXXX.md
+  homepage: html.md
 - name: CSS, SCSS and Less
-  homepage: XXXXXXXXXXXX.md
+  homepage: css.md
 - name: TypeScript
-  homepage: XXXXXXXXXXXX.md
+  homepage: typescript.md
 - name: Markdown
-  homepage: XXXXXXXXXXXX.md
+  homepage: markdown.md
 - name: PowerShell
-  homepage: XXXXXXXXXXXX.md
+  homepage: powershell.md
 - name: C++
-  homepage: XXXXXXXXXXXX.md
+  homepage: cpp.md
 - name: Java
-  homepage: XXXXXXXXXXXX.md
+  homepage: java.md
 - name: PHP
-  homepage: XXXXXXXXXXXX.md
+  homepage: php.md
 - name: Python
-  homepage: XXXXXXXXXXXX.md
+  homepage: python.md
 - name: Go
-  homepage: XXXXXXXXXXXX.md
+  homepage: go.md
 - name: T-SQL
-  homepage: XXXXXXXXXXXX.md
+  homepage: tsql.md
 - name: C#
-  homepage: XXXXXXXXXXXX.md
+  homepage: csharp.md
 - name: .NET Core
-  homepage: XXXXXXXXXXXX.md
-
-
-
-
-
-
-
-
-
-
+  homepage: dotnet.md
