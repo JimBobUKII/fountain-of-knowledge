@@ -6,9 +6,9 @@ items:
 - name: Visual Studio Code
   href: vscode/
   homepage: guides/vscode/index.md
+- name: 'Microsoft Exchange'
+  href: exchange/
+  homepage: guides/exchange/index.md
 - name: DocFX
   href: docfx/
   homepage: guides/docfx/docfx_getting_started.md
-- name: ''
-  href: archive/
-  homepage: archive/index.md
