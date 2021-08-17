@@ -1,0 +1,171 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Common Error Cases | Fountain of Knowledge </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Common Error Cases | Fountain of Knowledge ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    <meta property="docfx:rel" content="../../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="common-error-cases">Common Error Cases</h1>
+
+<p>Some errors that occur when using Visual Studio Code can be worked around or resolved by you. This topic describes several common error conditions, listed by error code number, and what you can do to resolve them.</p>
+<h2 id="20002">20002</h2>
+<p><strong>Error:</strong> Cannot find '/usr/bin/gnome-terminal' for launching your Node.js program</p>
+<p>On Linux, the VS Code Node.js debugger requires the <a href="https://help.gnome.org/users/gnome-terminal/stable/">gnome-terminal</a> emulator for launching the Node.js program. If gnome-terminal is not installed, the VS Code debugger cannot launch your program for debugging.</p>
+<p>There are two options for solving this problem:</p>
+<ul>
+<li>Install the gnome-terminal by running the command <code>sudo apt-get install gnome-terminal</code> (or the equivalent of your Linux distribution).</li>
+<li>Manually launch your program in debug mode by passing a <code>--inspect</code> or <code>--inspect-brk</code> option to Node.js and then attach the VS Code debugger to port 9229 on 'localhost'.</li>
+</ul>
+<h2 id="20003">20003</h2>
+<p><strong>Error:</strong> Attribute 'program' is not absolute; consider adding '${workspaceFolder}/' as a prefix to make it absolute.</p>
+<p>This error occurs when you have a relative path in your <a href="/docs/editor/debugging.md#launch-configurations">debug configuration</a> <code>launch.json</code> file (located in your workspace <code>.vscode</code> directory).</p>
+<p>In the example below, the <code>program</code> attribute has a relative path to <code>app.js</code> at the root of the workspace (project folder).</p>
+<pre><code class="lang-json">{
+&quot;version&quot;: &quot;0.2.0&quot;,
+    &quot;configurations&quot;: [
+        {
+            &quot;type&quot;: &quot;node&quot;,
+            &quot;request&quot;: &quot;launch&quot;,
+            &quot;name&quot;: &quot;Launch Program&quot;,
+            &quot;program&quot;: &quot;./app.js&quot;
+        }
+    ]
+}
+</code></pre>
+<p>The fix is to use an absolute path or better use the <code>${workspaceFolder}</code> variable which will resolve to the absolute path of the project folder.</p>
+<pre><code class="lang-json">{
+&quot;version&quot;: &quot;0.2.0&quot;,
+    &quot;configurations&quot;: [
+        {
+            &quot;type&quot;: &quot;node&quot;,
+            &quot;request&quot;: &quot;launch&quot;,
+            &quot;name&quot;: &quot;Launch Program&quot;,
+            &quot;program&quot;: &quot;${workspaceFolder}/app.js&quot;
+        }
+    ]
+}
+</code></pre>
+<p>By using the <code>${workspaceFolder}</code> variable, you won't need to update the absolute path if the project is moved or shared with other developers.</p>
+<p>In previous versions of VS Code, you were allowed to use relative paths in your launch configurations but this was problematic. VS Code now warns you about relative paths when you start a debugging session and recommends prefixing the relative path with <code>${workspaceFolder}/</code>. VS Code also checks other path attributes, such as <code>cwd</code> (current working directory), <code>outFiles</code> (location of other JavaScript files), and <code>runtimeExecutable</code>.</p>
+<blockquote>
+<p><strong>Tip:</strong> See the VS Code <a href="/docs/editor/debugging.md">debugging</a> documentation for more information about <code>launch.json</code>, <a href="/docs/editor/debugging.md#launch-configurations">debugger configuration</a>, and <a href="/docs/editor/variables-reference.md">variable substitution</a>.</p>
+</blockquote>
+<h2 id="didnt-find-a-solution">Didn't find a solution?</h2>
+<h3 id="github-issues">GitHub issues</h3>
+<p>If the steps above don't help you, you may have hit a bug. You can check our <a href="https://github.com/microsoft/vscode/issues">reported issues</a> to see if others have reported the same issue.</p>
+<h3 id="online-search">Online search</h3>
+<p>You can also search the rest of our online <a href="/docs">documentation</a> for answers in our main topics and <strong>Common questions</strong> sections. The online <strong>Search</strong> control is located in the upper right of the <a href="/docs">code.visualstudio.com</a> website.</p>
+<h3 id="stack-overflow">Stack Overflow</h3>
+<p>There is also an active VS Code <a href="https://go.microsoft.com/fwlink/?LinkID=536384">Stack Overflow channel</a> where you can browse answers or ask a question.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/JimBobUKII/fountain-of-knowledge/blob/main/guides/vscode/supporting/errors.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            Copyright &#0169; 2021 Jason Rose
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

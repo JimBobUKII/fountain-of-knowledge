@@ -1,0 +1,294 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Enhanced colorization | Fountain of Knowledge </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Enhanced colorization | Fountain of Knowledge ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    <meta property="docfx:rel" content="../../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="enhanced-colorization">Enhanced colorization</h1>
+
+<p>The Visual Studio Code C/C++ extension now supports semantic colorization, when IntelliSense is enabled.  Use of enhanced colorization is controlled by the C_Cpp.enhancedColorization setting.  This setting is enabled by default.</p>
+<pre><code class="lang-json">&quot;C_Cpp.enhancedColorization&quot;: &quot;Enabled&quot;
+</code></pre>
+<h2 id="themes">Themes</h2>
+<p>Colors can be associated using the existing support for theming and color customization in VS Code.  See the <a href="/docs/getstarted/themes.md">VS Code Themes documentation</a> for more information.</p>
+<p>Colors are associated with <a href="https://code.visualstudio.com/api/extension-guides/color-theme#semantic-colors">semantic tokens</a> as well as <a href="https://macromates.com/manual/en/language_grammars#naming_conventions">TextMate scopes</a>.</p>
+<h3 id="cc-themes-extension">C/C++ Themes Extension</h3>
+<p>We've created a set of VS Code themes that closely resemble the default Light and Dark themes in Visual Studio, and include colors for semantic tokens.  These themes can be found <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools-themes">here</a>.</p>
+<h2 id="intellisense-tokens-and-scopes">IntelliSense Tokens and Scopes</h2>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th style="text-align: center;">Semantic Token name</th>
+<th style="text-align: center;">Fallback TextMate Scope</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Class Template</td>
+<td style="text-align: center;">templateType</td>
+<td style="text-align: center;">entity.name.type.class.templated</td>
+</tr>
+<tr>
+<td>Enumerator</td>
+<td style="text-align: center;">enumMember</td>
+<td style="text-align: center;">variable.other.enummember</td>
+</tr>
+<tr>
+<td>Event (C++/CLI)</td>
+<td style="text-align: center;">event</td>
+<td style="text-align: center;">variable.other.event</td>
+</tr>
+<tr>
+<td>Function</td>
+<td style="text-align: center;">function</td>
+<td style="text-align: center;">entity.name.function</td>
+</tr>
+<tr>
+<td>Function Template</td>
+<td style="text-align: center;">templateFunction</td>
+<td style="text-align: center;">entity.name.function.templated</td>
+</tr>
+<tr>
+<td>Generic Type (C++/CLI)</td>
+<td style="text-align: center;">genericType</td>
+<td style="text-align: center;">entity.name.type.class.generic</td>
+</tr>
+<tr>
+<td>Global Variable</td>
+<td style="text-align: center;">variable.global</td>
+<td style="text-align: center;">variable.other.global</td>
+</tr>
+<tr>
+<td>Label</td>
+<td style="text-align: center;">label</td>
+<td style="text-align: center;">entity.name.label</td>
+</tr>
+<tr>
+<td>Local Variable</td>
+<td style="text-align: center;">variable.local</td>
+<td style="text-align: center;">variable.other.local</td>
+</tr>
+<tr>
+<td>Macro</td>
+<td style="text-align: center;">macro</td>
+<td style="text-align: center;">entity.name.function.preprocessor</td>
+</tr>
+<tr>
+<td>Member Field</td>
+<td style="text-align: center;">property</td>
+<td style="text-align: center;">variable.other.property</td>
+</tr>
+<tr>
+<td>Member Function</td>
+<td style="text-align: center;">member</td>
+<td style="text-align: center;">entity.name.function.member</td>
+</tr>
+<tr>
+<td>Namespace</td>
+<td style="text-align: center;">namespace</td>
+<td style="text-align: center;">entity.name.namespace</td>
+</tr>
+<tr>
+<td>New / Delete</td>
+<td style="text-align: center;">newOperator</td>
+<td style="text-align: center;">keyword.operator.new</td>
+</tr>
+<tr>
+<td>Operator Overload Function</td>
+<td style="text-align: center;">operatorOverload</td>
+<td style="text-align: center;">entity.name.function.operator</td>
+</tr>
+<tr>
+<td>Operator Overload Member</td>
+<td style="text-align: center;">memberOperatorOverload</td>
+<td style="text-align: center;">entity.name.function.operator.member</td>
+</tr>
+<tr>
+<td>Parameter</td>
+<td style="text-align: center;">parameter</td>
+<td style="text-align: center;">variable.parameter</td>
+</tr>
+<tr>
+<td>Property (C++/CLI)</td>
+<td style="text-align: center;">cliProperty</td>
+<td style="text-align: center;">variable.other.property.cli</td>
+</tr>
+<tr>
+<td>Reference Type (C++/CLI)</td>
+<td style="text-align: center;">referenceType</td>
+<td style="text-align: center;">entity.name.type.class.reference</td>
+</tr>
+<tr>
+<td>Static Member Field</td>
+<td style="text-align: center;">property.static</td>
+<td style="text-align: center;">variable.other.property.static</td>
+</tr>
+<tr>
+<td>Static Member Function</td>
+<td style="text-align: center;">member.static</td>
+<td style="text-align: center;">entity.name.function.member.static</td>
+</tr>
+<tr>
+<td>Type</td>
+<td style="text-align: center;">type</td>
+<td style="text-align: center;">entity.name.type</td>
+</tr>
+<tr>
+<td>User-Defined Literal - Number</td>
+<td style="text-align: center;">numberLiteral</td>
+<td style="text-align: center;">entity.name.operator.custom-literal.number</td>
+</tr>
+<tr>
+<td>User-Defined Literal - Raw</td>
+<td style="text-align: center;">customLiteral</td>
+<td style="text-align: center;">entity.name.operator.custom-literal</td>
+</tr>
+<tr>
+<td>User-Defined Literal - String</td>
+<td style="text-align: center;">stringLiteral</td>
+<td style="text-align: center;">entity.name.operator.custom-literal.string</td>
+</tr>
+<tr>
+<td>Value Type (C++/CLI)</td>
+<td style="text-align: center;">valueType</td>
+<td style="text-align: center;">entity.name.type.class.value</td>
+</tr>
+</tbody>
+</table>
+<h2 id="customizing-colors-in-settings">Customizing Colors in Settings</h2>
+<p>Colors can also be overridden globally, in settings:</p>
+<pre><code class="lang-json">    &quot;editor.semanticTokenColorCustomizations&quot;: {
+        &quot;rules&quot;: {
+            &quot;templateType&quot;: {
+                &quot;foreground&quot;: &quot;#ff0000&quot;,
+                &quot;fontStyle&quot;: &quot;italic bold underline&quot;
+            }
+        }
+    }
+</code></pre>
+<p>Or, overridden on a per-theme basis:</p>
+<pre><code class="lang-json">    &quot;editor.semanticTokenColorCustomizations&quot;: {
+        &quot;[Visual Studio Dark]&quot;: {
+            &quot;rules&quot;: {
+                &quot;templateType&quot;: {
+                    &quot;foreground&quot;: &quot;#ff0000&quot;,
+                    &quot;fontStyle&quot;: &quot;italic bold underline&quot;
+                }
+            }
+        }
+    }
+</code></pre>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/JimBobUKII/fountain-of-knowledge/blob/main/guides/vscode/cpp/colorization-cpp.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            Copyright &#0169; 2021 Jason Rose
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,197 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Refactoring | Fountain of Knowledge </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Refactoring | Fountain of Knowledge ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    <meta property="docfx:rel" content="../../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="refactoring">Refactoring</h1>
+
+<p><a href="https://en.wikipedia.org/wiki/Code_refactoring">Source code refactoring</a> can improve the quality and maintainability of your project by restructuring your code while not modifying the runtime behavior. Visual Studio Code supports refactoring operations (refactorings) such as <a href="https://refactoring.com/catalog/extractMethod.html">Extract Method</a> and <a href="https://refactoring.com/catalog/extractVariable.html">Extract Variable</a> to improve your code base from within your editor.</p>
+<p><img src="images/refactoring/refactoring-hero.png" alt="refactoring hero image"></p>
+<p>For example, a common refactoring used to avoid duplicating code (a maintenance headache) is the <a href="https://refactoring.com/catalog/extractMethod.html">Extract Method</a> refactoring, where you select source code that you'd like to reuse elsewhere and pull it out into its own shared method.</p>
+<p>Refactorings are provided by a language service and VS Code has built-in support for TypeScript and JavaScript refactoring through the <a href="https://www.typescriptlang.org/">TypeScript</a> language service. Refactoring support for other programming languages is provided through VS Code <a href="extension-marketplace.html">extensions</a> which contribute language services. The UI and commands for refactoring are the same across languages, and in this topic we'll demonstrate refactoring support with the TypeScript language service.</p>
+<h2 id="code-actions--quick-fixes-and-refactorings">Code Actions = Quick Fixes and refactorings</h2>
+<p>In VS Code, Code Actions can provide both refactorings and Quick Fixes for detected issues (highlighted with green squiggles). An available Code Action is announced by a lightbulb near the source code when the cursor is on a squiggle or selected text region. Clicking on the Code Action lightbulb or using the <strong>Quick Fix</strong> command <code>kb(editor.action.quickFix)</code> will display Quick Fixes and refactorings.</p>
+<p>If you'd just like to see refactorings without Quick Fixes, you can use the <strong>Refactor</strong> command (<code>kb(editor.action.refactor)</code>).</p>
+<blockquote>
+<p><strong>Note:</strong> If you prefer to not see the Code Action lightbulb in your editor, you can disable lightbulbs with the <code>editor.lightbulb.enable</code> <a href="../getstarted/settings.html">setting</a>. You can still open Quick Fixes through <strong>Quick Fix</strong> command and <code>kb(editor.action.quickFix)</code> keyboard shortcut.</p>
+</blockquote>
+<h2 id="refactoring-actions">Refactoring actions</h2>
+<h3 id="extract-method">Extract Method</h3>
+<p>Select the source code you'd like to extract and then click on the lightbulb in the gutter or press (<code>kb(editor.action.quickFix)</code>) to see available refactorings. Source code fragments can be extracted into a new method, or into a new function at various different scopes. During the extract refactoring, you will be prompted to provide a meaningful name.</p>
+<h3 id="extract-variable">Extract Variable</h3>
+<p>TypeScript language service provides <strong>Extract to const</strong>  refactoring to create a new local variable for the currently selected expression:</p>
+<p><img src="images/refactoring/ts-extract-local.gif" alt="Extract local"></p>
+<p>When working with classes, you can also extract a value to a new property.</p>
+<h2 id="rename-symbol">Rename symbol</h2>
+<p>Renaming is a common operation related to refactoring source code and VS Code has a separate <strong>Rename Symbol</strong> command (<code>kb(editor.action.rename)</code>). Some languages support rename symbol across files. Press <code>kb(editor.action.rename)</code> and then type the new desired name and press <code>kbstyle(Enter)</code>. All usages of the symbol will be renamed, across files.</p>
+<p><img src="images/refactoring/rename.png" alt="Rename"></p>
+<h2 id="keybindings-for-code-actions">Keybindings for Code Actions</h2>
+<p>The <code>editor.action.codeAction</code> command lets you configure keybindings for specific Code Actions. This keybinding, for example, triggers the <strong>Extract function</strong> refactoring Code Actions:</p>
+<pre><code class="lang-json">{
+  &quot;key&quot;: &quot;ctrl+shift+r ctrl+e&quot;,
+  &quot;command&quot;: &quot;editor.action.codeAction&quot;,
+  &quot;args&quot;: {
+    &quot;kind&quot;: &quot;refactor.extract.function&quot;
+  }
+}
+</code></pre>
+<p>Code Action kinds are specified by extensions using the enhanced <code>CodeActionProvided</code> API. Kinds are hierarchical, so <code>&quot;kind&quot;: &quot;refactor&quot;</code> will show all refactoring Code Actions, whereas <code>&quot;kind&quot;: &quot;refactor.extract.function&quot;</code> will only show <strong>Extract function</strong> refactorings.</p>
+<p>Using the above keybinding, if only a single <code>&quot;refactor.extract.function&quot;</code> Code Action is available, it will be automatically applied. If multiple <strong>Extract function</strong> Code Actions are available, we bring up a context menu to select them:</p>
+<p><img src="images/refactoring/code-action-context-menu.png" alt="Select Code Action context menu"></p>
+<p>You can also control how/when Code Actions are automatically applied using the <code>apply</code> argument:</p>
+<pre><code class="lang-json">{
+  &quot;key&quot;: &quot;ctrl+shift+r ctrl+e&quot;,
+  &quot;command&quot;: &quot;editor.action.codeAction&quot;,
+  &quot;args&quot;: {
+    &quot;kind&quot;: &quot;refactor.extract.function&quot;,
+    &quot;apply&quot;: &quot;first&quot;
+  }
+}
+</code></pre>
+<p>Valid values for <code>&quot;apply&quot;</code>:</p>
+<ul>
+<li><code>&quot;first&quot;</code> - Always automatically apply the first available Code Action.</li>
+<li><code>&quot;ifSingle&quot;</code> - Default. Automatically apply the Code Action if only one is available. Otherwise, show the context menu.</li>
+<li><code>&quot;never&quot;</code> - Always show the Code Action context menu, even if only a single Code Action is available.</li>
+</ul>
+<p>When a Code Action keybinding is configured with <code>&quot;preferred&quot;: true</code>, only preferred Quick Fixes and refactorings are shown. A preferred Quick Fix addresses the underlying error, while a preferred refactoring is the most common refactoring choice. For example, while multiple <code>refactor.extract.constant</code> refactorings may exist, each extracting to a different scope in the file, the preferred <code>refactor.extract.constant</code> refactoring is the one that extracts to a local variable.</p>
+<p>This keybinding uses <code>&quot;preferred&quot;: true</code> to create a refactoring that always tries to extract the selected source code to a constant in the local scope:</p>
+<pre><code class="lang-json">{
+  &quot;key&quot;: &quot;shift+ctrl+e&quot;,
+  &quot;command&quot;: &quot;editor.action.codeAction&quot;,
+  &quot;args&quot;: {
+    &quot;kind&quot;: &quot;refactor.extract.constant&quot;,
+    &quot;preferred&quot;: true,
+    &quot;apply&quot;: &quot;ifsingle&quot;
+  }
+}
+</code></pre>
+<h2 id="extensions-with-refactorings">Extensions with refactorings</h2>
+<p>You can find extensions that support refactoring by looking in the VS Code <a href="https://marketplace.visualstudio.com/vscode">Marketplace</a>. You can go to the Extensions view (<code>kb(workbench.view.extensions)</code>) and type 'refactor' in the search box. You can then sort by install count or ratings to see which extensions are popular.</p>
+<div class="marketplace-extensions-refactor"></div>
+<blockquote>
+<p>Tip: The extensions shown above are dynamically queried. Click on an extension tile above to read the description and reviews to decide which extension is best for you.</p>
+</blockquote>
+<h2 id="next-steps">Next steps</h2>
+<ul>
+<li><a href="../introvideos/codeediting.html">Intro Video - Code Editing</a> - Watch an introductory video on code editing features.</li>
+<li><a href="editingevolved">Code Navigation</a> - VS Code lets you move quickly through your source code.</li>
+<li><a href="debugging.html">Debugging</a> - Learn about debugging with VS Code.</li>
+</ul>
+<h2 id="common-questions">Common questions</h2>
+<h3 id="why-dont-i-see-any-lightbulbs-when-there-are-errors-in-my-code">Why don't I see any lightbulbs when there are errors in my code?</h3>
+<p>Lightbulbs (Code Actions) are only shown when your cursor hovers over the text showing the error. Hovering over the text will show the error description, but you need to move the cursor or select text to see lightbulbs for Quick Fixes and refactorings.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/JimBobUKII/fountain-of-knowledge/blob/main/guides/vscode/editor/refactoring.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            Copyright &#0169; 2021 Jason Rose
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

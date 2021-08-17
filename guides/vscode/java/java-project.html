@@ -1,0 +1,266 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Java project management in VS Code | Fountain of Knowledge </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Java project management in VS Code | Fountain of Knowledge ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    <meta property="docfx:rel" content="../../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="java-project-management-in-vs-code">Java project management in VS Code</h1>
+
+<p>This document will give you an overview of how to manage your Java project in Visual Studio Code.</p>
+<p>If you run into any issues when using the features below, you can contact us by clicking the <strong>Report an issue</strong> button below.</p>
+<p><a class="tutorial-feedback-btn" onclick="reportIssue('java-tutorial', 'project')" href="javascript:void(0)">Report an issue</a></p>
+<h2 id="project-management">Project management</h2>
+<p>Managing a project in VS Code requires the <a href="https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-dependency">Project Manager for Java</a> extension. The extension helps manage class paths and dependencies, and create new projects, packages, and classes.</p>
+<p><a class="tutorial-install-extension-btn" href="vscode:extension/vscjava.vscode-java-dependency">Install the Project Manager for Java</a></p>
+<h3 id="project-view">Project view</h3>
+<p>Project view helps you view your project and its dependencies, and provides entry points for project management tasks. You can switch between a hierarchy view and flat view.</p>
+<p><img src="images/java-project/projectmanager-overview.png" alt="project view"></p>
+<h3 id="create-a-project">Create a project</h3>
+<p>You can create a project or source only workload by clicking the <strong>+</strong> sign on project view, or through the command: <strong>Java: Create Java Project...</strong>. During creation, VS Code will facilitate installing required extension(s) per your project type, if the extension(s) weren't installed.</p>
+<p><img src="images/java-project/projectmanager-createproject.png" alt="create project"></p>
+<h3 id="import-a-project-or-module">Import a project or module</h3>
+<p>A project or module is imported to a workspace through <strong>File</strong> &gt; <strong>Open Folder</strong> or <strong>File</strong> &gt; <strong>Open Workspace</strong> menu. VS Code for Java will detect your project type automatically. As a tip, you can run the command <strong>Java: Import Java projects in workspace</strong> to reimport a project and alert the language server that there were changes to the project, without reloading your window.</p>
+<h3 id="add-a-dependency">Add a dependency</h3>
+<p>For Maven project, you can add a dependency by clicking the <strong>+</strong> sign next to <strong>Maven Dependencies</strong> node in project view.</p>
+<p><img src="images/java-project/projectmanager-addmavendep.PNG" alt="add maven dependency"></p>
+<h3 id="add-a-jar">Add a JAR</h3>
+<p>JAR file(s) can be added by clicking the <strong>+</strong> sign next to <strong>Referenced Libraries</strong> node in project view.</p>
+<p><img src="images/java-project/manage-dependencies.gif" alt="Add Dependency"></p>
+<p>For more details on library, refer to <a href="/docs/java/java-project.md#library-configuration">Library Configuration</a>.</p>
+<h3 id="export-to-jar">Export to JAR</h3>
+<p>You can export your build to JAR from the project view or by running the command <strong>Java: Export Jar...</strong>.</p>
+<p><img src="images/java-project/exportjar.gif" alt="Export jar from the project view"></p>
+<h2 id="configure-jdk">Configure JDK</h2>
+<p>As Java evolves, it's common that developers work with multiple versions of JDK. To correctly configure your environment and project, you have to know two configurations, <code>java.configuration.runtimes</code> and <code>java.home</code>. The former specifies options for your project's execution environment; the latter specifies your language server's execution environment.</p>
+<blockquote>
+<p><strong>Note</strong>: Although the Java language server requires JDK version 11 or above to run, this is <strong>NOT</strong> a requirement to your project's runtime.</p>
+</blockquote>
+<p>The easiest way for you to configure the JDK is to use the Java Runtime Configuration wizard. You can launch the wizard by opening the <strong>Command Palette</strong> (<code>kb(workbench.action.showCommands)</code>) and typing the command <strong>Java: Configure Java Runtime</strong>, which will bring up the configuration user interface shown below.</p>
+<p><img src="images/java-tutorial/jdk-configuration.png" alt="JDK Configuration"></p>
+<p>If you want to configure without the wizard, please refer below for details.</p>
+<h3 id="jdk-for-projects">JDK for projects</h3>
+<p>VS Code will detect the runtime required for your project and choose the appropriate configuration from <code>java.configuration.runtimes</code>.</p>
+<pre><code class="lang-json">&quot;java.configuration.runtimes&quot;: [
+  {
+    &quot;name&quot;: &quot;JavaSE-1.8&quot;,
+    &quot;path&quot;: &quot;/usr/local/jdk1.8.0_201&quot;
+  },
+  {
+    &quot;name&quot;: &quot;JavaSE-11&quot;,
+    &quot;path&quot;: &quot;/usr/local/jdk-11.0.3&quot;,
+    &quot;sources&quot; : &quot;/usr/local/jdk-11.0.3/lib/src.zip&quot;,
+    &quot;javadoc&quot; : &quot;https://docs.oracle.com/en/java/javase/11/docs/api&quot;,
+    &quot;default&quot;:  true
+   },
+   {
+    &quot;name&quot;: &quot;JavaSE-12&quot;,
+    &quot;path&quot;: &quot;/usr/local/jdk-12.0.2&quot;
+   },
+   {
+    &quot;name&quot;: &quot;JavaSE-13&quot;,
+    &quot;path&quot;: &quot;/usr/local/jdk-13&quot;
+   }
+]
+</code></pre>
+<p>Runtime names must be one of: &quot;J2SE-1.5&quot;, &quot;JavaSE-1.6&quot;, &quot;JavaSE-1.7&quot;, &quot;JavaSE-1.8&quot;, &quot;JavaSE-9&quot;, &quot;JavaSE-10&quot;, &quot;JavaSE-11&quot;, &quot;JavaSE-12&quot;, &quot;JavaSE-13&quot;, &quot;JavaSE-14&quot;, &quot;JavaSE-15&quot;. We will update the list with each supported release of the JDK.</p>
+<blockquote>
+<p><strong>Note</strong>: To enable Java preview features, see <a href="/docs/java/java-faq.md#how-can-i-use-visual-studio-code-with-new-java-versions">How can I use VS Code with new Java versions</a>.</p>
+</blockquote>
+<h3 id="jdk-for-source-only">JDK for source only</h3>
+<p>If you only work with source files and don't use a build tool, VS Code will apply an appropriate runtime using the default configuration of <code>java.configuration.runtimes</code>. If a default isn't specified, VS Code will use the runtime used by the language server, which is determined by the order shown below:</p>
+<p><img src="images/java-project/projectmanager-javahomeconf.png" alt="jdk home"></p>
+<h2 id="library-configuration">Library configuration</h2>
+<p>Behind the scene, there's a setting <code>java.project.referencedLibaries</code> in <code>settings.json</code>. Below are details on how to customize this setting.</p>
+<p><strong>Include libraries</strong></p>
+<p>The libraries to reference are described using a set of glob patterns.</p>
+<p>For example:</p>
+<pre><code class="lang-json">&quot;java.project.referencedLibraries&quot;: [
+    &quot;library/**/*.jar&quot;,
+    &quot;/home/username/lib/foo.jar&quot;
+]
+</code></pre>
+<p>The settings above will add all <code>.jar</code> files in workspace's library folder along with <code>foo.jar</code> from a specified absolute path to the project's external dependencies.</p>
+<p>The referenced libraries are then watched by VS Code, and the project will be refreshed if there is a change to any of these dependent files.</p>
+<p>By default, VS Code will reference all JAR files in workspace's <code>lib</code> directory using the glob pattern <code>lib/**/*.jar</code>.</p>
+<p><strong>Exclude some libraries</strong></p>
+<p>If you want to exclude some libraries from the project, you can expand <code>java.project.referencedLibraries</code> to use <code>include/exclude</code> fields and add an <code>exclude</code> glob pattern:</p>
+<pre><code class="lang-json">&quot;java.project.referencedLibraries&quot;: {
+    &quot;include&quot;: [
+        &quot;library/**/*.jar&quot;,
+        &quot;/home/username/lib/foo.jar&quot;
+    ],
+    &quot;exclude&quot;: [
+        &quot;library/sources/**&quot;
+    ]
+}
+</code></pre>
+<p>In the example above, any binary JAR files in the <code>library/sources</code> folder are ignored as the project's external dependencies.</p>
+<p><strong>Attach source jars</strong></p>
+<p>By default, a referenced <code>{binary}.jar</code> will try to search <code>{binary}-sources.jar</code> under the same directory, and attach it as source if one match is found.</p>
+<p>If you want to manually specify a JAR file as a source attachment, you can provide a key-value map in the <code>sources</code> field:</p>
+<pre><code class="lang-json">&quot;java.project.referencedLibraries&quot;: {
+    &quot;include&quot;: [
+        &quot;library/**/*.jar&quot;,
+        &quot;/home/username/lib/foo.jar&quot;
+    ],
+    &quot;exclude&quot;: [
+        &quot;library/sources/**&quot;
+    ],
+    &quot;sources&quot;: {
+        &quot;library/bar.jar&quot;: &quot;library/sources/bar-src.jar&quot;
+    }
+}
+</code></pre>
+<p>In this way, <code>bar-src.jar</code> is attached to bar.jar as its source.</p>
+<p>In case VS Code throws an error for a classpath issue, try setting your classpath manually by either <a href="https://docs.oracle.com/javadb/10.8.3.0/getstart/tgs26250.html">setting the CLASSPATH environment variable</a> or editing the <code>.classpath</code> file with the path to the JAR file:</p>
+<pre><code class="lang-xml">&lt;classpathentry kind=&quot;lib&quot; path=&quot;lib/log4j.jar&quot;/&gt;
+</code></pre>
+<p>In some rare cases, you may need to clean the Java workspace by executing the <strong>Java: Clean Java Language Server Workspace</strong> command from the Command Palette (<code>kb(workbench.action.showCommands)</code>) to let the language server rebuild your dependencies.</p>
+<h2 id="lightweight-mode">Lightweight Mode</h2>
+<p>VS Code for Java supports two modes, lightweight and standard. With lightweight mode, only source files and JDK are resolved by the language server; with standard mode, imported dependencies are resolved and the project is built by the language server. Lightweight mode works best when you need a super quick-to-start and lightweight environment to work with your source files, for example, reading source code, navigating among source code and JDK, viewing outline and Javadoc, and detecting and fixing syntax errors. Also, code completion is supported within the scope of source files and JDK.</p>
+<p>Lightweight mode doesn't resolve imported dependencies nor build the project, so it does not support running, debugging, refactoring, linting, or detecting semantic errors. For these features to be available, you need to switch your workspace from lightweight mode to standard mode.</p>
+<p>You can control which mode to launch with by configuring <code>java.server.launchMode</code> with the options below:</p>
+<ul>
+<li><code>Hybrid</code> (default) - Firstly, a workspace is opened with lightweight mode. You will be asked whether to switch to standard mode if your workspace contains unresolved Java projects. If you choose <strong>Later</strong>, it will stay in lightweight mode. You can click the server mode icon on the Status bar to manually switch to standard mode.</li>
+<li><code>Standard</code> - A workspace is opened with standard mode.</li>
+<li><code>LightWeight</code> - A workspace is opened with lightweight mode. You can click the server mode icon on the Status bar to manually switch to standard mode.</li>
+</ul>
+<p>The Status bar indicates which mode the current workspace is in using different icons.</p>
+<div id="codicon-listing">
+<ul>
+<li><i class="codicon codicon-rocket"></i> - workspace opened with lightweight mode.</li>
+<li><i class="codicon codicon-sync"></i> - workspace in the process of being opened with standard mode.</li>
+<li><i class="codicon codicon-thumbsup"></i> - workspace opened with standard mode.</li>
+</ul>
+</div>
+<p>Clicking the lightweight mode icon switches to standard mode.</p>
+<p><img src="images/java-project/switch-to-standard.gif" alt="Switch to Standard"></p>
+<h2 id="build-status">Build Status</h2>
+<p>When you edit Java source code in Visual Studio Code, the Java language server is building your workspace to provide you with the necessary language features. You can see the detailed build task status and watch what is happening behind the scene by clicking the language server Status bar icon in the lower right.</p>
+<video autoplay="" loop="" muted="" playsinline="" controls="">
+  <source src="/docs/java/java-project/java.build.status.mp4" type="video/mp4">
+</source></video>
+<h3 id="additional-resources">Additional resources</h3>
+<p>Visit the <a href="https://github.com/microsoft/vscode-maven">GitHub Repo</a> of the Maven extension for additional <a href="https://github.com/microsoft/vscode-maven/tree/main#additional-configurations">configurations</a> and a <a href="https://github.com/microsoft/vscode-maven/blob/main/Troubleshooting.md">troubleshooting guide</a>.</p>
+<p>In addition to Maven, there's also a <a href="https://marketplace.visualstudio.com/items?itemName=BazelBuild.vscode-bazel">Bazel extension</a> if you use Bazel to build and test your project.</p>
+<h2 id="next-steps">Next steps</h2>
+<p>Read on to find out more about:</p>
+<ul>
+<li><a href="/docs/java/java-editing.md">Java Editing</a> - Explore the editing features for Java in VS Code.</li>
+<li><a href="/docs/java/java-debugging.md">Java Debugging</a> - Find out how to debug your Java project with VS Code.</li>
+<li><a href="/docs/java/java-testing.md">Java Testing</a> - Use VS Code for your JUnit and TestNG cases.</li>
+<li><a href="/docs/java/extensions.md">Java Extensions</a> - Learn about more useful Java extensions for VS Code.</li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/JimBobUKII/fountain-of-knowledge/blob/main/guides/vscode/java/java-project.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            Copyright &#0169; 2021 Jason Rose
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

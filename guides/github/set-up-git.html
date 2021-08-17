@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Set up Git | Fountain of Knowledge </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Set up Git | Fountain of Knowledge ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../styles/docfx.css">
+    <link rel="stylesheet" href="../../styles/main.css">
+    <meta property="docfx:navrel" content="../../toc.html">
+    <meta property="docfx:tocrel" content="../toc.html">
+    
+    <meta property="docfx:rel" content="../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../index.html">
+                <img id="logo" class="svg" src="../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h2 id="set-up-git">Set up Git</h2>
+
+<p>To use Git on the command line, you'll need to download, install, and configure Git on your computer. {% ifversion fpt or ghes or ghae %} You can also install GitHub CLI to use {% data variables.product.product_name %} from the command line. For more information on GitHub CLI, see the <a href="https://cli.github.com/manual/">GitHub CLI</a> documentation</p>
+<p>If you want to work with Git locally, but don't want to use the command line, you can instead download and install the [{% data GitHub configuring Desktop]({% data variables.product.desktop_link %}) client.  For more information, see &quot;<a href="/desktop/installing-and-configuring-github-desktop/">Installing and configuring GitHub Desktop</a>.&quot;</p>
+<p>If you don't need to work with files locally, {% data variables.product.product_name %} lets you complete many Git-related actions directly in the browser, including:</p>
+<ul>
+<li><a href="create-a-repo.html">Creating a repository</a></li>
+<li><a href="fork-a-repo.html">Forking a repository</a></li>
+<li><a href="git-cheatsheats.html">Git Cheat Sheets</a></li>
+</ul>
+<h2 id="setting-up-git">Setting up Git</h2>
+<ol>
+<li><a href="https://git-scm.com/downloads">Download and install the latest version of Git</a>.</li>
+<li><a href="/github/getting-started-with-github/setting-your-username-in-git">Set your username in Git</a>.</li>
+<li><a href="/articles/setting-your-commit-email-address">Set your commit email address in Git</a>.</li>
+</ol>
+<h2 id="next-steps-authenticating-with-github-from-git">Next steps: Authenticating with GitHub from Git</h2>
+<p>When you connect to a {% data variables.product.product_name %} repository from Git, you'll need to authenticate with {% data variables.product.product_name %} using either HTTPS or SSH.</p>
+<h3 id="connecting-over-https-recommended">Connecting over HTTPS (recommended)</h3>
+<p>If you <a href="/github/getting-started-with-github/about-remote-repositories/#cloning-with-https-urls">clone with HTTPS</a>, you can <a href="/github/getting-started-with-github/caching-your-github-credentials-in-git">cache your {% data variables.product.prodname_dotcom %} credentials in Git</a> using a credential helper.</p>
+<h3 id="connecting-over-ssh">Connecting over SSH</h3>
+<p>If you <a href="/github/getting-started-with-github/about-remote-repositories/#cloning-with-ssh-urls">clone with SSH</a>, you must <a href="/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent">generate SSH keys</a> on each computer you use to push or pull from {% data variables.product.product_name %}.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/JimBobUKII/fountain-of-knowledge/blob/main/guides/github/set-up-git.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            Copyright &#0169; 2021 Jason Rose
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../styles/main.js"></script>
+  </body>
+</html>

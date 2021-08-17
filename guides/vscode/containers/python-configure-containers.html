@@ -1,0 +1,275 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Configure your Python containers | Fountain of Knowledge </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Configure your Python containers | Fountain of Knowledge ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    <meta property="docfx:rel" content="../../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="configure-your-python-containers">Configure your Python containers</h1>
+
+<p>When containerizing an application for production, your goal should be to port existing code into a separate runtime environment without introducing unforeseen security concerns. For this reason, we recommend selecting the default port for <strong>Python: Django</strong> (8000) or <strong>Python: Flask</strong> (5000) when executing the <strong>Add Dockerfiles to Workspace</strong> command, or opting for a port <strong>greater than</strong> 1023. This will allow VS Code to configure the Dockerfile with non-root access and prevent a malicious user from elevating permissions in the container, ultimately <a href="https://nvd.nist.gov/vuln/detail/CVE-2019-5736">obtaining host machine root access</a>. When you choose <strong>Python: General</strong>, there is no port selection, so the Docker extension configures non-root access by default. In all cases, you must ensure each resource (such as ports and files) modified or used by your application <a href="#invalid-file-permissions-in-the-container">can be accessed</a> by a non-root user in your container.</p>
+<p>If a user selects ports less than 1024 when adding Dockerfiles to workspace, by default, <strong>we cannot</strong> scaffold a Dockerfile that will run the container as a non-root user. This is because ports in this range are called <strong>well-known</strong> or <strong>system</strong> ports and must execute with root privileges in order to bind a network socket to an IP address.</p>
+<p>This guide will help you to:</p>
+<ul>
+<li>Configure a non-root user in your application by modifying your Dockerfile and <code>tasks.json</code>.</li>
+<li>Fix potential errors due to running as a non-root user.</li>
+</ul>
+<h2 id="running-your-containerized-app-as-a-non-root-user">Running your containerized app as a non-root user</h2>
+<p>The <strong>Add Dockerfiles to Workspace</strong> command for Django and Flask automatically sets up non-root privileges if you choose a non-system port. If your current Dockerfile and <code>tasks.json</code> is not setup for non-root usage, follow these steps:</p>
+<ul>
+<li>Run <strong>Add Dockerfiles to Workspace</strong>.</li>
+<li>Choose <strong>Python: Django</strong> or <strong>Python: Flask</strong>.</li>
+<li>Select a port <strong>greater than</strong> 1023.</li>
+<li>Overwrite your current Dockerfile and <code>tasks.json</code>.</li>
+</ul>
+<p>If you chose <strong>Python: General</strong>, non-root privileges will be set up by default, but you may want to modify your Dockerfile and <code>tasks.json</code> as described below to add port access.</p>
+<h3 id="docker-file-changes">Docker file changes</h3>
+<p>Within the Dockerfile, you must expose a <strong>non-system port</strong>, create a working directory for your app code, and then add a non-root user with access to the app directory. Lastly, ensure your exposed port <strong>matches</strong> the port binding of the Gunicorn command. The <code>CMD</code> command below configures Gunicorn for a Django container. For more information on configuring Gunicorn, refer to the documentation on <a href="quickstart-python.html#gunicorn-modifications-for-djangoflask-apps">Gunicorn configuration for Django/Flask apps</a>.</p>
+<pre><code class="lang-dockerfile"># 1024 or higher
+EXPOSE 1024
+
+# ... other directives such as installing requirements.txt file
+
+# Creates /app in container if it does not already exist
+# Ports code into /app
+WORKDIR /app
+ADD . /app
+
+# Creates a non-root user and adds permission to access the /app folder
+RUN useradd appuser &amp;&amp; chown -R appuser /app
+USER appuser
+
+CMD [&quot;gunicorn&quot;, &quot;--bind&quot;, &quot;0.0.0.0:1024&quot;, &quot;pythonPath.to.wsgi&quot;]
+</code></pre>
+<h3 id="modifications-to-tasksjson-for-djangoflask-apps">Modifications to tasks.json for Django\Flask apps</h3>
+<p>After choosing a non-system port and setting up the container to run as a non-root user, we must ensure the <code>docker run</code> task within <code>tasks.json</code> also expects the same port.</p>
+<p><strong>Django apps</strong></p>
+<pre><code class="lang-json">{
+  &quot;type&quot;: &quot;docker-run&quot;,
+  &quot;label&quot;: &quot;docker-run: debug&quot;,
+  &quot;dependsOn&quot;: [
+    &quot;docker-build&quot;
+  ],
+  &quot;python&quot;: {
+    &quot;args&quot;: [
+      &quot;runserver&quot;,
+      &quot;0.0.0.0:1024&quot;, //&lt;- Change the number after the colon
+      &quot;--nothreading&quot;,
+      &quot;--noreload&quot;
+    ],
+    &quot;file&quot;: &quot;manage.py&quot;
+  }
+}
+</code></pre>
+<p><strong>Flask apps</strong></p>
+<pre><code class="lang-json">{
+  &quot;type&quot;: &quot;docker-run&quot;,
+  &quot;label&quot;: &quot;docker-run: debug&quot;,
+  &quot;dependsOn&quot;: [
+    &quot;docker-build&quot;
+  ],
+  &quot;dockerRun&quot;: {
+    &quot;env&quot;: {
+      &quot;FLASK_APP&quot;: &quot;path_to/flask_entry_point.py&quot;
+    }
+  },
+  &quot;python&quot;: {
+    &quot;args&quot;: [
+      &quot;run&quot;,
+      &quot;--no-debugger&quot;,
+      &quot;--no-reload&quot;,
+      &quot;--host&quot;, &quot;0.0.0.0&quot;,
+      &quot;--port&quot;, &quot;1024&quot; //&lt;- Change this port number
+    ],
+    &quot;module&quot;: &quot;flask&quot;
+  }
+}
+</code></pre>
+<h2 id="potential-errors-when-running-as-a-non-root-user">Potential errors when running as a non-root user</h2>
+<p>Following the guide up to this point should eliminate most configuration issues caused by running as a non-root user. However, we have compiled a non-exhaustive list of common errors you may run into.</p>
+<p>If you encounter any other problems due to running as a non-root user, <strong>please</strong> report the issue in the <a href="https://github.com/microsoft/vscode-docker/issues/new">Docker extension</a> repository. We love your feedback!</p>
+<h3 id="invalid-file-permissions-in-the-container">Invalid file permissions in the container</h3>
+<p>If you are reading, writing, or creating a file within your container, a non-root user might not have access to folders or files in specific directories unless directly given.</p>
+<p>For example, if you added to your Dockerfile:</p>
+<pre><code class="lang-dockerfile">RUN mkdir /extra
+</code></pre>
+<p>The <code>/extra</code> folder will be created in the root directory of your container <strong>outside</strong> of the <code>/app</code> folder. Therefore, if you tried to create and write to a file named <code>file.txt</code> with:</p>
+<pre><code class="lang-python">f = open(&quot;/extra/file.txt&quot;, &quot;a&quot;)
+f.write(&quot;We wrote some text&quot;)
+f.close()
+</code></pre>
+<p>You will see the error:</p>
+<pre><code class="lang-python">Exception has occurred: PermissionError
+[Errno 13] Permission denied: '/extra/file.txt'
+</code></pre>
+<p>To solve this issue, we need to correctly add permissions to the non-root user to gain access to this specific file or directory in the container. Within your Dockerfile, add:</p>
+<pre><code class="lang-dockerfile"># Creates a non-root user with an explicit UID and adds permission to access the /app folder
+RUN useradd -u 5678 appuser &amp;&amp; chown -R appuser /app
+
+# Adds permission for appuser (non-root) to access the /extra folder
+RUN chown -R appuser /extra
+</code></pre>
+<blockquote>
+<p><strong>Note</strong>: This is just one example of how to add permissions in a container. There are many ways to do so, and it is your responsibility give the least permission possible to specific files and folders.</p>
+</blockquote>
+<h3 id="invalid-file-permissions-on-the-host-linux">Invalid file permissions on the host (Linux)</h3>
+<p>In the previous example, we showed you how to add permissions to a file or folder on the container as a non-root user. However, if you are trying to access a folder <strong>on the host machine</strong> from within the container as a non-root user, the user ID or group ID in the container must have access to the files on the host. To solve this issue in Linux, you might need to set file access control lists (setfacl).</p>
+<p>If you have a folder named <code>/share</code> on your host machine and try to access this folder before the access control list is properly set, you will likely receive this error:</p>
+<pre><code class="lang-python">PermissionError: [Errno 13] Permission denied: '/share/logs/log.txt'
+</code></pre>
+<p>In order to give access to a non-root user <code>appuser</code> from within the container, follow these steps:</p>
+<ol>
+<li><p>Copy the explicit UID from your Dockerfile (<code>5678</code> in the example above).</p>
+</li>
+<li><p>From the <strong>host machine's</strong> command line, run one of these commands:</p>
+<pre><code class="lang-bash"># Example of giving a User ID with the value of 5678 access to the /share folder on the host machine
+
+setfacl -m u:5678:rwx /share
+
+# Example of giving a Group ID with the value of 6789 access to the /share folder on the host machine
+
+setfacl -m g:6789:rwx /share
+</code></pre>
+</li>
+</ol>
+<h3 id="binding-to-a-low-range-port">Binding to a low-range port</h3>
+<p>If you hit <code>kb(workbench.action.debug.start)</code> to start your container and it immediately stops without producing any logs in the <strong>Debug Console</strong>, this error could mean you are exposing a system-port (ports less than 1024) while attempting to run as a non-root user. This may be hard to catch because, by default, containers are removed after debugging is stopped. To diagnose this port error, follow these steps:</p>
+<ol>
+<li><p>Open and modify your <code>launch.json</code> file:</p>
+<pre><code class="lang-json">{
+  &quot;name&quot;: &quot;Docker: {Configuration Name}&quot;,
+  &quot;type&quot;: &quot;docker&quot;,
+  &quot;request&quot;: &quot;launch&quot;,
+  &quot;preLaunchTask&quot;: &quot;docker-run: debug&quot;,
+  &quot;removeContainerAfterDebug&quot;: false, //&lt;- add this line
+  // ... the rest of the launch configuration
+}
+</code></pre>
+</li>
+<li><p>Hit <code>kb(workbench.action.debug.start)</code> to run your container again.</p>
+</li>
+<li><p>After the container exits once more, navigate to the Docker extension, right-click the container, and select <strong>View Logs</strong>.</p>
+</li>
+</ol>
+<p><img src="images/quickstarts/python-user-rights-view-logs.png" alt="User clicking view logs on their container"></p>
+<p>In a Django app, you may see the error:</p>
+<pre><code class="lang-text">Error: You don't have permission to access that port.
+</code></pre>
+<p>In a Flask app, you may see the error:</p>
+<pre><code class="lang-text">self.socket.bind(self.server_address)
+PermissionError: [Errno 13] Permission denied
+</code></pre>
+<p>The image above is a problematic configuration because a port <strong>less than</strong> 1024 was selected.</p>
+<p>To solve this issue, modify your Dockerfile and <code>tasks.json</code> file in the manner shown in the <a href="#running-your-containerized-app-as-a-nonroot-user">Running your containerized app as a non-root user</a> section.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/JimBobUKII/fountain-of-knowledge/blob/main/guides/vscode/containers/python-configure-containers.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            Copyright &#0169; 2021 Jason Rose
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

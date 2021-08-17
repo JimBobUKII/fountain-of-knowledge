@@ -1,0 +1,978 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Integrate with External Tools via Tasks | Fountain of Knowledge </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Integrate with External Tools via Tasks | Fountain of Knowledge ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    <meta property="docfx:rel" content="../../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="integrate-with-external-tools-via-tasks">Integrate with External Tools via Tasks</h1>
+
+<hr>
+<p>If you are using Visual Studio Code version 1.13 or earlier, refer to the previous version of the Tasks <a href="tasks-v1.html">documentation</a>.</p>
+<hr>
+<p>Lots of tools exist to automate tasks like linting, building, packaging, testing, or deploying software systems. Examples include the <a href="https://www.typescriptlang.org/">TypeScript Compiler</a>, linters like <a href="https://eslint.org/">ESLint</a> and <a href="https://palantir.github.io/tslint/">TSLint</a> as well as build systems like <a href="https://en.wikipedia.org/wiki/Make_software">Make</a>, <a href="https://ant.apache.org/">Ant</a>, <a href="https://gulpjs.com/">Gulp</a>, <a href="https://jakejs.com/">Jake</a>, <a href="https://ruby.github.io/rake/">Rake</a>, and <a href="https://github.com/microsoft/msbuild">MSBuild</a>.</p>
+<p><img src="images/tasks/tasks_hero.png" alt="VS Code can talk to a variety of external tools"></p>
+<p>These tools are mostly run from the command line and automate jobs inside and outside the inner software development loop (edit, compile, test, and debug). Given their importance in the development life cycle, it is helpful to be able to run tools and analyze their results from within VS Code. Tasks in VS Code can be configured to run scripts and start processes so that many of these existing tools can be used from within VS Code without having to enter a command line or write new code. Workspace or folder specific tasks are configured from the <code>tasks.json</code> file in the <code>.vscode</code> folder for a workspace.</p>
+<p>Extensions can also contribute tasks using a <a href="/api/extension-guides/task-provider.md">Task Provider</a>, and these contributed tasks can add workspace-specific configurations defined in the <code>tasks.json</code> file.</p>
+<blockquote>
+<p><strong>Note:</strong> Task support is only available when working on a workspace folder. It is not available when editing single files.</p>
+</blockquote>
+<h2 id="typescript-hello-world">TypeScript Hello World</h2>
+<p>Let's start with a simple &quot;Hello World&quot; TypeScript program that we want to compile to JavaScript.</p>
+<p>Create an empty folder &quot;mytask&quot;, generate a <code>tsconfig.json</code> file and start VS Code from that folder.</p>
+<pre><code class="lang-bash">mkdir mytask
+cd mytask
+tsc --init
+code .
+</code></pre>
+<p>Now create a <code>HelloWorld.ts</code> file with the following content</p>
+<pre><code class="lang-ts">function sayHello(name: string): void {
+    console.log(`Hello ${name}!`);
+}
+
+sayHello('Dave');
+</code></pre>
+<p>Pressing <code>kb(workbench.action.tasks.build)</code> or running <strong>Run Build Task</strong> from the global <strong>Terminal</strong> menu show the following picker:</p>
+<p><img src="images/tasks/typescript-build.png" alt="TypeScript Build Task"></p>
+<p>The first entry executes the TypeScript compiler and translates the TypeScript file to a JavaScript file. When the compiler has finished, there should be a <code>HelloWorld.js</code> file. The second entry starts the TypeScript compiler in watch mode. Every save to the <code>HelloWorld.ts</code> file will regenerate the <code>HelloWorld.js</code> file.</p>
+<p>You can also define the TypeScript build or watch task as the default build task so that it is executed directly when triggering <strong>Run Build Task</strong> (<code>kb(workbench.action.tasks.build)</code>). To do so, select <strong>Configure Default Build Task</strong> from the global <strong>Terminal</strong> menu. This shows you a picker with the available build tasks. Select <strong>tsc: build</strong> or <strong>tsc: watch</strong> and VS Code will generate a <code>tasks.json</code> file. The one shown below makes the <strong>tsc: build</strong> task the default build task:</p>
+<pre><code class="lang-json">{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    &quot;version&quot;: &quot;2.0.0&quot;,
+    &quot;tasks&quot;: [
+        {
+            &quot;type&quot;: &quot;typescript&quot;,
+            &quot;tsconfig&quot;: &quot;tsconfig.json&quot;,
+            &quot;problemMatcher&quot;: [
+                &quot;$tsc&quot;
+            ],
+            &quot;group&quot;: {
+                &quot;kind&quot;: &quot;build&quot;,
+                &quot;isDefault&quot;: true
+            }
+        }
+    ]
+}
+</code></pre>
+<p>Unlike the previous <code>0.1.0</code> version of the <code>tasks.json</code> file, this does not define a new task. It annotates the <strong>tsc: build</strong> tasks contributed by VS Code's TypeScript extension to be the default build task. You can now execute the TypeScript compiler by pressing <code>kb(workbench.action.tasks.build)</code>.</p>
+<h2 id="task-auto-detection">Task auto-detection</h2>
+<p>VS Code currently auto-detects tasks for the following systems: Gulp, Grunt, Jake, and npm. We are working with the corresponding extension authors to add support for Maven and the C# <code>dotnet</code> command as well. If you develop a JavaScript application using Node.js as the runtime, you usually have a <code>package.json</code> file describing your dependencies and the scripts to run. If you have cloned the <a href="https://github.com/spicydonuts/eslint-starter">eslint-starter</a> example, then executing <strong>Run Tasks</strong> from the global menu shows the following list:</p>
+<p><img src="images/tasks/eslint-starter.png" alt="Tasks ESLint starter"></p>
+<p>If you have not already done so, install the necessary npm modules by running <code>npm install</code>. Now open the <code>server.js</code> file and add a semicolon to the end of a statement (note the ESLint starter assumes statements without a semicolon) and execute the <strong>Run Tasks</strong> again. This time select the <strong>npm: lint</strong> task. When prompted for the problem matcher to use, select <strong>ESLint stylish</strong></p>
+<p><img src="images/tasks/eslint-problem-matcher-selection.png" alt="Tasks ESLint Problem Matcher Selection"></p>
+<p>Executing the task produces one error, shown in the <strong>Problems</strong> view:</p>
+<p><img src="images/tasks/eslint-problem.png" alt="Tasks ESLint Problem"></p>
+<p>In addition, VS Code created a <code>tasks.json</code> file with the following content:</p>
+<pre><code class="lang-json">{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    &quot;version&quot;: &quot;2.0.0&quot;,
+    &quot;tasks&quot;: [
+        {
+            &quot;type&quot;: &quot;npm&quot;,
+            &quot;script&quot;: &quot;lint&quot;,
+            &quot;problemMatcher&quot;: [
+                &quot;$eslint-stylish&quot;
+            ]
+        }
+    ]
+}
+</code></pre>
+<p>This instructs VS Code to scan the output of the <strong>npm lint</strong> script for problems using the ESLint stylish format.</p>
+<p>For Gulp, Grunt, and Jake, the task auto-detection works the same. Below is an example of the tasks detected for the <a href="https://github.com/microsoft/vscode-node-debug">vscode-node-debug</a> extension.</p>
+<p><img src="images/tasks/gulp-auto-detect.png" alt="Gulp task auto-detection"></p>
+<blockquote>
+<p><strong>Tip:</strong> You can run your task through <strong>Quick Open</strong> (<code>kb(workbench.action.quickOpen)</code>) by typing 'task', <code>kbstyle(Space)</code> and the command name. In this case, 'task lint'.</p>
+</blockquote>
+<p>Task auto detection can be disabled using the following settings:</p>
+<pre><code class="lang-json">{
+    &quot;typescript.tsc.autoDetect&quot;: &quot;off&quot;,
+    &quot;grunt.autoDetect&quot;: &quot;off&quot;,
+    &quot;jake.autoDetect&quot;: &quot;off&quot;,
+    &quot;gulp.autoDetect&quot;: &quot;off&quot;,
+    &quot;npm.autoDetect&quot;: &quot;off&quot;
+}
+</code></pre>
+<h2 id="custom-tasks">Custom tasks</h2>
+<p>Not all tasks or scripts can be auto-detected in your workspace. Sometimes it is necessary to define your own custom tasks. Assume you have a script to run your tests in order to set up some environment correctly. The script is stored in a script folder inside your workspace and named <code>test.sh</code> for Linux and macOS and <code>test.cmd</code> for Windows. Run <strong>Configure Tasks</strong> from the global <strong>Terminal</strong> menu and select the <strong>Create tasks.json file from template</strong> entry. This opens the following picker:</p>
+<p><img src="images/tasks/configure-task-runner.png" alt="Configure Task Runner"></p>
+<blockquote>
+<p><strong>Note:</strong> If you don't see the list of task runner templates, you may already have a <code>tasks.json</code> file in your folder and its contents will be open in the editor. Close the file and either delete or rename it for this example.</p>
+</blockquote>
+<p>We are working on more auto-detection support, so this list will get smaller and smaller in the future. Since we want to write our own custom task, select <strong>Others</strong> from the list. This opens the <code>tasks.json</code> file with a task skeleton. Replace the contents with the following:</p>
+<pre><code class="lang-json">{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    &quot;version&quot;: &quot;2.0.0&quot;,
+    &quot;tasks&quot;: [
+        {
+            &quot;label&quot;: &quot;Run tests&quot;,
+            &quot;type&quot;: &quot;shell&quot;,
+            &quot;command&quot;: &quot;./scripts/test.sh&quot;,
+            &quot;windows&quot;: {
+                &quot;command&quot;: &quot;.\\scripts\\test.cmd&quot;
+            },
+            &quot;group&quot;: &quot;test&quot;,
+            &quot;presentation&quot;: {
+                &quot;reveal&quot;: &quot;always&quot;,
+                &quot;panel&quot;: &quot;new&quot;
+            }
+        }
+    ]
+}
+</code></pre>
+<p>The task's properties have the following semantic:</p>
+<ul>
+<li><strong>label</strong>: The task's label used in the user interface.</li>
+<li><strong>type</strong>: The task's type. For a custom task, this can either be <code>shell</code> or <code>process</code>. If <code>shell</code> is specified, the command is interpreted as a shell command (for example: bash, cmd, or PowerShell). If <code>process</code> is specified, the command is interpreted as a process to execute.</li>
+<li><strong>command</strong>: The actual command to execute.</li>
+<li><strong>windows</strong>: Any Windows specific properties. Will be used instead of the default properties when the command is executed on the Windows operating system.</li>
+<li><strong>group</strong>: Defines to which group the task belongs. In the example, it belongs to the <code>test</code> group. Tasks that belong to the test group can be executed by running <strong>Run Test Task</strong> from the <strong>Command Palette</strong>.</li>
+<li><strong>presentation</strong>: Defines how the task output is handled in the user interface. In this example, the Integrated Terminal showing the output is <code>always</code> revealed and a <code>new</code> terminal is created on every task run.</li>
+<li><strong>options</strong>: Override the defaults for <code>cwd</code> (current working directory), <code>env</code> (environment variables), or <code>shell</code> (default shell). Options can be set per task but also globally or per platform. Environment variables configured here can only be referenced from within your task script or process and will not be resolved if they are part of your args, command, or other task attributes.</li>
+<li><strong>runOptions</strong>: Defines when and how a task is run.</li>
+</ul>
+<p>You can see the full set of task properties and values with IntelliSense in your <code>tasks.json</code> file. Bring up suggestions with <strong>Trigger Suggest</strong> (<code>kb(editor.action.triggerSuggest)</code>) and read the descriptions on hover or with the <strong>Read More...</strong> ('i') flyout.</p>
+<p><img src="images/tasks/tasks-intellisense.png" alt="tasks.json IntelliSense"></p>
+<p>You can also review the <a href="tasks-appendix.html">tasks.json schema</a>.</p>
+<p>Shell commands need special treatment when it comes to commands and arguments that contain spaces or other special characters like <code>$</code>. By default, the task system supports the following behavior:</p>
+<ul>
+<li>If a single command is provided, the task system passes the command as is to the underlying shell. If the command needs quoting or escaping to function properly, the command needs to contain the proper quotes or escape characters. For example, to list the directory of a folder containing spaces in its name, the command executed in bash should look like this: <code>ls 'folder with spaces'</code>.</li>
+</ul>
+<pre><code class="lang-json">{
+  &quot;label&quot;: &quot;dir&quot;,
+  &quot;type&quot;: &quot;shell&quot;,
+  &quot;command&quot;: &quot;dir 'folder with spaces'&quot;
+}
+</code></pre>
+<ul>
+<li>If a command and arguments are provided, the task system will use single quotes if the command or arguments contain spaces. For <code>cmd.exe</code>, double quotes are used. A shell command like below will be executed in PowerShell as <code>dir 'folder with spaces'</code>.</li>
+</ul>
+<pre><code class="lang-json">{
+  &quot;label&quot;: &quot;dir&quot;,
+  &quot;type&quot;: &quot;shell&quot;,
+  &quot;command&quot;: &quot;dir&quot;,
+  &quot;args&quot;: [
+    &quot;folder with spaces&quot;
+  ]
+}
+</code></pre>
+<ul>
+<li>If you want to control how the argument is quoted, the argument can be a literal specifying the value and a quoting style. The example below uses escaping instead of quoting for an argument with spaces.</li>
+</ul>
+<pre><code class="lang-json">{
+  &quot;label&quot;: &quot;dir&quot;,
+  &quot;type&quot;: &quot;shell&quot;,
+  &quot;command&quot;: &quot;dir&quot;,
+  &quot;args&quot;: [
+    {
+      &quot;value&quot;: &quot;folder with spaces&quot;,
+      &quot;quoting&quot;: &quot;escape&quot;
+    }
+  ]
+}
+</code></pre>
+<p>Besides escaping, the following values are supported:</p>
+<ul>
+<li><strong>strong</strong>: Uses the shell's strong quoting mechanism, which suppresses all evaluations inside the string. Under PowerShell and for shells under Linux and macOS, single quotes are used (<code>'</code>). For cmd.exe, <code>&quot;</code> is used.</li>
+<li><strong>weak</strong>: Uses the shell's weak quoting mechanism, which still evaluates expression inside the string (for example, environment variables). Under PowerShell and for shells under Linux and macOS, double quotes are used (<code>&quot;</code>). cmd.exe doesn't support weak quoting so VS Code uses <code>&quot;</code> as well.</li>
+</ul>
+<p>If the command itself contains spaces, VS Code will by default strong quote the command as well. As with arguments, the user can control the quoting of the command using the same literal style.</p>
+<p>There are more task properties to configure your workflow. You can use IntelliSense with <code>kb(editor.action.triggerSuggest)</code> to get an overview of the valid properties.</p>
+<p><img src="images/tasks/intellisense.png" alt="Tasks IntelliSense"></p>
+<p>In addition to the global menu bar, task commands can be accessed using the <strong>Command Palette</strong> (<code>kb(workbench.action.showCommands)</code>). You can filter on 'task' and can see the various task related commands.</p>
+<p><img src="images/tasks/command-palette.png" alt="Tasks in Command Palette"></p>
+<h3 id="compound-tasks">Compound tasks</h3>
+<p>You can also compose tasks out of simpler tasks with the <code>dependsOn</code> property. For example, if you have a workspace with a client and server folder and both contain a build script, you can create a task that starts both build scripts in separate terminals. If you list more than one task in the <code>dependsOn</code> property, they are executed in parallel by default.</p>
+<p>The <code>tasks.json</code> file looks like this:</p>
+<pre><code class="lang-json">{
+    &quot;version&quot;: &quot;2.0.0&quot;,
+    &quot;tasks&quot;: [
+        {
+            &quot;label&quot;: &quot;Client Build&quot;,
+            &quot;command&quot;: &quot;gulp&quot;,
+            &quot;args&quot;: [&quot;build&quot;],
+            &quot;options&quot;: {
+                &quot;cwd&quot;: &quot;${workspaceFolder}/client&quot;
+            }
+        },
+        {
+            &quot;label&quot;: &quot;Server Build&quot;,
+            &quot;command&quot;: &quot;gulp&quot;,
+            &quot;args&quot;: [&quot;build&quot;],
+            &quot;options&quot;: {
+                &quot;cwd&quot;: &quot;${workspaceFolder}/server&quot;
+            }
+        },
+        {
+            &quot;label&quot;: &quot;Build&quot;,
+            &quot;dependsOn&quot;: [&quot;Client Build&quot;, &quot;Server Build&quot;]
+        }
+    ]
+}
+</code></pre>
+<p>If you specify <code>&quot;dependsOrder&quot;: &quot;sequence&quot;</code> then your task dependencies are executed in the order they are listed in <code>dependsOn</code>. Any background/watch tasks used in <code>dependsOn</code> with <code>&quot;dependsOrder&quot;: &quot;sequence&quot;</code> must have a problem matcher that tracks when they are &quot;done&quot;. The following task runs task Two, task Three, and then task One.</p>
+<pre><code class="lang-json">{
+    &quot;label&quot;: &quot;One&quot;,
+    &quot;type&quot;: &quot;shell&quot;,
+    &quot;command&quot;: &quot;echo Hello &quot;,
+    &quot;dependsOrder&quot;: &quot;sequence&quot;,
+    &quot;dependsOn&quot;:[
+        &quot;Two&quot;,
+        &quot;Three&quot;
+    ]
+}
+</code></pre>
+<h3 id="user-level-tasks">User level tasks</h3>
+<p>You can create user level tasks that are not tied to a specific workspace or folder using the <strong>Tasks: Open User Tasks</strong> command. Only <code>shell</code> and <code>process</code> tasks can be used here since other task types require workspace information.</p>
+<h2 id="output-behavior">Output behavior</h2>
+<p>Sometimes you want to control how the Integrated Terminal panel behaves when running tasks. For instance, you may want to maximize editor space and only look at task output if you think there is a problem. The behavior of the terminal can be controlled using the <code>presentation</code> property of a task. It offers the following properties:</p>
+<ul>
+<li><strong>reveal</strong>: Controls whether the Integrated Terminal panel is brought to front. Valid values are:
+<ul>
+<li><em>always</em> - The panel is always brought to front. This is the default.</li>
+<li><em>never</em> - The user must explicitly bring the terminal panel to the front using the  <strong>View</strong> &gt; <strong>Terminal</strong> command (<code>kb(workbench.action.terminal.toggleTerminal)</code>).</li>
+<li><em>silent</em> - The terminal panel is brought to front only if the output is not scanned for errors and warnings.</li>
+</ul>
+</li>
+<li><strong>focus</strong>: Controls whether the terminal is taking input focus or not. Default is <code>false</code>.</li>
+<li><strong>echo</strong>: Controls whether the executed command is echoed in the terminal. Default is <code>true</code>.</li>
+<li><strong>showReuseMessage</strong>: Controls whether to show the &quot;Terminal will be reused by tasks, press any key to close it&quot; message.</li>
+<li><strong>panel</strong>: Controls whether the terminal instance is shared between task runs. Possible values are:
+<ul>
+<li><em>shared</em>: The terminal is shared and the output of other task runs are added to the same terminal.</li>
+<li><em>dedicated</em>: The terminal is dedicated to a specific task. If that task is executed again, the terminal is reused. However, the output of a different task is presented in a different terminal.</li>
+<li><em>new</em>: Every execution of that task is using a new clean terminal.</li>
+</ul>
+</li>
+<li><strong>clear</strong>: Controls whether the terminal is cleared before this task is run. Default is <code>false</code>.</li>
+<li><strong>group</strong>: Controls whether the task is executed in a specific terminal group using split panes. Tasks in the same group (specified by a string value) will use split terminals to present instead of a new terminal panel.</li>
+</ul>
+<p>You can modify the terminal panel behavior for auto-detected tasks as well. For example, if you want to change the output behavior for the <strong>npm: run lint</strong> from the ESLint example from above, add the <code>presentation</code> property to it:</p>
+<pre><code class="lang-json">{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    &quot;version&quot;: &quot;2.0.0&quot;,
+    &quot;tasks&quot;: [
+        {
+            &quot;type&quot;: &quot;npm&quot;,
+            &quot;script&quot;: &quot;lint&quot;,
+            &quot;problemMatcher&quot;: [
+                &quot;$eslint-stylish&quot;
+            ],
+            &quot;presentation&quot;: {
+                &quot;reveal&quot;: &quot;never&quot;
+            }
+        }
+    ]
+}
+
+</code></pre>
+<p>You can also mix custom tasks with configurations for detected tasks. A <code>tasks.json</code> that configures the <strong>npm: run lint</strong> task and adds a custom <strong>Run Test</strong> tasks looks like this:</p>
+<pre><code class="lang-json">{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    &quot;version&quot;: &quot;2.0.0&quot;,
+    &quot;tasks&quot;: [
+        {
+            &quot;type&quot;: &quot;npm&quot;,
+            &quot;script&quot;: &quot;lint&quot;,
+            &quot;problemMatcher&quot;: [
+                &quot;$eslint-stylish&quot;
+            ],
+            &quot;presentation&quot;: {
+                &quot;reveal&quot;: &quot;never&quot;
+            }
+        },
+        {
+            &quot;label&quot;: &quot;Run tests&quot;,
+            &quot;type&quot;: &quot;shell&quot;,
+            &quot;command&quot;: &quot;./scripts/test.sh&quot;,
+            &quot;windows&quot;: {
+                &quot;command&quot;: &quot;.\\scripts\\test.cmd&quot;
+            },
+            &quot;group&quot;: &quot;test&quot;,
+            &quot;presentation&quot;: {
+                &quot;reveal&quot;: &quot;always&quot;,
+                &quot;panel&quot;: &quot;new&quot;
+            }
+        }
+    ]
+}
+
+</code></pre>
+<h2 id="run-behavior">Run behavior</h2>
+<p>You can specify a task's run behaviors using the <code>runOptions</code> property:</p>
+<ul>
+<li><strong>reevaluateOnRerun</strong>: Controls how variables are evaluated when a task is executed through the <strong>Rerun Last Task</strong> command. The default is <code>true</code>, meaning that variables will be reevaluated when a task is rerun. When set to <code>false</code> the resolved variable values from the previous run of the task will be used.</li>
+<li><strong>runOn</strong>: Specifies when a task is run.
+<ul>
+<li><code>default</code>: The task will only be run when executed through the <strong>Run Task</strong> command.</li>
+<li><code>folderOpen</code>: The task will be run when the containing folder is opened. The first time you open a folder that contains a task with <code>folderOpen</code>, you will be asked if you want to allow tasks to run automatically in that folder. You can change your decision later using the <strong>Allow Automatic Tasks in Folder</strong> and <strong>Disallow Automatic Tasks in Folder</strong> commands.</li>
+</ul>
+</li>
+</ul>
+<h2 id="customizing-auto-detected-tasks">Customizing auto-detected tasks</h2>
+<p>As mentioned above, you can customize auto-detected tasks in the <code>tasks.json</code> file. You usually do so to modify presentation properties or to attach a problem matcher to scan the task's output for errors and warnings. You can customize a task directly from the <strong>Run Task</strong> list by pressing the gear icon to the right to insert the corresponding task reference into the <code>tasks.json</code> file. Assume you have the following Gulp file to lint JavaScript files using ESLint (the file is taken from <a href="https://github.com/adametry/gulp-eslint">https://github.com/adametry/gulp-eslint</a>):</p>
+<pre><code class="lang-js">const gulp = require('gulp');
+const eslint = require('gulp-eslint');
+
+gulp.task('lint', () =&gt; {
+    // ESLint ignores files with &quot;node_modules&quot; paths.
+    // So, it's best to have gulp ignore the directory as well.
+    // Also, Be sure to return the stream from the task;
+    // Otherwise, the task may end before the stream has finished.
+    return gulp.src(['**/*.js','!node_modules/**'])
+        // eslint() attaches the lint output to the &quot;eslint&quot; property
+        // of the file object so it can be used by other modules.
+        .pipe(eslint())
+        // eslint.format() outputs the lint results to the console.
+        // Alternatively use eslint.formatEach() (see Docs).
+        .pipe(eslint.format())
+        // To have the process exit with an error code (1) on
+        // lint error, return the stream and pipe to failAfterError last.
+        .pipe(eslint.failAfterError());
+});
+
+gulp.task('default', ['lint'], function () {
+    // This will only run if the lint task is successful...
+});
+</code></pre>
+<p>Executing <strong>Run Task</strong> from the global <strong>Terminal</strong> menu will show the following picker:</p>
+<p><img src="images/tasks/configure-tasks.png" alt="Configure Task"></p>
+<p>Press the gear icon. This will create the following <code>tasks.json</code> file:</p>
+<pre><code class="lang-json">{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    &quot;version&quot;: &quot;2.0.0&quot;,
+    &quot;tasks&quot;: [
+        {
+            &quot;type&quot;: &quot;gulp&quot;,
+            &quot;task&quot;: &quot;default&quot;,
+            &quot;problemMatcher&quot;: []
+        }
+    ]
+}
+</code></pre>
+<p>Usually you would now add a problem matcher (in this case <code>$eslint-stylish</code>) or modify the presentation settings.</p>
+<h2 id="processing-task-output-with-problem-matchers">Processing task output with problem matchers</h2>
+<p>VS Code can process the output from a task with a problem matcher. Problem matchers scan the task output text for known warning or error strings, and report these inline in the editor and in the Problems panel. VS Code ships with several problem matchers 'in-the-box':</p>
+<ul>
+<li><strong>TypeScript</strong>: <code>$tsc</code> assumes that file names in the output are relative to the opened folder.</li>
+<li><strong>TypeScript Watch</strong>: <code>$tsc-watch</code> matches problems reported from the <code>tsc</code> compiler when executed in watch mode.</li>
+<li><strong>JSHint</strong>: <code>$jshint</code> assumes that file names are reported as an absolute path.</li>
+<li><strong>JSHint Stylish</strong>: <code>$jshint-stylish</code> assumes that file names are reported as an absolute path.</li>
+<li><strong>ESLint Compact</strong>: <code>$eslint-compact</code> assumes that file names in the output are relative to the opened folder.</li>
+<li><strong>ESLint Stylish</strong>: <code>$eslint-stylish</code> assumes that file names in the output are relative to the opened folder.</li>
+<li><strong>Go</strong>: <code>$go</code> matches problems reported from the <code>go</code> compiler. Assumes that file names are relative to the opened folder.</li>
+<li><strong>CSharp and VB Compiler</strong>: <code>$mscompile</code> assumes that file names are reported as an absolute path.</li>
+<li><strong>Lessc compiler</strong>: <code>$lessc</code> assumes that file names are reported as absolute path.</li>
+<li><strong>Node Sass compiler</strong>: <code>$node-sass</code> assumes that file names are reported as an absolute path.</li>
+</ul>
+<p>You can also create your own problem matcher, which we'll discuss <a href="tasks.html#defining-a-problem-matcher">in a later section</a>.</p>
+<h2 id="binding-keyboard-shortcuts-to-tasks">Binding keyboard shortcuts to tasks</h2>
+<p>If you need to run a task frequently, you can define a keyboard shortcut for the task.</p>
+<p>For example, to bind <code>Ctrl+H</code> to the <strong>Run tests</strong> task from above, add the following to your <code>keybindings.json</code> file:</p>
+<pre><code class="lang-json">{
+    &quot;key&quot;: &quot;ctrl+h&quot;,
+    &quot;command&quot;: &quot;workbench.action.tasks.runTask&quot;,
+    &quot;args&quot;: &quot;Run tests&quot;
+}
+</code></pre>
+<h2 id="variable-substitution">Variable substitution</h2>
+<p>When authoring tasks configurations, it is useful to have a set of predefined common variables such as the active file (<code>${file}</code>) or workspace root folder (<code>${workspaceFolder}</code>). VS Code supports variable substitution inside strings in the <code>tasks.json</code> file and you can see a full list of predefined variables in the <a href="variables-reference.html">Variables Reference</a>.</p>
+<blockquote>
+<p><strong>Note:</strong> Not all properties will accept variable substitution. Specifically, only <code>command</code>, <code>args</code>, and <code>options</code> support variable substitution.</p>
+</blockquote>
+<p>Below is an example of a custom task configuration that passes the current opened file to the TypeScript compiler.</p>
+<pre><code class="lang-json">{
+    &quot;label&quot;: &quot;TypeScript compile&quot;,
+    &quot;type&quot;: &quot;shell&quot;,
+    &quot;command&quot;: &quot;tsc ${file}&quot;,
+    &quot;problemMatcher&quot;: [
+        &quot;$tsc&quot;
+    ]
+}
+</code></pre>
+<p>Similarly, you can reference your project's configuration settings by prefixing the name with <strong>${config:</strong>. For example, <code>${config:python.formatting.autopep8Path}</code> returns the Python extension setting <code>formatting.autopep8Path</code>.</p>
+<p>Below is an example of a custom task configuration, which executes autopep8 on the current file using the autopep8 executable defined by the <code>python.formatting.autopep8Path</code> setting:</p>
+<pre><code class="lang-json">{
+    &quot;label&quot;: &quot;autopep8 current file&quot;,
+    &quot;type&quot;: &quot;process&quot;,
+    &quot;command&quot;: &quot;${config:python.formatting.autopep8Path}&quot;,
+    &quot;args&quot;: [
+        &quot;--in-place&quot;,
+        &quot;${file}&quot;
+    ]
+}
+</code></pre>
+<p>If you want to specify the selected Python interpreter used by the Python extension for <code>tasks.json</code> or <code>launch.json</code>, you can use the <code>${command:python.interpreterPath}</code> command.</p>
+<p>If simple variable substitution isn't enough, you can also get input from the user of your task by adding an <code>inputs</code> section to your <code>tasks.json</code> file.</p>
+<p><img src="images/tasks/run-input-example.gif" alt="Inputs Example"></p>
+<p>For more information about <code>inputs</code>, see the <a href="variables-reference.html">Variables Reference</a>.</p>
+<h2 id="operating-system-specific-properties">Operating system specific properties</h2>
+<p>The task system supports defining values (for example, the command to be executed) specific to an operating system. To do so, put an operating system specific literal into the <code>tasks.json</code> file and specify the corresponding properties inside that literal.</p>
+<p>Below is an example that uses the Node.js executable as a command and is treated differently on Windows and Linux:</p>
+<pre><code class="lang-json">{
+    &quot;label&quot;: &quot;Run Node&quot;,
+    &quot;type&quot;: &quot;process&quot;,
+    &quot;windows&quot;: {
+        &quot;command&quot;: &quot;C:\\Program Files\\nodejs\\node.exe&quot;
+    },
+    &quot;linux&quot;: {
+        &quot;command&quot;: &quot;/usr/bin/node&quot;
+    }
+}
+</code></pre>
+<p>Valid operating properties are <code>windows</code> for Windows, <code>linux</code> for Linux, and <code>osx</code> for macOS. Properties defined in an operating system specific scope override properties defined in the task or global scope.</p>
+<p>Task properties can also be defined in the global scope. If present, they will be used for specific tasks unless they define the same property with a different value. In the example below, there is a global <code>presentation</code> property, which defines that all tasks should be executed in a new panel:</p>
+<pre><code class="lang-json">{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    &quot;version&quot;: &quot;2.0.0&quot;,
+    &quot;presentation&quot;: {
+        &quot;panel&quot;: &quot;new&quot;
+    },
+    &quot;tasks&quot;: [
+        {
+            &quot;label&quot;: &quot;TS - Compile current file&quot;,
+            &quot;type&quot;: &quot;shell&quot;,
+            &quot;command&quot;: &quot;tsc ${file}&quot;,
+            &quot;problemMatcher&quot;: [
+                &quot;$tsc&quot;
+            ]
+        }
+    ]
+}
+</code></pre>
+<h3 id="character-escaping-in-powershell">Character escaping in PowerShell</h3>
+<p>When the default shell is PowerShell, or when a task is configured to use PowerShell, you might see unexpected space and quote escaping. The unexpected escaping only occurs with cmdlets because VS Code doesn't know if your command contains cmdlets. Example 1 below shows a case where you'll get escaping that doesn't work with PowerShell. Example 2 shows the best, cross-platform, way to get good escaping. In some cases, you might not be able to follow example 2 and you'll need to do the manual escaping shown in example 3.</p>
+<pre><code class="lang-json">&quot;tasks&quot;: [
+    {
+        &quot;label&quot;: &quot;PowerShell example 1 (unexpected escaping)&quot;,
+        &quot;type&quot;: &quot;shell&quot;,
+        &quot;command&quot;: &quot;Get-ChildItem \&quot;Folder With Spaces\&quot;&quot;
+    },
+    {
+        &quot;label&quot;: &quot;PowerShell example 2 (expected escaping)&quot;,
+        &quot;type&quot;: &quot;shell&quot;,
+        &quot;command&quot;: &quot;Get-ChildItem&quot;,
+        &quot;args&quot;: [&quot;Folder With Spaces&quot;]
+    },
+    {
+        &quot;label&quot;: &quot;PowerShell example 3 (manual escaping)&quot;,
+        &quot;type&quot;: &quot;shell&quot;,
+        &quot;command&quot;: &quot;&amp; Get-ChildItem \\\&quot;Folder With Spaces\\\&quot;&quot;
+    }
+]
+</code></pre>
+<h2 id="changing-the-encoding-for-a-task-output">Changing the encoding for a task output</h2>
+<p>Tasks frequently act with files on disk. If these files are stored on disk with an encoding different than the system encoding, you need to let the command executed as a task know which encoding to use. Since this depends on the operating system and the shell used, there is no general solution to control this. Below are advice and examples on how to make it work.</p>
+<p>If you need to tweak the encoding, you should check whether it makes sense to change the default encoding used by your operating system or at least change it for the shell you use by tweaking the shell's profile file.</p>
+<p>If you only need to tweak it for a specific task, then add the OS-specific command necessary to change the encoding to the tasks command line. The following example is for Windows using code page of 437 as its default. The task shows the output of a file containing Cyrillic characters and therefore needs code page 866. The task to list the file looks like this assuming that the default shell is set to <code>cmd.exe</code>:</p>
+<pre><code class="lang-json">{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    &quot;version&quot;: &quot;2.0.0&quot;,
+    &quot;tasks&quot;: [
+        {
+            &quot;label&quot;: &quot;more&quot;,
+            &quot;type&quot;: &quot;shell&quot;,
+            &quot;command&quot;: &quot;chcp 866 &amp;&amp; more russian.txt&quot;,
+            &quot;problemMatcher&quot;: []
+        }
+    ]
+}
+</code></pre>
+<p>If the task is executed in <code>PowerShell</code>, the command needs to read like this <code>chcp 866; more russian.txt</code>. On Linux and macOS, the <code>locale</code> command can be used to inspect the locale and tweak the necessary environment variables.</p>
+<h2 id="examples-of-tasks-in-action">Examples of tasks in action</h2>
+<p>To highlight the power of tasks, here are a few examples of how VS Code can use tasks to integrate external tools like linters and compilers.</p>
+<h3 id="transpiling-typescript-to-javascript">Transpiling TypeScript to JavaScript</h3>
+<p>The <a href="../languages/typescript.html#transpiling-typescript-into-javascript">TypeScript topic</a> includes an example that creates a task to transpile TypeScript to JavaScript and observe any related errors from within VS Code.</p>
+<h3 id="compiling-markdown-to-html">Compiling Markdown to HTML</h3>
+<p>The Markdown topic provides two examples for compiling Markdown to HTML:</p>
+<ol>
+<li><a href="../languages/markdown.html#compiling-markdown-into-html">Manually compiling with a Build task</a></li>
+<li><a href="../languages/markdown.html#automating-markdown-compilation">Automating the compile step with a file watcher</a></li>
+</ol>
+<h3 id="transpiling-less-and-scss-into-css">Transpiling Less and SCSS into CSS</h3>
+<p>The CSS topic provides examples of how to use Tasks to generate CSS files.</p>
+<ol>
+<li><a href="../languages/css.html#transpiling-sass-and-less-into-css">Manually transpiling with a Build task</a></li>
+<li><a href="../languages/css.html#automating-sassless-compilation">Automation of the compile step with a file watcher</a></li>
+</ol>
+<h2 id="defining-a-problem-matcher">Defining a problem matcher</h2>
+<p>VS Code ships some of the most common problem matchers 'in-the-box'.  However, there are lots of compilers and linting tools out there, all of which produce their own style of errors and warnings so you may want to create your own problem matcher.</p>
+<p>We have a <code>helloWorld.c</code> program in which the developer mistyped <strong>printf</strong> as <strong>prinft</strong>. Compiling it with <a href="https://gcc.gnu.org/">gcc</a> will produce the following warning:</p>
+<pre><code class="lang-bash">helloWorld.c:5:3: warning: implicit declaration of function 'prinft'
+</code></pre>
+<p>We want to produce a problem matcher that can capture the message in the output and show a corresponding problem in VS Code.  Problem matchers heavily rely on <a href="https://en.wikipedia.org/wiki/Regular_expression">regular expressions</a>. The section below assumes you are familiar with regular expressions.</p>
+<blockquote>
+<p><strong>Tip:</strong> We have found the <a href="https://regex101.com/">RegEx101 playground</a>, which has an ECMAScript (JavaScript) flavor, to be a great way to develop and test regular expressions.</p>
+</blockquote>
+<p>A matcher that captures the above warning (and errors) looks like this:</p>
+<pre><code class="lang-json">{
+    // The problem is owned by the cpp language service.
+    &quot;owner&quot;: &quot;cpp&quot;,
+    // The file name for reported problems is relative to the opened folder.
+    &quot;fileLocation&quot;: [&quot;relative&quot;, &quot;${workspaceFolder}&quot;],
+    // The actual pattern to match problems in the output.
+    &quot;pattern&quot;: {
+        // The regular expression. Example to match: helloWorld.c:5:3: warning: implicit declaration of function 'printf' [-Wimplicit-function-declaration]
+        &quot;regexp&quot;: &quot;^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$&quot;,
+        // The first match group matches the file name which is relative.
+        &quot;file&quot;: 1,
+        // The second match group matches the line on which the problem occurred.
+        &quot;line&quot;: 2,
+        // The third match group matches the column at which the problem occurred.
+        &quot;column&quot;: 3,
+        // The fourth match group matches the problem's severity. Can be ignored. Then all problems are captured as errors.
+        &quot;severity&quot;: 4,
+        // The fifth match group matches the message.
+        &quot;message&quot;: 5
+    }
+}
+</code></pre>
+<p>Note that the file, line, and message properties are mandatory. The <code>fileLocation</code> specifies whether the file paths that are produced by the task output and matched in the problem are <code>absolute</code> or <code>relative</code>. If the task produces both absolute and relative paths, you can use the <code>autoDetect</code> file location. With <code>autoDetect</code>, paths are first tested as absolute paths, and if the file doesn't exist then the path is assumed to be relative.</p>
+<p>Here is a finished <code>tasks.json</code> file with the code above (comments removed) wrapped with the actual task details:</p>
+<pre><code class="lang-json">{
+    &quot;version&quot;: &quot;2.0.0&quot;,
+    &quot;tasks&quot;: [
+        {
+            &quot;label&quot;: &quot;build&quot;,
+            &quot;command&quot;: &quot;gcc&quot;,
+            &quot;args&quot;: [&quot;-Wall&quot;, &quot;helloWorld.c&quot;, &quot;-o&quot;, &quot;helloWorld&quot;],
+            &quot;problemMatcher&quot;: {
+                &quot;owner&quot;: &quot;cpp&quot;,
+                &quot;fileLocation&quot;: [&quot;relative&quot;, &quot;${workspaceFolder}&quot;],
+                &quot;pattern&quot;: {
+                    &quot;regexp&quot;: &quot;^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$&quot;,
+                    &quot;file&quot;: 1,
+                    &quot;line&quot;: 2,
+                    &quot;column&quot;: 3,
+                    &quot;severity&quot;: 4,
+                    &quot;message&quot;: 5
+                }
+            }
+        }
+    ]
+}
+</code></pre>
+<p>Running it inside VS Code and pressing <code>kb(workbench.actions.view.problems)</code> to get the list of problems gives you the following output:</p>
+<p><img src="images/tasks/problemmatcher.png" alt="GCC Problem Matcher"></p>
+<blockquote>
+<p><strong>Note:</strong> The <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools">C/C++ extension</a> includes problem matchers for GCC so there is no need to define our own.</p>
+</blockquote>
+<p>There are a couple more properties that can be used inside a pattern. These are:</p>
+<ul>
+<li><strong>location</strong> - If the problem location is line or line,column or startLine,startColumn,endLine,endColumn, then our generic location match group can be used.</li>
+<li><strong>endLine</strong> - The match group index for the problem's end line. Can be omitted if no end line value is provided by the compiler.</li>
+<li><strong>endColumn</strong> - The match group index for the problem's end column. Can be omitted if no end column value is provided by the compiler.</li>
+<li><strong>code</strong> - The match group index for the problem's code. Can be omitted if no code value is provided by the compiler.</li>
+</ul>
+<p>You can also define a problem matcher that captures only a file. To do so, define a <code>pattern</code> with the optional <code>kind</code> attribute set to <code>file</code>. In this case, there is no need to provide a <code>line</code> or <code>location</code> property.</p>
+<blockquote>
+<p><strong>Note:</strong> A functional pattern must at least provide a match group for <code>file</code> and <code>message</code> if the <code>kind</code> property is set to <code>file</code>. If no <code>kind</code> property is provided or the <code>kind</code> property is set to <code>location</code>, a function pattern must provide a <code>line</code> or <code>location</code> property as well.</p>
+</blockquote>
+<blockquote>
+<p><strong>Note:</strong> The problem matcher only parses output from the given command. If you want to parse output written to separate file (e.g. a log file), make the command that you run print out lines from the separate file before it finishes executing.</p>
+</blockquote>
+<h2 id="defining-a-multiline-problem-matcher">Defining a multiline problem matcher</h2>
+<p>Some tools spread problems found in a source file over several lines, especially if stylish reporters are used. An example is <a href="https://eslint.org/">ESLint</a>; in stylish mode it produces output like this:</p>
+<pre><code class="lang-bash">test.js
+  1:0   error  Missing &quot;use strict&quot; statement                 strict
+✖ 1 problems (1 errors, 0 warnings)
+</code></pre>
+<p>Our problem matcher is line-based so we need to capture the file name (test.js) with a different regular expression than the actual problem location and message (1:0   error  Missing &quot;use strict&quot; statement).</p>
+<p>To do this, use an array of problem patterns for the <code>pattern</code> property. This way you define a pattern per each line you want to match.</p>
+<p>The following problem pattern matches the output from ESLint in stylish mode - but still has one small issue that we need to resolve next. The code below has a first regular expression to capture the file name and the second to capture the line, column, severity, message, and error code:</p>
+<pre><code class="lang-json">{
+    &quot;owner&quot;: &quot;javascript&quot;,
+    &quot;fileLocation&quot;: [&quot;relative&quot;, &quot;${workspaceFolder}&quot;],
+    &quot;pattern&quot;: [
+        {
+            &quot;regexp&quot;: &quot;^([^\\s].*)$&quot;,
+            &quot;file&quot;: 1
+        },
+        {
+            &quot;regexp&quot;: &quot;^\\s+(\\d+):(\\d+)\\s+(error|warning|info)\\s+(.*)\\s\\s+(.*)$&quot;,
+            &quot;line&quot;: 1,
+            &quot;column&quot;: 2,
+            &quot;severity&quot;: 3,
+            &quot;message&quot;: 4,
+            &quot;code&quot;: 5
+        }
+    ]
+}
+</code></pre>
+<p>However, this pattern will not work if there is more than one problem on a resource. For instance, imagine the following output from ESLint:</p>
+<pre><code class="lang-bash">test.js
+  1:0   error  Missing &quot;use strict&quot; statement                 strict
+  1:9   error  foo is defined but never used                  no-unused-vars
+  2:5   error  x is defined but never used                    no-unused-vars
+  2:11  error  Missing semicolon                              semi
+  3:1   error  &quot;bar&quot; is not defined                           no-undef
+  4:1   error  Newline required at end of file but not found  eol-last
+✖ 6 problems (6 errors, 0 warnings)
+</code></pre>
+<p>The pattern's first regular expression will match &quot;test.js&quot;, the second &quot;1:0  error ...&quot;. The next line &quot;1:9  error ...&quot; is processed but not matched by the first regular expression and so no problem is captured.</p>
+<p>To make this work, the last regular expression of a multiline pattern can specify the <code>loop</code> property. If set to true, it instructs the task system to apply the last pattern of a multiline matcher to the lines in the output as long as the regular expression matches.</p>
+<p>The information captured by the first pattern, which in this case matches <code>test.js</code>, will be combined with each of the subsequent lines that match the <code>loop</code> pattern to create multiple problems. In this example, six problems would be created.</p>
+<p>Here is a problem matcher to fully capture ESLint stylish problems:</p>
+<pre><code class="lang-json">{
+    &quot;owner&quot;: &quot;javascript&quot;,
+    &quot;fileLocation&quot;: [&quot;relative&quot;, &quot;${workspaceFolder}&quot;],
+    &quot;pattern&quot;: [
+        {
+            &quot;regexp&quot;: &quot;^([^\\s].*)$&quot;,
+            &quot;file&quot;: 1
+        },
+        {
+            &quot;regexp&quot;: &quot;^\\s+(\\d+):(\\d+)\\s+(error|warning|info)\\s+(.*)\\s\\s+(.*)$&quot;,
+            &quot;line&quot;: 1,
+            &quot;column&quot;: 2,
+            &quot;severity&quot;: 3,
+            &quot;message&quot;: 4,
+            &quot;code&quot;: 5,
+            &quot;loop&quot;: true
+        }
+    ]
+}
+</code></pre>
+<p><strong>Note</strong>: If you have multiple problems that occur on the same resource with the exact same line and column, then only one problem will be shown. This applies to all problem matchers, not just multiline problem matchers.</p>
+<h2 id="modifying-an-existing-problem-matcher">Modifying an existing problem matcher</h2>
+<p>If an existing problem matcher is close to what you need, you can modify it in your <code>tasks.json</code> task. For example, the <code>$tsc-watch</code> problem matcher only applies to closed documents. If you want to have it apply to all documents you can modify it:</p>
+<pre><code class="lang-json">{
+    &quot;type&quot;: &quot;npm&quot;,
+    &quot;script&quot;: &quot;watch&quot;,
+    &quot;problemMatcher&quot;: {
+        &quot;base&quot;: &quot;$tsc-watch&quot;,
+        &quot;applyTo&quot;: &quot;allDocuments&quot;
+    },
+    &quot;isBackground&quot;: true,
+}
+</code></pre>
+<p>Other modifiable problem matcher properties include <code>background</code>, <code>fileLocation</code>, <code>owner</code>, <code>pattern</code>, <code>severity</code>, and <code>source</code>.</p>
+<h2 id="background--watching-tasks">Background / watching tasks</h2>
+<p>Some tools support running in the background while watching the file system for changes and then triggering an action when a file changes on disk. With <code>Gulp</code> such functionality is provided through the npm module <a href="https://www.npmjs.com/package/gulp-watch">gulp-watch</a>. The TypeScript compiler <code>tsc</code> has built in support for this via the <code>--watch</code> command line option.</p>
+<p>To provide feedback that a background task is active in VS Code and producing problem results, a problem matcher has to use additional information to detect these <code>state</code> changes in the output. Let's take the <code>tsc</code> compiler as an example. When the compiler is started in watch mode, it prints the following additional information to the console:</p>
+<pre><code class="lang-bash">&gt; tsc --watch
+12:30:36 PM - Compilation complete. Watching for file changes.
+</code></pre>
+<p>When a file changes on disk that contains a problem, the following output appears:</p>
+<pre><code class="lang-bash">12:32:35 PM - File change detected. Starting incremental compilation...
+src/messages.ts(276,9): error TS2304: Cannot find name 'candidate'.
+12:32:35 PM - Compilation complete. Watching for file changes.
+</code></pre>
+<p>Looking at the output shows the following pattern:</p>
+<ul>
+<li>The compiler runs when <code>File change detected. Starting incremental compilation...</code> is printed to the console.</li>
+<li>The compiler stops when <code>Compilation complete. Watching for file changes.</code> is printed to the console.</li>
+<li>Between those two strings problems are reported.</li>
+<li>The compiler also runs once the initial start (without printing <code>File change detected. Starting incremental compilation...</code> to the console).</li>
+</ul>
+<p>To capture this information, a problem matcher can provide a <code>background</code> property.</p>
+<p>For the <code>tsc</code> compiler, an appropriate <code>background</code> property looks like this:</p>
+<pre><code class="lang-json">&quot;background&quot;: {
+    &quot;activeOnStart&quot;: true,
+    &quot;beginsPattern&quot;: &quot;^\\s*\\d{1,2}:\\d{1,2}:\\d{1,2}(?: AM| PM)? - File change detected\\. Starting incremental compilation\\.\\.\\.&quot;,
+    &quot;endsPattern&quot;: &quot;^\\s*\\d{1,2}:\\d{1,2}:\\d{1,2}(?: AM| PM)? - Compilation complete\\. Watching for file changes\\.&quot;
+}
+</code></pre>
+<p>In addition to the <code>background</code> property on the problem matcher, the task itself has to be marked as <code>isBackground</code> so that the task keeps running in the background.</p>
+<p>A full handcrafted <code>tasks.json</code> for a <code>tsc</code> task running in watch mode looks like this:</p>
+<pre><code class="lang-json">{
+    &quot;version&quot;: &quot;2.0.0&quot;,
+    &quot;tasks&quot;: [
+        {
+            &quot;label&quot;: &quot;watch&quot;,
+            &quot;command&quot;: &quot;tsc&quot;,
+            &quot;args&quot;: [&quot;--watch&quot;],
+            &quot;isBackground&quot;: true,
+            &quot;problemMatcher&quot;: {
+                &quot;owner&quot;: &quot;typescript&quot;,
+                &quot;fileLocation&quot;: &quot;relative&quot;,
+                &quot;pattern&quot;: {
+                    &quot;regexp&quot;: &quot;^([^\\s].*)\\((\\d+|\\d+,\\d+|\\d+,\\d+,\\d+,\\d+)\\):\\s+(error|warning|info)\\s+(TS\\d+)\\s*:\\s*(.*)$&quot;,
+                    &quot;file&quot;: 1,
+                    &quot;location&quot;: 2,
+                    &quot;severity&quot;: 3,
+                    &quot;code&quot;: 4,
+                    &quot;message&quot;: 5
+                },
+                &quot;background&quot;: {
+                    &quot;activeOnStart&quot;: true,
+                    &quot;beginsPattern&quot;: &quot;^\\s*\\d{1,2}:\\d{1,2}:\\d{1,2}(?: AM| PM)? - File change detected\\. Starting incremental compilation\\.\\.\\.&quot;,
+                    &quot;endsPattern&quot;: &quot;^\\s*\\d{1,2}:\\d{1,2}:\\d{1,2}(?: AM| PM)? - Compilation complete\\. Watching for file changes\\.&quot;
+                }
+            }
+        }
+    ]
+}
+</code></pre>
+<h2 id="convert-from-010-to-200">Convert from &quot;0.1.0&quot; to &quot;2.0.0&quot;</h2>
+<p><strong>Note</strong>: If you have created a workspace that consists of multiple folders (<a href="multi-root-workspaces.html">Multi-root Workspace</a>), only version <code>2.0.0</code> tasks are detected and shown in the <strong>Terminal</strong> &gt; <strong>Run Task</strong> picker.</p>
+<h3 id="try-running-without-tasksjson">Try running without tasks.json</h3>
+<p>Tasks <code>2.0.0</code> version comes with lots of new auto-detection features so you can try removing an existing <code>tasks.json</code> file to see which tasks still work. One way is to rename the existing <code>tasks.json</code> to <code>tasks.json.off</code>.</p>
+<h3 id="migrating-to-tasks-200">Migrating to Tasks 2.0.0</h3>
+<p>If you have lots of task customizations, you can switch by changing the version attribute to <code>&quot;2.0.0&quot;</code>. After doing so, you might encounter warnings (green squiggles) because some properties are now deprecated.</p>
+<p>Here is a migration guide:</p>
+<ul>
+<li><strong>taskName</strong>: Use the <code>label</code> property instead.</li>
+<li><strong>isShellCommand</strong>: Use the <code>&quot;type&quot;: &quot;shell&quot;</code> property instead.</li>
+<li><strong>isBuildCommand</strong>: Use the <code>&quot;group&quot;: &quot;build&quot;</code> property instead.</li>
+<li><strong>isTestCommand</strong>: Use the <code>&quot;group&quot;: &quot;test&quot;</code> property instead.</li>
+<li><strong>echoCommand</strong>: Use the <code>&quot;presentation&quot; : { &quot;echo&quot;: &quot;...&quot; }</code> property instead.</li>
+<li><strong>showOutput</strong>: Use the <code>&quot;presentation&quot; : { &quot;reveal&quot;: &quot;...&quot; }</code> property instead.</li>
+<li><strong>suppressTaskName</strong>: By default, the task name gets appended to the list of arguments when running a task version <code>0.1.0</code>. Since version <code>2.0.0</code> supports commands per task, you can inline the command into the task and specify the arguments accordingly.</li>
+</ul>
+<p>Consider the following <code>0.1.0</code> configuration:</p>
+<pre><code class="lang-json">{
+    &quot;version&quot;: &quot;0.1.0&quot;,
+    &quot;isShellCommand&quot;: true,
+    &quot;command&quot;: &quot;script&quot;,
+    &quot;tasks&quot;: [
+        {
+            &quot;taskName&quot;: &quot;Run tests&quot;,
+            &quot;suppressTaskName&quot;: true,
+            &quot;args&quot;: [
+                &quot;test&quot;
+            ]
+        }
+    ]
+}
+</code></pre>
+<p>The corresponding <code>2.0.0</code> configuration would look like this:</p>
+<pre><code class="lang-json">{
+    &quot;version&quot;: &quot;2.0.0&quot;,
+    &quot;tasks&quot;: [
+        {
+            &quot;label&quot;: &quot;Run tests&quot;,
+            &quot;type&quot;: &quot;shell&quot;,
+            &quot;command&quot;: &quot;script test&quot;
+        }
+    ]
+}
+</code></pre>
+<ul>
+<li><strong>taskSelector</strong>: Move the command into the task and specify the task selector inside the command.</li>
+</ul>
+<pre><code class="lang-json">{
+    &quot;version&quot;: &quot;0.1.0&quot;,
+    &quot;command&quot;: &quot;msbuild&quot;,
+    &quot;args&quot;: [
+        &quot;/property:GenerateFullPaths=true&quot;
+    ],
+    &quot;taskSelector&quot;: &quot;/t:&quot;,
+    &quot;tasks&quot;: [
+        {
+            &quot;label&quot;: &quot;build&quot;
+        }
+    ]
+}
+</code></pre>
+<p>A corresponding <code>2.0.0</code> configuration would look like this:</p>
+<pre><code class="lang-json">{
+    &quot;version&quot;: &quot;2.0.0&quot;,
+    &quot;tasks&quot;: [
+        {
+            &quot;label&quot;: &quot;build&quot;,
+            &quot;command&quot;: &quot;msbuild&quot;,
+            &quot;args&quot;: [
+                &quot;/property:GenerateFullPaths=true&quot;,
+                &quot;/t:build&quot;
+            ]
+        }
+    ]
+}
+</code></pre>
+<p>If you want to use a <code>0.1.0</code> version of the <code>tasks.json</code> file with the new terminal runner, you can add the <code>runner</code> property to the <code>tasks.json</code> file: <code>&quot;runner&quot;: &quot;terminal&quot;</code>.</p>
+<h2 id="next-steps">Next steps</h2>
+<p>That was tasks - let's keep going...</p>
+<ul>
+<li><a href="tasks-appendix.html">tasks.json Schema</a> - You can review the full <code>tasks.json</code> schema and descriptions.</li>
+<li><a href="codebasics.html">Basic Editing</a> - Learn about the powerful VS Code editor.</li>
+<li><a href="editingevolved.html">Code Navigation</a> - Move quickly through your source code.</li>
+<li><a href="../languages/overview.html">Language Support</a> - Learn about our supported programming languages, both shipped with VS Code and through community extensions.</li>
+<li><a href="debugging.html">Debugging</a> - Debug your source code directly in the VS Code editor.</li>
+</ul>
+<h2 id="common-questions">Common questions</h2>
+<h3 id="can-a-task-use-a-different-shell-than-the-one-specified-for-the-integrated-terminal">Can a task use a different shell than the one specified for the Integrated Terminal?</h3>
+<p>Yes. You can use the <code>&quot;terminal.integrated.automationShell.*&quot;</code> setting to set the shell that will be used for all automation in VS Code, which includes Tasks.</p>
+<pre><code class="lang-json">    &quot;terminal.integrated.automationShell.windows&quot;: &quot;cmd.exe&quot;,
+</code></pre>
+<p>Alternatively, you can override a task's shell with the <code>options.shell</code> property. You can set this per task, globally, or per platform. For example, to use cmd.exe on Windows, your <code>tasks.json</code> would include:</p>
+<pre><code class="lang-json">{
+    &quot;version&quot;: &quot;2.0.0&quot;,
+    &quot;windows&quot;: {
+        &quot;options&quot;: {
+            &quot;shell&quot;: {
+                &quot;executable&quot;: &quot;cmd.exe&quot;,
+                &quot;args&quot;: [
+                    &quot;/d&quot;, &quot;/c&quot;
+                ]
+            }
+        }
+    },
+    ...
+</code></pre>
+<h3 id="can-a-background-task-be-used-as-a-prelaunchtask-in-launchjson">Can a background task be used as a <code>prelaunchTask</code> in launch.json?</h3>
+<p>Yes. Since a background task will run until killed, a background task on its own has no signal that it has &quot;completed&quot;. To use a background task as a <code>prelaunchTask</code>, you must add an appropriate background <code>problemMatcher</code> to the background task so that there is a way for the task system and debug system to know that the task &quot;finished&quot;.</p>
+<p>Your task could be:</p>
+<pre><code class="lang-json">{
+    &quot;type&quot;: &quot;npm&quot;,
+    &quot;script&quot;: &quot;watch&quot;,
+    &quot;problemMatcher&quot;: &quot;$tsc-watch&quot;,
+    &quot;isBackground&quot;: true,
+}
+</code></pre>
+<p><strong>Note:</strong> The <code>$tsc-watch</code> is a <strong>background</strong> problem matcher, as is required for a background task.</p>
+<p>You can then use the task as a <code>prelaunchTask</code> in your <code>launch.json</code> file:</p>
+<pre><code class="lang-json">{
+    &quot;name&quot;: &quot;Launch Extension&quot;,
+    &quot;type&quot;: &quot;extensionHost&quot;,
+    &quot;request&quot;: &quot;launch&quot;,
+    &quot;runtimeExecutable&quot;: &quot;${execPath}&quot;,
+    &quot;args&quot;: [
+        &quot;--extensionDevelopmentPath=${workspaceRoot}&quot;
+    ],
+    &quot;stopOnEntry&quot;: false,
+    &quot;sourceMaps&quot;: true,
+    &quot;outFiles&quot;: [
+        &quot;${workspaceRoot}/out/src/**/*.js&quot;
+    ],
+    &quot;preLaunchTask&quot;: &quot;npm: watch&quot;
+}
+</code></pre>
+<p>For more on background tasks, go to <a href="tasks.html#background-watching-tasks">Background / watching tasks</a>.</p>
+<h3 id="why-do-i-get-command-not-found-when-running-a-task">Why do I get &quot;command not found&quot; when running a task?</h3>
+<p>The message &quot;command not found&quot; happens when the task command you're trying to run is not recognized by your terminal as something runnable. Most often, this occurs because the command is configured as part of your shell's startup scripts. Tasks are run as non-login and non-interactive, which means that the startup scripts for your shell won't be run. <code>nvm</code> in particular is known to use startup scripts as part of its configuration.</p>
+<p>There are several ways to resolve this issue:</p>
+<ol>
+<li>Make sure your command is on your path and doesn't require startup scripts to get added to your path. This is the most thorough way to solve the problem, and is the recommended solution.</li>
+<li>You can make a one-off fix for your task to run as login or interactive. This is not recommended, as it can have other consequences. However, it can also be a quick and easy fix for a single task. Below is an example of a task that does this with <code>bash</code> as the shell:</li>
+</ol>
+<pre><code class="lang-json">{
+    &quot;type&quot;: &quot;npm&quot;,
+    &quot;script&quot;: &quot;watch&quot;,
+    &quot;options&quot;: {
+        &quot;shell&quot;: {
+            &quot;args&quot;: [&quot;-c&quot;, &quot;-l&quot;]
+        }
+    }
+}
+</code></pre>
+<p>The above <code>npm</code> task will run <code>bash</code> with a command (<code>-c</code>), just like the tasks system does by default. However, this task also runs <code>bash</code> as a login shell (<code>-l</code>).</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/JimBobUKII/fountain-of-knowledge/blob/main/guides/vscode/editor/tasks.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            Copyright &#0169; 2021 Jason Rose
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,143 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Docker Tools Tips and Tricks | Fountain of Knowledge </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Docker Tools Tips and Tricks | Fountain of Knowledge ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    <meta property="docfx:rel" content="../../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="docker-tools-tips-and-tricks">Docker Tools Tips and Tricks</h1>
+
+<p>This article covers troubleshooting tips and tricks for the Visual Studio Code <a href="https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker">Docker</a> extension. See the <a href="overview.html">Overview</a> and quickstart articles for <a href="quickstart-node.html">Node.js</a>, <a href="python.md">Python</a>, or <a href="quickstart-aspnet-core.html">ASP.NET</a> for details on setting up and working with Docker.</p>
+<h2 id="error-connect-eacces-varrundockersock-on-linux">Error &quot;connect EACCES /var/run/docker.sock&quot; on Linux</h2>
+<p>Since VS Code runs as a non-root user, you will need to follow the steps in &quot;Manage Docker as a non-root user&quot; from <a href="https://aka.ms/AA37yk6">Post-installation steps for Linux</a> to access Docker from the extension.</p>
+<h2 id="docker-containers-and-images-have-disappeared-from-docker-view">Docker containers and images have disappeared from Docker view</h2>
+<p>This is most likely caused by a conflict with another extension called <code>Docker Explorer</code> (not authored by Microsoft).  To resolve this issue, use a workaround described <a href="https://github.com/microsoft/vscode-docker/issues/1609#issuecomment-586331394">vscode-docker issue #1609</a>.</p>
+<h2 id="the-extension-does-not-find-docker-on-a-remote-machine">The extension does not find Docker on a remote machine</h2>
+<p>Error message &quot;Failed to connect. Is Docker installed and running?&quot;</p>
+<ol>
+<li>Make sure Docker engine <strong>is installed</strong> on the remote machine and that Docker CLI works (run <code>docker ps</code> from the terminal and ensure it does not return any errors).</li>
+<li>If you are using a remote development environment (remote machine via SSH, WSL subsystem, GitHub Codespace), make sure the Docker extension is installed remotely as well as locally.</li>
+</ol>
+<h2 id="invalid-url-errors">Invalid URL errors</h2>
+<p>If you have a need to connect to a remote Docker daemon, we recommend using Docker contexts instead of a <code>docker.host</code> attribute in the settings. Check out this guide to learn how to <a href="https://docs.docker.com/engine/context/working-with-contexts/">create and use a context</a> to communicate with a remote Docker daemon.</p>
+<p>If you still need to override the Docker context you are currently using, make sure your <code>DOCKER_HOST</code> environment variable or <code>docker.host</code> attribute includes a protocol in the URL (for example, <code>ssh://myuser@mymachine</code> or <code>tcp://1.2.3.4</code>).</p>
+<blockquote>
+<p><strong>Note:</strong> Keep in mind that your <code>docker.host</code> attribute will override your Docker context and the <code>DOCKER_HOST</code> environment variable will override both the <code>docker.host</code> attribute and your Docker context.</p>
+</blockquote>
+<blockquote>
+<p><strong>Tip</strong>: In Powershell you can change your Docker environment variable with <code>$ENV:DOCKER_HOST = 'ssh://username@1.2.3.4'</code></p>
+</blockquote>
+<h2 id="questions-and-feedback">Questions and feedback</h2>
+<p>We love your feedback! If you have any ideas or suggestions, <a href="https://github.com/microsoft/vscode-docker/issues/new">report an issue</a>.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/JimBobUKII/fountain-of-knowledge/blob/main/guides/vscode/containers/troubleshooting.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            Copyright &#0169; 2021 Jason Rose
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

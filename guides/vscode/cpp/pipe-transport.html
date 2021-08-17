@@ -1,0 +1,161 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Pipe transport | Fountain of Knowledge </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Pipe transport | Fountain of Knowledge ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    <meta property="docfx:rel" content="../../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="pipe-transport">Pipe transport</h1>
+
+<p>Pipe transport allows communication through a pipe program to a remote shell. For example, <code>ssh</code> on Linux. With the introduction of <a href="/docs/remote/remote-overview.md">Visual Studio Code Remote Development</a> pipe transport is relevant primarily for IoT scenarios.</p>
+<h2 id="how-to">How-To</h2>
+<p><code>pipeTransport</code> is an option within the <strong>launch.json</strong> file. The structure looks as follows:</p>
+<pre><code class="lang-json">&quot;pipeTransport&quot;: {
+    &quot;pipeCwd&quot;: &quot;/usr/bin&quot;,
+    &quot;pipeProgram&quot;: &quot;/usr/bin/ssh&quot;,
+    &quot;pipeArgs&quot;: [
+        &quot;-pw&quot;,
+        &quot;&lt;password&gt;&quot;,
+        &quot;user@10.10.10.10&quot;
+    ],
+    &quot;debuggerPath&quot;: &quot;/usr/bin/gdb&quot;
+},
+</code></pre>
+<p>The <code>pipeArgs</code> can be any set of arguments necessary to set up and authenticate the pipe connection. In the example, a password is used but you can also use an ssh key.</p>
+<p>You may also need to add a <code>sourceFileMap</code> to map the path of where the code exists on the remote shell to where it is locally:</p>
+<pre><code class="lang-json">&quot;sourceFileMap&quot;: {
+    // &quot;remote&quot;: &quot;local&quot;
+    &quot;/home/user/src&quot;: &quot;/src/projectA/src&quot;
+}
+</code></pre>
+<h2 id="attach">Attach</h2>
+<p>You can also use the above <code>pipeTransport</code> block to attach to a remote process. In the attach case, you need to specify a <code>processId</code>. The extension can query processes from the remote machine. To do this, change <code>processId&quot;: &quot;${command:pickProcess}</code> to <code>processId&quot;: &quot;${command:pickRemoteProcess}</code>. The <code>pipeTransport</code> settings will be used to query the processes on the remote machine. Then select the process from the dropdown list. As with <code>launch</code>, you may need to configure <code>sourceFileMap</code>.</p>
+<h2 id="docker-example">Docker example</h2>
+<p>The <code>pipeTransport</code> can also be used to debug a process in a Docker container. For an attach, <strong>launch.json</strong> will include:</p>
+<pre><code class="lang-json">&quot;pipeTransport&quot;: {
+    &quot;pipeCwd&quot;: &quot;${workspaceFolder}&quot;,
+    &quot;pipeProgram&quot;: &quot;docker&quot;,
+    &quot;pipeArgs&quot;: [
+        &quot;exec&quot;,
+        &quot;-i&quot;,
+        &quot;hello_gdb&quot;,
+        &quot;sh&quot;,
+        &quot;-c&quot;
+    ],
+    &quot;debuggerPath&quot;: &quot;/usr/bin/gdb&quot;
+},
+</code></pre>
+<p>Where <code>hello_gdb</code> is the name of your container.</p>
+<p>Launch process by starting a container and then using the same <code>pipeTransport</code> to launch additional processes in the container. See this <a href="https://github.com/andyneff/hello-world-gdb/blob/master/.vscode/launch.json">launch.json</a> for a <a href="https://github.com/andyneff/hello-world-gdb/">full example</a>.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/JimBobUKII/fountain-of-knowledge/blob/main/guides/vscode/cpp/pipe-transport.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            Copyright &#0169; 2021 Jason Rose
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

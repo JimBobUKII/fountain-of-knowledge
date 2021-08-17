@@ -1,0 +1,188 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Edit C++ in Visual Studio Code | Fountain of Knowledge </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Edit C++ in Visual Studio Code | Fountain of Knowledge ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    <meta property="docfx:rel" content="../../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="edit-c-in-visual-studio-code">Edit C++ in Visual Studio Code</h1>
+
+<p>This topic provides a quick overview of general C/C++ editor features, as well as some that are specific to C/C++. For more information about editing in Visual Studio Code, see <a href="/docs/editor/codebasics.md">Basic Editing</a> and <a href="/docs/editor/editingevolved.md">Code Navigation</a>.</p>
+<p>The C/C++ extension supports <a href="/docs/remote/remote-overview.md">Remote Development</a>.</p>
+<h2 id="editing-features">Editing features</h2>
+<p>The C/C++ extension for VS Code has many features that help you write code, understand it, and navigate around in your source files. To provide the best experience, the extension needs to know where it can find each header file referenced in your code. By default, the extension searches the current source directory, its sub-directories, and some platform-specific locations. If a referenced header file can't be found, VS Code displays a green squiggle underneath each #include directive that references it.</p>
+<p>To specify additional include directories to be searched, place your cursor over any #include directive that displays a green squiggle, then click the lightbulb action when it appears. This opens the file <code>c_cpp_properties.json</code> for editing; here you can specify additional include directories for each platform configuration individually by adding more directories to the 'browse.path' property.</p>
+<h2 id="list-members">List members</h2>
+<p>When you type a member access symbol (<code>.</code> or <code>-&gt;</code>) the editor will display a list of members. As you type additional letters, the list is filtered in real time:</p>
+<p><img src="images/cpp/list-members-cpp.png" alt="List members"></p>
+<h3 id="code-formatting">Code formatting</h3>
+<p>The C/C++ extension for Visual Studio Code supports source code formatting using <a href="https://clang.llvm.org/docs/ClangFormat.html">clang-format</a> which is included with the extension.</p>
+<p>You can format an entire file with <strong>Format Document</strong> (<code>kb(editor.action.formatDocument)</code>) or just the current selection with <strong>Format Selection</strong> (<code>kb(editor.action.formatSelection)</code>) in right-click context menu. You can also configure auto-formatting with the following <a href="/docs/getstarted/settings.md">settings</a>:</p>
+<ul>
+<li><code>editor.formatOnSave</code> - to format when you save your file.</li>
+<li><code>editor.formatOnType</code> - to format as you type (triggered on the <code>kbstyle(;)</code> character).</li>
+</ul>
+<p>By default, the clang-format style is set to &quot;file&quot; which means it looks for a <code>.clang-format</code> file inside your workspace. If the <code>.clang-format</code> file is found, formatting is applied according to the settings specified in the file. If no <code>.clang-format</code> file is found in your workspace, formatting is applied based on a default style specified in the <code>C_Cpp.clang_format_fallbackStyle</code> <a href="/docs/getstarted/settings.md">setting</a> instead. Currently, the default formatting style is &quot;Visual Studio&quot; which is an approximation of the default code formatter in Visual Studio.</p>
+<p>The Visual Studio clang-format style is not yet an official clang-format style but it implies the following clang-format settings:</p>
+<pre><code class="lang-json">UseTab: (VS Code current setting)
+IndentWidth: (VS Code current setting)
+BreakBeforeBraces: Allman
+AllowShortIfStatementsOnASingleLine: false
+IndentCaseLabels: false
+ColumnLimit: 0
+</code></pre>
+<p>To use a different version of clang-format than the one that ships with the extension, change the <code>C_Cpp.clang_format_path</code> <a href="/docs/getstarted/settings.md">setting</a> to the path where the clang-format binary is installed.</p>
+<p>For example, on the Windows platform:</p>
+<pre><code class="lang-json">  &quot;C_Cpp.clang_format_path&quot;: &quot;C:\\Program Files (x86)\\LLVM\\bin\\clang-format.exe&quot;
+</code></pre>
+<h3 id="enhanced-semantic-colorization">Enhanced semantic colorization</h3>
+<p>When IntelliSense is enabled, the Visual Studio Code C/C++ extension supports semantic colorization. See <a href="/docs/cpp/colorization-cpp.md">Enhanced colorization</a> for more details about setting colors for classes, functions, variables and so on.</p>
+<h3 id="quick-info">Quick Info</h3>
+<p>You can hover over a symbol to see an inline view of its definition:</p>
+<p><img src="images/mingw/quickinfo.png" alt="Quick info"></p>
+<h3 id="peek-definition">Peek Definition</h3>
+<p>The <strong>Peek Definition</strong> feature displays a few lines of code near the definition inside a <em>peek window</em>, so that you don't have to navigate away from your current location.</p>
+<p>To peek at a symbol's definition, place your cursor on the symbol anywhere it's used in your source code and then press <code>kb(editor.action.peekDefinition)</code>. Alternatively, you can choose <strong>Peek Definition</strong> from the context menu (right-click, then choose <strong>Peek Definition</strong>).</p>
+<p><img src="images/cpp/peekdefn.png" alt="Peek definition"></p>
+<p>Currently, the C/C++ extension doesn't parse code in a way that helps it distinguish between competing definitions based on how the symbol is used. These competing definitions arise when the symbol defines different things in different contexts, such as occurs with overloaded functions, classes and their constructors, and other situations. When this happens, each of the competing definitions is listed in the right-hand side of the peek window with the source code of the current selection displayed on the left.</p>
+<p>With the peek window open, you browse the list of competing definitions to find the one you're interested in. If you want to navigate to the location of one of the definitions just double-click the definition you're interested in, or by double-clicking anywhere in the source code displayed on the left-hand side of the peek window.</p>
+<h2 id="navigate-source-code">Navigate source code</h2>
+<p>The source code navigation features provided by the C/C++ extension are powerful tools for understanding and getting around in your codebase. These features are powered by tags stored in a local database of symbol information. With the C/C++ extension installed, this database is generated whenever a folder containing C++ source code files is loaded into VS Code. The database icon appears next to the active configuration name (&quot;Win32&quot; in the image below) while the tag-parser is generating this information.</p>
+<p><img src="images/cpp/parsing.png" alt="The platform indicator during tag parsing"></p>
+<p>The icon disappears when all the symbols have been tagged.</p>
+<h3 id="search-for-symbols">Search for symbols</h3>
+<p>You can search for symbols in the current file or workspace to navigate your code more quickly.</p>
+<p>To search for a symbol in the current file, press <code>kb(workbench.action.gotoSymbol)</code>, then enter the name of the symbol you're looking for. A list of potential matches will appear; it is filtered as you type. Choose from the list of matches to navigate to its location.</p>
+<p><img src="images/cpp/filesearch.png" alt="Searching the current file"></p>
+<p>To search for a symbol in the current workspace, press <code>kb(workbench.action.showAllSymbols)</code>, then enter the name of the symbol. A list of potential matches will appear as before. If you choose a match that was found in a file that's not already open, the file will be opened before navigating to the match's location.</p>
+<p><img src="images/cpp/workspacesearch.png" alt="Searching in your workspace"></p>
+<p>You can also search for symbols by accessing these commands through the <strong>Command Palette</strong>. Use <strong>Quick Open</strong> (<code>kb(workbench.action.quickOpen)</code>) then enter the '@' command to search the current file, or the '#' command to search the current workspace. <code>kb(workbench.action.gotoSymbol)</code> and <code>kb(workbench.action.showAllSymbols)</code> are just shortcuts for the '@' and '#' commands, so everything works the same.</p>
+<h3 id="go-to-definition">Go to Definition</h3>
+<p>You can also quickly navigate to where a symbol is defined by using the <strong>Go to Definition</strong> feature.</p>
+<p>To go to a symbol's definition, place your cursor on the symbol anywhere it is used in your source code and then press <code>kb(editor.action.revealDefinition)</code>. Or, choose <strong>Go to Definition</strong> from the context menu (right-click, then choose <strong>Go to Definition</strong>). When there's only one definition of the symbol, you'll navigate directly to its location, otherwise the competing definitions are displayed in a peek window as described in the previous section and you have to choose the definition that you want to go to.</p>
+<h2 id="next-steps">Next steps</h2>
+<p>Read on to find out about:</p>
+<ul>
+<li><a href="/docs/cpp/config-wsl.md">Configure VS Code for Windows Subsystem for Linux</a></li>
+<li><a href="/docs/cpp/config-mingw.md">Configure VS Code for MSVC</a></li>
+<li><a href="/docs/cpp/config-mingw.md">Configure VS Code for Mingw-w64 and GCC</a></li>
+<li><a href="/docs/cpp/config-clang-mac.md">Configure VS Code for macOS</a></li>
+<li><a href="configure-intellisense-crosscompilation.html">Configure IntelliSense for cross-compiling</a></li>
+<li><a href="/docs/editor/codebasics.md">Basic Editing</a> - Learn about the powerful VS Code editor.</li>
+<li><a href="/docs/editor/editingevolved.md">Code Navigation</a> - Move quickly through your source code.</li>
+<li><a href="/docs/editor/tasks.md">Tasks</a> - use tasks to build your project and more</li>
+<li><a href="/docs/editor/debugging.md">Debugging</a> - find out how to use the debugger with your project</li>
+</ul>
+<p>If you have any other questions or run into any issues, please file an issue on <a href="https://github.com/microsoft/vscode-cpptools/issues">GitHub</a>. You may be asked to provide logging information from the extension to help diagnose the issue. See <a href="/docs/cpp/enable-logging-cpp.md">C/C++ extension logging</a> for help on providing extension logs.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/JimBobUKII/fountain-of-knowledge/blob/main/guides/vscode/cpp/cpp-ide.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            Copyright &#0169; 2021 Jason Rose
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,1262 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Natvis: Custom views for native objects | Fountain of Knowledge </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Natvis: Custom views for native objects | Fountain of Knowledge ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    <meta property="docfx:rel" content="../../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="natvis-custom-views-for-native-objects">Natvis: Custom views for native objects</h1>
+
+<p>The <a href="https://docs.microsoft.com/visualstudio/debugger/create-custom-views-of-native-objects">Natvis</a> framework allows developers to write custom schemas to help visualize native objects.</p>
+<p>For gdb/lldb debugging (<code>type&quot;: &quot;cppdbg</code>), a subset of the Natvis framework has been ported to the C/C++ extension and the code resides in the <a href="https://github.com/microsoft/MIEngine">MIEngine</a> shared component. If additional features that are not implemented are requested, please <a href="https://github.com/microsoft/MIEngine/issues">file an issue</a> on the MIEngine GitHub page with details of what is missing.</p>
+<p>For Microsoft C++ debugging (<code>type&quot;: &quot;cppvsdbg</code>), the debugger contains the full implementation of the Natvis framework as Visual Studio.</p>
+<h2 id="documentation">Documentation</h2>
+<p>The official Natvis documentation is located at <a href="https://docs.microsoft.com/visualstudio/debugger/create-custom-views-of-native-objects">Create custom views of C++ objects in the debugger</a>.</p>
+<h2 id="schema">Schema</h2>
+<p>The Natvis schema is provided here for convenience:</p>
+<pre><code class="lang-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;xs:schema targetNamespace=&quot;http://schemas.microsoft.com/vstudio/debugger/natvis/2010&quot; xmlns=&quot;http://schemas.microsoft.com/vstudio/debugger/natvis/2010&quot; attributeFormDefault=&quot;unqualified&quot; elementFormDefault=&quot;qualified&quot;
+           xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot;&gt;
+
+  &lt;!-- Definition of complex named types--&gt;
+
+  &lt;xs:simpleType name=&quot;GuidType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;Values of this type will look like: &quot;01234567-89AB-CDEF-0123-456789ABCDEF&quot; or &quot;{01234567-89AB-CDEF-0123-456789ABCDEF}&quot;.&lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:restriction base=&quot;xs:string&quot;&gt;
+      &lt;xs:pattern value=&quot;[{(]?[0-9A-Fa-f]{8}\-?[0-9A-Fa-f]{4}\-?[0-9A-Fa-f]{4}\-?[0-9A-Fa-f]{4}\-?[0-9A-Fa-f]{12}[})]?&quot;/&gt;
+    &lt;/xs:restriction&gt;
+  &lt;/xs:simpleType&gt;
+
+  &lt;xs:simpleType name=&quot;CppIdType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;A valid C++ identifier.&lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:restriction base=&quot;xs:string&quot;&gt;
+      &lt;xs:pattern value=&quot;[a-zA-Z$_][a-zA-Z$_0-9]*&quot; /&gt;
+    &lt;/xs:restriction&gt;
+  &lt;/xs:simpleType&gt;
+
+  &lt;xs:simpleType name=&quot;StringType&quot;&gt;
+    &lt;xs:restriction base=&quot;xs:string&quot;&gt;
+      &lt;xs:minLength value=&quot;1&quot;/&gt;
+    &lt;/xs:restriction&gt;
+  &lt;/xs:simpleType&gt;
+
+  &lt;xs:simpleType name=&quot;MaxItemsPerViewType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;
+        Specifies the maximum number of collection items that can be displayed at one time. If the number of items in the collection
+        exceeds this limit, a special node will be created at the end, which can be expanded to show additional items.
+
+        The precise cutoff for the maximum number of items to show in a view is a tuning parameter. While a higher number allow more items
+        to be visible at one time, a lower number will improve the performance of Visual Studio when a custom list object is expanded. In general,
+        the more complicated the traversal logic, the smaller the number of items per view needs to be in order to keep the IDE responsive.
+
+        The maximum number of items per view must be between 1 and 50,000. A default value of 5,000 items will be used if this attribute is not specified.
+      &lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:restriction base=&quot;xs:unsignedInt&quot;&gt;
+      &lt;xs:minInclusive value=&quot;1&quot; /&gt;
+      &lt;xs:maxInclusive value=&quot;50000&quot; /&gt;
+    &lt;/xs:restriction&gt;
+  &lt;/xs:simpleType&gt;
+
+  &lt;xs:simpleType name=&quot;ConditionType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;Specifies the condition under which this element is active. The expression should produce a boolean value when evaluated.&lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:restriction base=&quot;xs:string&quot;&gt;
+      &lt;xs:minLength value=&quot;1&quot;/&gt;
+    &lt;/xs:restriction&gt;
+  &lt;/xs:simpleType&gt;
+
+  &lt;xs:simpleType name=&quot;OptionalType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;
+        Specifies whether the element is optional. An optional element that fails to parse allows the remainder of the elements in the enclosing &amp;lt;Type&amp;gt; entry
+        to be used. A mandatory element that fails to parse will cause the entire enclosing &amp;lt;Type&amp;gt; element to be invalidated. All elements are assumed, by default, to be mandatory,
+        unless Optional=&amp;quot;true&amp;quot; is specified.
+      &lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:restriction base=&quot;xs:boolean&quot;&gt;
+    &lt;/xs:restriction&gt;
+  &lt;/xs:simpleType&gt;
+
+  &lt;xs:simpleType name=&quot;ViewIncludeType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;
+        Specifies a semi-colon-delimited list of views in which this element should be shown. The view of the object is controlled
+        via the ,view(&amp;lt;name&amp;gt;) format specifier.
+      &lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:restriction base=&quot;xs:string&quot;&gt;
+      &lt;xs:minLength value=&quot;1&quot;/&gt;
+    &lt;/xs:restriction&gt;
+  &lt;/xs:simpleType&gt;
+  &lt;xs:simpleType name=&quot;ViewExcludeType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;
+        Specifies a semi-colon-delimited list of views in which this element should be hidden. The view of the object is controlled
+        via the ,view(&amp;lt;name&amp;gt;) format specifier.
+      &lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:restriction base=&quot;xs:string&quot;&gt;
+      &lt;xs:minLength value=&quot;1&quot;/&gt;
+    &lt;/xs:restriction&gt;
+  &lt;/xs:simpleType&gt;
+
+  &lt;xs:simpleType name=&quot;TypeNameType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;Specifies the fully qualified name of the type to be visualized. If the type is a template class, it might contain '*' as a wildcard character for template parameters. Primitive data type names are only allowed with UIVisualizer definitions.&lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:restriction base=&quot;xs:string&quot;&gt;
+      &lt;xs:minLength value=&quot;1&quot;/&gt;
+    &lt;/xs:restriction&gt;
+  &lt;/xs:simpleType&gt;
+
+  &lt;xs:simpleType name=&quot;ModuleNameStringType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;Specifies the name of a module. It should include just the module name and no absolute or relative paths.&lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:restriction base=&quot;xs:string&quot;&gt;
+      &lt;xs:minLength value=&quot;1&quot;/&gt;
+      &lt;xs:pattern value=&quot;([^\\^//])+&quot;/&gt;
+      &lt;!-- Prevent absolute or relative pathing, just the module name only--&gt;
+    &lt;/xs:restriction&gt;
+  &lt;/xs:simpleType&gt;
+
+  &lt;xs:simpleType name=&quot;VersionStringType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;1.2.3.4 or 1.2 are acceptable.&lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:restriction base=&quot;xs:string&quot;&gt;
+      &lt;xs:pattern value=&quot;([0-9])+\.([0-9])+(\.([0-9])+\.([0-9])+)?&quot;/&gt;
+      &lt;!--1.2.3.4 or 1.2 are acceptable --&gt;
+    &lt;/xs:restriction&gt;
+  &lt;/xs:simpleType&gt;
+
+  &lt;xs:complexType name=&quot;AlternativeHResultType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;Specifies an alternative HRESULT which will share the same visualizer.&lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:attribute name=&quot;Name&quot; type=&quot;TypeNameType&quot; use=&quot;required&quot;/&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;xs:complexType name=&quot;IntrinsicParameterType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;Specifies the type of the parameter to the given intrinsic function.&lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:attribute name=&quot;Type&quot; type=&quot;StringType&quot; use=&quot;required&quot; /&gt;
+    &lt;xs:attribute name=&quot;Name&quot; type=&quot;CppIdType&quot;  use=&quot;optional&quot;&gt;
+      &lt;xs:annotation&gt;
+        &lt;xs:documentation&gt;If an expression is provided, specifies the name by which the expression can refer to the parameter. If the function is implemented via a debugger extension,
+        this attribute may be omitted.
+        &lt;/xs:documentation&gt;
+      &lt;/xs:annotation&gt;
+    &lt;/xs:attribute&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;xs:complexType name=&quot;IntrinsicType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;Describes a custom intrinsic function that can be called from an expression. An &amp;lt;Intrinsic&amp;gt; element must be
+        accompanied by a debugger component that implements the function through the IDkmIntrinsicFunctionEvaluator140 interface.
+      &lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:choice minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;&gt;
+      &lt;xs:element name=&quot;Parameter&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot; type=&quot;IntrinsicParameterType&quot;&gt;&lt;/xs:element&gt;
+    &lt;/xs:choice&gt;
+    &lt;xs:attributeGroup ref=&quot;CommonAttributes_NoCondition_NoView&quot; /&gt;
+    &lt;xs:attribute name=&quot;Name&quot; type=&quot;CppIdType&quot; use=&quot;required&quot;&gt;
+      &lt;xs:annotation&gt;
+        &lt;xs:documentation&gt;The name of the intrinsic function. This must be a valid C++ identifier.
+        &lt;/xs:documentation&gt;
+      &lt;/xs:annotation&gt;
+    &lt;/xs:attribute&gt;
+    &lt;xs:attribute name=&quot;Category&quot; type=&quot;IconType&quot; use=&quot;optional&quot;&gt;
+      &lt;xs:annotation&gt;
+        &lt;xs:documentation&gt;Specifies which category icon should be assigned to the results of expressions that invoke this function. This controls which icon is used
+        in the watch window for expressions that call the function. The default category value is 'Method'.&lt;/xs:documentation&gt;
+      &lt;/xs:annotation&gt;
+    &lt;/xs:attribute&gt;
+    &lt;xs:attribute name=&quot;ReturnType&quot; type=&quot;StringType&quot; use=&quot;optional&quot;&gt;
+      &lt;xs:annotation&gt;
+        &lt;xs:documentation&gt;The return type of the intrinsic function. The return type may be omitted if an expression is provided (the type of the expression will imply the return type).&lt;/xs:documentation&gt;
+      &lt;/xs:annotation&gt;
+    &lt;/xs:attribute&gt;
+    &lt;xs:attribute name=&quot;Expression&quot; type=&quot;StringType&quot; use=&quot;optional&quot;&gt;
+      &lt;xs:annotation&gt;
+        &lt;xs:documentation&gt;
+          Expression that evaluates to the return value of the function.
+        &lt;/xs:documentation&gt;
+      &lt;/xs:annotation&gt;
+    &lt;/xs:attribute&gt;
+    &lt;xs:attribute name=&quot;SourceId&quot; type=&quot;GuidType&quot; use=&quot;optional&quot;&gt;
+      &lt;xs:annotation&gt;
+        &lt;xs:documentation&gt;Specifies the source id used to identify the debugger component that implements the function. This must match the filter constraints of the IDkmIntrinsicFunctionEvaluator140 implementation.&lt;/xs:documentation&gt;
+      &lt;/xs:annotation&gt;
+    &lt;/xs:attribute&gt;
+    &lt;xs:attribute name=&quot;LanguageId&quot; type=&quot;GuidType&quot; use=&quot;optional&quot;&gt;
+      &lt;xs:annotation&gt;
+        &lt;xs:documentation&gt;Specifies the language id used to identify the debugger component that implements the function. This must match the filter constraints of the IDkmIntrinsicFunctionEvaluator140 implementation.&lt;/xs:documentation&gt;
+      &lt;/xs:annotation&gt;
+    &lt;/xs:attribute&gt;
+    &lt;xs:attribute name=&quot;Id&quot; type=&quot;xs:unsignedInt&quot; use=&quot;optional&quot;&gt;
+      &lt;xs:annotation&gt;
+        &lt;xs:documentation&gt;Specifies unique id for this function, given the source id and language id. It is used by the implementing component to determine which function was called
+        if it implements multiple intrinsic functions.&lt;/xs:documentation&gt;
+      &lt;/xs:annotation&gt;
+    &lt;/xs:attribute&gt;
+    &lt;xs:attribute name=&quot;SideEffect&quot; type=&quot;xs:boolean&quot; use=&quot;optional&quot;&gt;
+      &lt;xs:annotation&gt;
+        &lt;xs:documentation&gt;If true, indicates that this function may cause side effects. If true, calls to this function will be disabled
+        in scenarios where unexpected side effects may be confusing to the user. Functions that modify state, either inside the debuggee or inside Visual Studio, should set this to true.
+        By default, this value is false.&lt;/xs:documentation&gt;
+      &lt;/xs:annotation&gt;
+    &lt;/xs:attribute&gt;
+    &lt;xs:attribute name=&quot;Varargs&quot; type=&quot;xs:boolean&quot; use=&quot;optional&quot;&gt;
+      &lt;xs:annotation&gt;
+        &lt;xs:documentation&gt;
+          If true, indicates that this function is a varargs function, and that additional arguments can be passed after the explicitly-listed parameters. Default is false.
+        &lt;/xs:documentation&gt;
+      &lt;/xs:annotation&gt;
+    &lt;/xs:attribute&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;xs:complexType name=&quot;AlternativeTypeType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;Specifies an alternative type which will share the same visualizer.&lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:attribute name=&quot;Name&quot; type=&quot;TypeNameType&quot; use=&quot;required&quot;/&gt;
+    &lt;xs:attribute name=&quot;Priority&quot; type=&quot;PriorityType&quot; use=&quot;optional&quot; /&gt;
+    &lt;xs:attribute name=&quot;Inheritable&quot; type=&quot;xs:boolean&quot; use=&quot;optional&quot;&gt;
+      &lt;xs:annotation&gt;
+        &lt;xs:documentation&gt;
+          True if this visualizer may be used by objects of classes derived from the given type, false if an object must be directly of this type for the visualizer to take effect.
+          Default is true.
+        &lt;/xs:documentation&gt;
+      &lt;/xs:annotation&gt;
+    &lt;/xs:attribute&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;xs:complexType name=&quot;VersionType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;Specifies a matching module name and version for this visualizer.&lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:attribute name=&quot;Name&quot; type=&quot;ModuleNameStringType&quot; use=&quot;required&quot; /&gt;
+    &lt;xs:attribute name=&quot;Min&quot; type=&quot;VersionStringType&quot; use=&quot;optional&quot;&gt;
+      &lt;xs:annotation&gt;
+        &lt;xs:documentation&gt;Specifies the minimum (inclusive) version number. &lt;/xs:documentation&gt;
+      &lt;/xs:annotation&gt;
+    &lt;/xs:attribute&gt;
+    &lt;xs:attribute name=&quot;Max&quot; type=&quot;VersionStringType&quot; use=&quot;optional&quot;&gt;
+      &lt;xs:annotation&gt;
+        &lt;xs:documentation&gt;Specifies the maximum (inclusive) version number. &lt;/xs:documentation&gt;
+      &lt;/xs:annotation&gt;
+    &lt;/xs:attribute&gt;
+  &lt;/xs:complexType&gt;
+  &lt;!-- Attributes for elements that support filtering by view--&gt;
+  &lt;xs:attributeGroup name=&quot;ViewConstraints&quot;&gt;
+    &lt;xs:attribute name=&quot;IncludeView&quot; type =&quot;ViewIncludeType&quot; use=&quot;optional&quot; /&gt;
+    &lt;xs:attribute name=&quot;ExcludeView&quot; type =&quot;ViewExcludeType&quot; use=&quot;optional&quot; /&gt;
+  &lt;/xs:attributeGroup&gt;
+
+  &lt;xs:attributeGroup name=&quot;CommonAttributes_NoCondition_NoView&quot;&gt;
+    &lt;xs:attribute name=&quot;ModuleName&quot; type=&quot;ModuleNameStringType&quot; use=&quot;optional&quot; /&gt;
+    &lt;xs:attribute name=&quot;ModuleVersionMin&quot; type=&quot;VersionStringType&quot; use=&quot;optional&quot; /&gt;
+    &lt;xs:attribute name=&quot;ModuleVersionMax&quot; type=&quot;VersionStringType&quot; use=&quot;optional&quot; /&gt;
+    &lt;xs:attribute name=&quot;Optional&quot; type=&quot;OptionalType&quot; use=&quot;optional&quot; /&gt;
+  &lt;/xs:attributeGroup&gt;
+
+  &lt;xs:attributeGroup name=&quot;CommonAttributes_NoCondition&quot;&gt;
+    &lt;xs:attributeGroup ref=&quot;CommonAttributes_NoCondition_NoView&quot; /&gt;
+    &lt;xs:attributeGroup ref=&quot;ViewConstraints&quot; /&gt;
+  &lt;/xs:attributeGroup&gt;
+
+  &lt;!-- These attributes are shared by all top-level natvis elements (DisplayString/StringView/top-level children of Expand)--&gt;
+  &lt;xs:attributeGroup name=&quot;CommonAttributes&quot;&gt;
+    &lt;xs:attributeGroup ref=&quot;CommonAttributes_NoCondition&quot; /&gt;
+    &lt;xs:attribute name=&quot;Condition&quot; type=&quot;ConditionType&quot; use=&quot;optional&quot; /&gt;
+  &lt;/xs:attributeGroup&gt;
+
+  &lt;xs:complexType name=&quot;DisplayStringType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;Specifies the string to be shown as the value of objects of the visualized type. It accepts arbitrary strings mixed with expressions. Everything inside curly braces (for example, { and }) is interpreted as an expression and gets evaluated. To escape a curly brace, you can type two curly braces (for example, \{{ or }}).&lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:simpleContent&gt;
+      &lt;xs:extension base=&quot;xs:string&quot;&gt;
+        &lt;xs:attributeGroup ref=&quot;CommonAttributes&quot; /&gt;
+        &lt;xs:attribute name=&quot;LegacyAddin&quot; type=&quot;StringType&quot; use=&quot;optional&quot;&gt;
+          &lt;xs:annotation&gt;
+            &lt;xs:documentation&gt;If a legacy add-in exists, specifies the dll of the legacy addin. If a full path isn't specified, Visual Studio will look in the visualizer directory next to the .natvis file that specified the add-in. A regular display string is still allowed in conjunction with an add-in, and will be used as a fallback if the add-in dll cannot be loaded.&lt;/xs:documentation&gt;
+          &lt;/xs:annotation&gt;
+        &lt;/xs:attribute&gt;
+        &lt;xs:attribute name=&quot;Export&quot; type=&quot;StringType&quot; use=&quot;optional&quot;&gt;
+          &lt;xs:annotation&gt;
+            &lt;xs:documentation&gt;If a legacy add-in exists, specifies the name of the export for the legacy add-in implementation. This attribute is valid only if 'LegacyAddin' is also specified.&lt;/xs:documentation&gt;
+          &lt;/xs:annotation&gt;
+        &lt;/xs:attribute&gt;
+        &lt;xs:attribute name=&quot;Encoding&quot; type=&quot;EncodingType&quot; use=&quot;optional&quot;&gt;
+          &lt;xs:annotation&gt;
+            &lt;xs:documentation&gt;Specifies the encoding of the string returned by the legacy addin. Default is Utf8. This attribute is valid only if 'LegacyAddin' is also specified.
+            &lt;/xs:documentation&gt;
+          &lt;/xs:annotation&gt;
+        &lt;/xs:attribute&gt;
+      &lt;/xs:extension&gt;
+    &lt;/xs:simpleContent&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;xs:simpleType name=&quot;EncodingType&quot;&gt;
+    &lt;xs:restriction base=&quot;xs:normalizedString&quot;&gt;
+      &lt;xs:enumeration value=&quot;Ansi&quot; /&gt;
+      &lt;xs:enumeration value=&quot;Utf8&quot; /&gt;
+    &lt;/xs:restriction&gt;
+  &lt;/xs:simpleType&gt;
+
+  &lt;xs:complexType name=&quot;CustomVisualizerType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;Specifies a visualizer add-in which customizes the debugger view of this object.&lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:attribute name=&quot;VisualizerId&quot; type=&quot;GuidType&quot; use=&quot;required&quot;/&gt;
+    &lt;xs:attributeGroup ref=&quot;CommonAttributes&quot; /&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;xs:complexType name=&quot;StringViewType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;Specifies the expression whose value is sent to the built-in text visualizers.&lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:simpleContent&gt;
+      &lt;xs:extension base=&quot;StringType&quot;&gt;
+        &lt;xs:attributeGroup ref=&quot;CommonAttributes&quot; /&gt;
+      &lt;/xs:extension&gt;
+    &lt;/xs:simpleContent&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;xs:complexType name=&quot;IndexNodeType&quot;&gt;
+    &lt;xs:simpleContent&gt;
+      &lt;xs:extension base=&quot;StringType&quot;&gt;
+        &lt;xs:attribute name=&quot;Condition&quot; type=&quot;ConditionType&quot; use=&quot;optional&quot; /&gt;
+      &lt;/xs:extension&gt;
+    &lt;/xs:simpleContent&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;xs:attributeGroup name=&quot;NameAttribute&quot;&gt;
+  &lt;xs:attribute type=&quot;xs:string&quot; name=&quot;Name&quot; use=&quot;optional&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;
+        Specifies an optional name, in &amp;lt;DisplayString&amp;gt; syntax, for this node. If omitted, the name
+        of the node will be the index of the item in the tree traversal. Expressions in curly braces
+        are evaluated in the context of the node.
+      &lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+  &lt;/xs:attribute&gt;
+  &lt;/xs:attributeGroup&gt;
+  &lt;xs:complexType name=&quot;ListItemsNodeType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;Expression that points to value of the linked list node. It can be left empty or have 'this' to refer to the linked list node itself. This expression is evaluated under the context of the linked list node and not the parent linked list type.&lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:simpleContent&gt;
+      &lt;xs:extension base=&quot;StringType&quot;&gt;
+        &lt;xs:attributeGroup ref=&quot;NameAttribute&quot; /&gt;
+      &lt;/xs:extension&gt;
+    &lt;/xs:simpleContent&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;xs:complexType name=&quot;TreeItemsNodeType&quot;&gt;
+    &lt;xs:simpleContent&gt;
+      &lt;xs:extension base=&quot;StringType&quot;&gt;
+        &lt;xs:attribute name=&quot;Condition&quot; type=&quot;ConditionType&quot; use=&quot;optional&quot; /&gt;
+        &lt;xs:attributeGroup ref=&quot;NameAttribute&quot; /&gt;
+      &lt;/xs:extension&gt;
+    &lt;/xs:simpleContent&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;xs:complexType name=&quot;ItemType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;Specifies a single child element. It only accepts expressions and no arbitrary strings. If the expression produces a complex type value, the child node itself can be expanded by the user.&lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:simpleContent&gt;
+      &lt;xs:extension base=&quot;StringType&quot;&gt;
+        &lt;xs:attribute name=&quot;Name&quot; type=&quot;StringType&quot; use=&quot;required&quot;&gt;
+          &lt;xs:annotation&gt;
+            &lt;xs:documentation&gt;Name of the child element as it will be shown under the name column in the debugger variable windows.&lt;/xs:documentation&gt;
+          &lt;/xs:annotation&gt;
+        &lt;/xs:attribute&gt;
+        &lt;xs:attributeGroup ref=&quot;CommonAttributes&quot; /&gt;
+      &lt;/xs:extension&gt;
+    &lt;/xs:simpleContent&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;xs:complexType name=&quot;ExpandedItemType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;Specifies a child element whose children will be shown as the children of the current node. Use when you need to generate a flat view of a type when expanded.&lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:simpleContent&gt;
+      &lt;xs:extension base=&quot;StringType&quot;&gt;
+        &lt;xs:attributeGroup ref=&quot;CommonAttributes&quot; /&gt;
+      &lt;/xs:extension&gt;
+    &lt;/xs:simpleContent&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;xs:simpleType name=&quot;ArrayDirectionType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;Specifies how the multi-dimensional array indices should be unrolled. Use 'Forward' for row-major arrays and 'Backward' for column-major arrays.&lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:restriction base=&quot;xs:normalizedString&quot;&gt;
+      &lt;xs:enumeration value=&quot;Forward&quot;/&gt;
+      &lt;xs:enumeration value=&quot;Backward&quot;/&gt;
+    &lt;/xs:restriction&gt;
+  &lt;/xs:simpleType&gt;
+
+  &lt;xs:simpleType name=&quot;IconType&quot;&gt;
+    &lt;xs:restriction base=&quot;xs:normalizedString&quot;&gt;
+      &lt;xs:enumeration value=&quot;Data&quot;&gt;
+        &lt;xs:annotation&gt;
+          &lt;xs:documentation&gt;
+            Indicates that the item should use the icon associated with general data.
+          &lt;/xs:documentation&gt;
+        &lt;/xs:annotation&gt;
+      &lt;/xs:enumeration&gt;
+      &lt;xs:enumeration value=&quot;Method&quot;&gt;
+        &lt;xs:annotation&gt;
+          &lt;xs:documentation&gt;
+            Indicates that the item should use the icon associated with method calls.
+          &lt;/xs:documentation&gt;
+        &lt;/xs:annotation&gt;
+      &lt;/xs:enumeration&gt;
+      &lt;xs:enumeration value=&quot;Property&quot;&gt;
+        &lt;xs:annotation&gt;
+          &lt;xs:documentation&gt;
+            Indicates that the item should use the icon associated with properties.
+          &lt;/xs:documentation&gt;
+        &lt;/xs:annotation&gt;
+      &lt;/xs:enumeration&gt;
+    &lt;/xs:restriction&gt;
+  &lt;/xs:simpleType&gt;
+
+  &lt;xs:complexType name=&quot;ExpandType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;Specifies the list of child elements to be shown when a variable of the visualized type is expanded in the debugger windows.&lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:choice minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;&gt;
+      &lt;xs:element name=&quot;Item&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot; type=&quot;ItemType&quot; /&gt;
+      &lt;xs:element name=&quot;ArrayItems&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot; type=&quot;ArrayItemsType&quot; /&gt;
+      &lt;xs:element name=&quot;IndexListItems&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot; type=&quot;IndexListItemsType&quot; /&gt;
+      &lt;xs:element name=&quot;LinkedListItems&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot; type=&quot;LinkedListItemsType&quot; /&gt;
+      &lt;xs:element name=&quot;TreeItems&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot; type=&quot;TreeItemsType&quot; /&gt;
+      &lt;xs:element name=&quot;ExpandedItem&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot; type=&quot;ExpandedItemType&quot; /&gt;
+      &lt;xs:element name=&quot;Synthetic&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot; type=&quot;SyntheticItemType&quot; /&gt;
+      &lt;xs:element name=&quot;CustomListItems&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot; type=&quot;CustomListItemsType&quot; /&gt;
+    &lt;/xs:choice&gt;
+    &lt;xs:attribute name=&quot;HideRawView&quot; type=&quot;xs:boolean&quot;&gt;
+      &lt;xs:annotation&gt;
+        &lt;xs:documentation&gt;Specifies whether or not the &quot;[Raw View]&quot; node for this object should be hidden. By default, this attribute is set to 'false',
+        which will result in the raw view node of the current object visible to the user.
+        &lt;/xs:documentation&gt;
+      &lt;/xs:annotation&gt;
+    &lt;/xs:attribute&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;xs:complexType name=&quot;CustomListItemsType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;Specifies custom logic for iterating through a collection which cannot be visualized by other means.&lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:sequence&gt;
+      &lt;xs:choice minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;&gt;
+        &lt;xs:element name=&quot;Variable&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot; type=&quot;VariableType&quot;&gt;&lt;/xs:element&gt;
+      &lt;/xs:choice&gt;
+      &lt;xs:choice minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;&gt;
+        &lt;xs:element name=&quot;Size&quot; minOccurs=&quot;1&quot; maxOccurs=&quot;1&quot; type=&quot;CustomListSizeType&quot;&gt;
+        &lt;/xs:element&gt;
+      &lt;/xs:choice&gt;
+      &lt;xs:choice minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;&gt;
+        &lt;xs:element name=&quot;Skip&quot; minOccurs=&quot;1&quot; maxOccurs=&quot;1&quot; type=&quot;SkipType&quot;&gt;&lt;/xs:element&gt;
+      &lt;/xs:choice&gt;
+      &lt;xs:choice minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;&gt;
+        &lt;xs:group ref =&quot;CustomListCode&quot; /&gt;
+      &lt;/xs:choice&gt;
+    &lt;/xs:sequence&gt;
+    &lt;xs:attributeGroup ref=&quot;CommonAttributes&quot; /&gt;
+    &lt;xs:attribute name=&quot;MaxItemsPerView&quot; type=&quot;MaxItemsPerViewType&quot; use=&quot;optional&quot;&gt;
+    &lt;/xs:attribute&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;xs:complexType name=&quot;SkipType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;
+        Specifies logic to skip a specified number of items in the collection. The skip logic is invoked
+        when the user scrolls in the watch window in order to quickly navigate the collection traversal down to the desired point. After the skip logic,
+        control will return to be start of the execution, but with iteration variables modified as needed to reflect the updated state.
+
+        The &amp;lt;Skip&amp;gt; element exist as an optional performance optimization to allow the collection traversal to skip through large numbers
+        of items quickly. If a &amp;lt;Skip&amp;gt; element is not specified, the expression evaluator will run the traversal logic when it needs to do
+        a skip until the desired number of &amp;lt;Item&amp;gt; elements have executed. Depending on the data structure of the underlying collection,
+        this may involve a significant amount of unnecessary computation.
+      &lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+
+    &lt;xs:choice minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;&gt;
+      &lt;xs:group ref=&quot;CustomListCode_NoItem&quot; /&gt;
+    &lt;/xs:choice&gt;
+
+    &lt;xs:attribute name=&quot;Value&quot; type=&quot;CppIdType&quot; use=&quot;required&quot;&gt;
+      &lt;xs:annotation&gt;
+        &lt;xs:documentation&gt;
+          Name of the variable specifying the number of items to skip, as an unsigned 32-bit integer. If a &amp;lt;Size&amp;gt; element is specified,
+          the expression evaluator will never pass in a skip value that would cause the current index of the traversal to exceed the bounds of the collection.
+          If no &amp;lt;Size&amp;gt; element is specified, the skip value may be any arbitrary integer, and it is the responsibility of the &amp;lt;Skip&amp;gt; logic
+          to do any bounds checking necessary. In the event that it is not possible to skip over the full number of items requested, the &amp;lt;Skip&amp;gt; logic
+          should modify the value to the skip variable so that when execution completes, it contains the actual number of items skipped.
+        &lt;/xs:documentation&gt;
+      &lt;/xs:annotation&gt;
+    &lt;/xs:attribute&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;xs:complexType name=&quot;CustomListSizeType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;Specifies the total number of items in the collection.&lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:simpleContent&gt;
+      &lt;xs:extension base=&quot;StringType&quot;&gt;
+        &lt;xs:attribute name=&quot;Condition&quot; type=&quot;ConditionType&quot; use=&quot;optional&quot; /&gt;
+      &lt;/xs:extension&gt;
+    &lt;/xs:simpleContent&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;xs:group name=&quot;CustomListCode_NoItem&quot;&gt;
+    &lt;xs:choice&gt;
+      &lt;!-- For the sake of simplifying implementation, I am not implementing declaring variables inside of an 'loop' block
+           until I encounter a scenario that requires it.--&gt;
+      &lt;!--&lt;xs:element name=&quot;Variable&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot; type=&quot;VariableType&quot;&gt;&lt;/xs:element&gt;--&gt;
+      &lt;xs:element name=&quot;Loop&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot; type=&quot;LoopType_NoItem&quot;&gt;&lt;/xs:element&gt;
+      &lt;xs:sequence minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;&gt;
+        &lt;xs:element name=&quot;If&quot; minOccurs=&quot;1&quot; maxOccurs=&quot;1&quot; type=&quot;IfType_NoItem&quot;&gt;&lt;/xs:element&gt;
+        &lt;xs:element name=&quot;Elseif&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot; type=&quot;IfType_NoItem&quot;&gt;&lt;/xs:element&gt;
+        &lt;xs:element name=&quot;Else&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot; type=&quot;ElseType_NoItem&quot;&gt;&lt;/xs:element&gt;
+      &lt;/xs:sequence&gt;
+      &lt;xs:element name=&quot;Exec&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot; type=&quot;ExecType&quot;&gt;&lt;/xs:element&gt;
+      &lt;xs:element name=&quot;Break&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot; type=&quot;BreakType&quot;&gt;&lt;/xs:element&gt;
+    &lt;/xs:choice&gt;
+  &lt;/xs:group&gt;
+
+  &lt;xs:group name=&quot;CustomListCode&quot;&gt;
+    &lt;xs:choice&gt;
+      &lt;!-- For the sake of simplifying implementation, I am not implementing declaring variables inside of an 'loop' block
+          until I encounter a scenario that requires it.--&gt;
+      &lt;!--&lt;xs:element name=&quot;Variable&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot; type=&quot;VariableType&quot;&gt;&lt;/xs:element&gt;--&gt;
+      &lt;xs:element name=&quot;Loop&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot; type=&quot;LoopType&quot;&gt;&lt;/xs:element&gt;
+      &lt;xs:sequence minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;&gt;
+        &lt;xs:element name=&quot;If&quot; minOccurs=&quot;1&quot; maxOccurs=&quot;1&quot; type=&quot;IfType&quot;&gt;&lt;/xs:element&gt;
+        &lt;xs:element name=&quot;Elseif&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot; type=&quot;IfType&quot;&gt;&lt;/xs:element&gt;
+        &lt;xs:element name=&quot;Else&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot; type=&quot;ElseType&quot;&gt;&lt;/xs:element&gt;
+      &lt;/xs:sequence&gt;
+      &lt;xs:element name=&quot;Exec&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot; type=&quot;ExecType&quot;&gt;&lt;/xs:element&gt;
+      &lt;xs:element name=&quot;Break&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot; type=&quot;BreakType&quot;&gt;&lt;/xs:element&gt;
+      &lt;xs:element name=&quot;Item&quot; minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot; type=&quot;CustomListItemType&quot;&gt;&lt;/xs:element&gt;
+    &lt;/xs:choice&gt;
+  &lt;/xs:group&gt;
+
+  &lt;xs:attributeGroup name=&quot;CustomListCode_Attributes&quot;&gt;
+    &lt;xs:attribute name=&quot;Condition&quot; type=&quot;ConditionType&quot; use=&quot;optional&quot;&gt;
+      &lt;xs:annotation&gt;
+        &lt;xs:documentation&gt;Condition controlling whether this element and inner elements should execute&lt;/xs:documentation&gt;
+      &lt;/xs:annotation&gt;
+    &lt;/xs:attribute&gt;
+    &lt;xs:attributeGroup ref=&quot;CustomListCode_Attributes_NoCondition&quot; /&gt;
+  &lt;/xs:attributeGroup&gt;
+
+  &lt;!-- Defines attributes that do on custom list code elements besides the condition. Currently, this is empty, but maintaining the group
+  as a placeholder in case we decide to add something to it later. --&gt;
+  &lt;xs:attributeGroup name=&quot;CustomListCode_Attributes_NoCondition&quot;&gt;
+  &lt;/xs:attributeGroup&gt;
+
+  &lt;xs:complexType name=&quot;LoopType_NoItem&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;Specifies a block of instructions which will only execute multiple times until a &amp;lt;Break&amp;gt; element is encountered, or an expression fails to evaluate.&lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+
+    &lt;xs:choice minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;&gt;
+      &lt;xs:group ref=&quot;CustomListCode_NoItem&quot; /&gt;
+    &lt;/xs:choice&gt;
+
+    &lt;xs:attributeGroup ref=&quot;CustomListCode_Attributes&quot; /&gt;
+  &lt;/xs:complexType&gt;
+
+
+  &lt;xs:complexType name=&quot;LoopType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;Specifies a block of instructions which will only execute multiple times until a &amp;lt;Break&amp;gt; element is encountered, or an expression fails to evaluate.&lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+
+    &lt;xs:choice minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;&gt;
+      &lt;xs:group ref=&quot;CustomListCode&quot; /&gt;
+    &lt;/xs:choice&gt;
+
+    &lt;xs:attributeGroup ref=&quot;CustomListCode_Attributes&quot; /&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;xs:complexType name=&quot;IfType_NoItem&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;Specifies a block of instructions which will only execute if a condition is true.&lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+
+    &lt;xs:choice minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;&gt;
+      &lt;xs:group ref=&quot;CustomListCode_NoItem&quot; /&gt;
+    &lt;/xs:choice&gt;
+
+    &lt;xs:attributeGroup ref=&quot;CustomListCode_Attributes&quot; /&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;xs:complexType name=&quot;IfType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;Specifies a block of instructions which will only execute if a condition is true.&lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+
+    &lt;xs:choice minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;&gt;
+      &lt;xs:group ref=&quot;CustomListCode&quot; /&gt;
+    &lt;/xs:choice&gt;
+
+    &lt;xs:attributeGroup ref=&quot;CustomListCode_Attributes&quot; /&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;xs:complexType name=&quot;ElseType_NoItem&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;Specifies a block of instructions which will only execute if a condition is true.&lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+
+    &lt;xs:choice minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;&gt;
+      &lt;xs:group ref=&quot;CustomListCode_NoItem&quot; /&gt;
+    &lt;/xs:choice&gt;
+
+    &lt;xs:attributeGroup ref=&quot;CustomListCode_Attributes_NoCondition&quot; /&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;xs:complexType name=&quot;ElseType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;Specifies a block of instructions which will only execute if a condition is true.&lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+
+    &lt;xs:choice minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;&gt;
+      &lt;xs:group ref=&quot;CustomListCode&quot; /&gt;
+    &lt;/xs:choice&gt;
+
+    &lt;xs:attributeGroup ref=&quot;CustomListCode_Attributes_NoCondition&quot; /&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;xs:complexType name=&quot;VariableType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;
+        Declares a variable for use in future expressions with the &amp;lt;CustomListItems&amp;gt; block.
+      &lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:attribute name=&quot;Name&quot; type=&quot;CppIdType&quot; use=&quot;required&quot;&gt;
+      &lt;xs:annotation&gt;
+        &lt;xs:documentation&gt;Name of the variable.&lt;/xs:documentation&gt;
+      &lt;/xs:annotation&gt;
+    &lt;/xs:attribute&gt;
+    &lt;xs:attribute name=&quot;InitialValue&quot; type=&quot;StringType&quot; use=&quot;required&quot;&gt;
+      &lt;xs:annotation&gt;
+        &lt;xs:documentation&gt;
+          Expression evaluating to the initial value of the variable.
+          This expression also specifies the type of the variable. Initial value expressions may make use of other variables already defined.
+        &lt;/xs:documentation&gt;
+      &lt;/xs:annotation&gt;
+    &lt;/xs:attribute&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;xs:complexType name=&quot;ExecType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;
+        Executes a single expression. The expression executes in the context of the object, but may use iteration variables.
+        The expression may also modify iteration variables, but no other side effects are allowed.
+      &lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:simpleContent&gt;
+      &lt;xs:extension base=&quot;xs:string&quot;&gt;
+        &lt;xs:attributeGroup ref=&quot;CustomListCode_Attributes&quot; /&gt;
+      &lt;/xs:extension&gt;
+    &lt;/xs:simpleContent&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;xs:complexType name=&quot;CustomListItemType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;Generates a child item obtained by evaluating the given expression.&lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:simpleContent&gt;
+      &lt;xs:extension base=&quot;StringType&quot;&gt;
+        &lt;xs:attributeGroup ref=&quot;CustomListCode_Attributes&quot; /&gt;
+        &lt;xs:attribute name=&quot;Name&quot; type=&quot;xs:string&quot; use=&quot;optional&quot;&gt;
+          &lt;xs:annotation&gt;
+            &lt;xs:documentation&gt;
+              Specifies an optional name to use for the item. The name is provided in &amp;lt;DisplayString&amp;gt; syntax and may contain embedded expressions.
+              If no name is provided a default name will be used in the form &amp;quot;[i]&amp;quot;, where 'i' is the index representing the order in which the item was returned.
+            &lt;/xs:documentation&gt;
+          &lt;/xs:annotation&gt;
+        &lt;/xs:attribute&gt;
+      &lt;/xs:extension&gt;
+    &lt;/xs:simpleContent&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;xs:complexType name=&quot;BreakType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;Breaks out of the innermost &amp;lt;Loop&amp;gt; element. A &amp;lt;Break&amp;gt; element outside of a loop will terminate iteration of the collection.&lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:attributeGroup ref=&quot;CustomListCode_Attributes&quot; /&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;xs:complexType name=&quot;SyntheticItemType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;Specifies a child element whose value is not backed by an expression. The value of the item can be specified using a 'DisplayString' element. The children of the item can be specified using an 'Expand' element.&lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:sequence&gt;
+      &lt;xs:element minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot; name=&quot;CustomVisualizer&quot; type=&quot;CustomVisualizerType&quot; /&gt;
+      &lt;xs:element minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot; name=&quot;DisplayString&quot; type=&quot;DisplayStringType&quot;/&gt;
+      &lt;xs:element minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot; name=&quot;StringView&quot; type=&quot;StringViewType&quot;/&gt;
+      &lt;xs:element minOccurs=&quot;0&quot; name=&quot;Expand&quot; type=&quot;ExpandType&quot;/&gt;
+    &lt;/xs:sequence&gt;
+    &lt;xs:attribute name=&quot;Name&quot; type=&quot;StringType&quot; use=&quot;required&quot;&gt;
+      &lt;xs:annotation&gt;
+        &lt;xs:documentation&gt;Name of the child element as it will be shown under the name column in the debugger windows.&lt;/xs:documentation&gt;
+      &lt;/xs:annotation&gt;
+    &lt;/xs:attribute&gt;
+    &lt;xs:attribute name=&quot;Expression&quot; type=&quot;StringType&quot; use=&quot;optional&quot;&gt;
+      &lt;xs:annotation&gt;
+        &lt;xs:documentation&gt;Expression that will be used to retrieve the value of the item when the user wants to track it separately using 'Add watch' command on the item.&lt;/xs:documentation&gt;
+      &lt;/xs:annotation&gt;
+    &lt;/xs:attribute&gt;
+    &lt;xs:attributeGroup ref=&quot;CommonAttributes&quot; /&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;xs:complexType name=&quot;ValuePointerType&quot;&gt;
+    &lt;xs:simpleContent&gt;
+      &lt;xs:extension base=&quot;StringType&quot;&gt;
+        &lt;xs:attribute name=&quot;Condition&quot; type=&quot;ConditionType&quot; use=&quot;optional&quot; /&gt;
+      &lt;/xs:extension&gt;
+    &lt;/xs:simpleContent&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;xs:complexType name=&quot;SizeType&quot;&gt;
+    &lt;xs:simpleContent&gt;
+      &lt;xs:extension base=&quot;StringType&quot;&gt;
+        &lt;xs:attributeGroup ref=&quot;CommonAttributes&quot; /&gt;
+      &lt;/xs:extension&gt;
+    &lt;/xs:simpleContent&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;xs:complexType name=&quot;ArrayItemsType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;Specifies an array view of the contents of a variable. It assumes data elements are contiguous in memory.&lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:sequence&gt;
+      &lt;xs:element minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot; name=&quot;Direction&quot; type=&quot;ArrayDirectionType&quot; /&gt;
+      &lt;xs:element minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot; name=&quot;Rank&quot; type=&quot;StringType&quot;&gt;
+        &lt;xs:annotation&gt;
+          &lt;xs:documentation&gt;Specifies the rank of the array.&lt;/xs:documentation&gt;
+        &lt;/xs:annotation&gt;
+      &lt;/xs:element&gt;
+      &lt;xs:element minOccurs=&quot;1&quot; maxOccurs=&quot;unbounded&quot; name=&quot;Size&quot; type=&quot;SizeType&quot;&gt;
+        &lt;xs:annotation&gt;
+          &lt;xs:documentation&gt;Specifies the size of each dimension of the array. For multi-dimensional arrays, you can specify an expression that uses the implicit $i parameter. The parameter will be substituted with the dimension index to find the size of the array in that dimension.&lt;/xs:documentation&gt;
+        &lt;/xs:annotation&gt;
+      &lt;/xs:element&gt;
+      &lt;xs:element minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot; name=&quot;LowerBound&quot; type=&quot;StringType&quot;&gt;
+        &lt;xs:annotation&gt;
+          &lt;xs:documentation&gt;Specifies the lower bound of each dimension of the array. For multi-dimensional arrays, you can specify an expression that uses the implicit $i parameter. The parameter will be substituted with the dimension index to find the lower bound of the array in that dimension.&lt;/xs:documentation&gt;
+        &lt;/xs:annotation&gt;
+      &lt;/xs:element&gt;
+      &lt;xs:element minOccurs=&quot;1&quot; maxOccurs=&quot;unbounded&quot; name=&quot;ValuePointer&quot; type=&quot;ValuePointerType&quot;&gt;
+        &lt;xs:annotation&gt;
+          &lt;xs:documentation&gt;Specifies the expression that points to the first element of the array. The expression must be a pointer of the element type that is not void*.&lt;/xs:documentation&gt;
+        &lt;/xs:annotation&gt;
+      &lt;/xs:element&gt;
+    &lt;/xs:sequence&gt;
+    &lt;xs:attributeGroup ref=&quot;CommonAttributes&quot; /&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;xs:complexType name=&quot;IndexListItemsType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;Specifies a more generalized form of array view of a variable. Use when your data elements are not contiguous in memory and you need to compute index to the data elements.&lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:sequence&gt;
+      &lt;xs:element minOccurs=&quot;1&quot; maxOccurs=&quot;unbounded&quot; name=&quot;Size&quot; type=&quot;SizeType&quot;&gt;
+        &lt;xs:annotation&gt;
+          &lt;xs:documentation&gt;Specifies the size of the index list.&lt;/xs:documentation&gt;
+        &lt;/xs:annotation&gt;
+      &lt;/xs:element&gt;
+      &lt;xs:element minOccurs=&quot;1&quot; maxOccurs=&quot;unbounded&quot; name=&quot;ValueNode&quot; type=&quot;IndexNodeType&quot;&gt;
+        &lt;xs:annotation&gt;
+          &lt;xs:documentation&gt;Specifies the expression that uses the implicit $i parameter that points to the ith element.&lt;/xs:documentation&gt;
+        &lt;/xs:annotation&gt;
+      &lt;/xs:element&gt;
+    &lt;/xs:sequence&gt;
+    &lt;xs:attributeGroup ref=&quot;CommonAttributes&quot; /&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;xs:complexType name=&quot;LinkedListItemsType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;Specifies a linked list view of the contents of a variable.&lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:sequence&gt;
+      &lt;xs:element minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot; name=&quot;Size&quot; type=&quot;SizeType&quot;&gt;
+        &lt;xs:annotation&gt;
+          &lt;xs:documentation&gt;Specifies the number of elements in the linked list. If multiple size elements are specified, the first size element with a true condition (or no condition) will
+          determine the size. If no size is specified (or all size elements have a false condition), the debugger will traverse the list to figure out the size. It is recommended that natvis entries
+          specify a size for linked lists when possible, as providing a size will improve the performance of the debugger.&lt;/xs:documentation&gt;
+        &lt;/xs:annotation&gt;
+      &lt;/xs:element&gt;
+      &lt;xs:element maxOccurs=&quot;1&quot; name=&quot;HeadPointer&quot; type=&quot;StringType&quot;&gt;
+        &lt;xs:annotation&gt;
+          &lt;xs:documentation&gt;Expression that points to the first node of the linked list.&lt;/xs:documentation&gt;
+        &lt;/xs:annotation&gt;
+      &lt;/xs:element&gt;
+      &lt;xs:element maxOccurs=&quot;1&quot; name=&quot;NextPointer&quot; type=&quot;StringType&quot;&gt;
+        &lt;xs:annotation&gt;
+          &lt;xs:documentation&gt;Expression that points to the next element. This expression is evaluated under the context of the linked list node and not the parent linked list type.&lt;/xs:documentation&gt;
+        &lt;/xs:annotation&gt;
+      &lt;/xs:element&gt;
+      &lt;xs:element maxOccurs=&quot;1&quot; name=&quot;ValueNode&quot; type=&quot;ListItemsNodeType&quot;&gt;
+      &lt;/xs:element&gt;
+    &lt;/xs:sequence&gt;
+    &lt;xs:attributeGroup ref=&quot;CommonAttributes&quot; /&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;xs:complexType name=&quot;TreeItemsType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;Specifies a tree view of the contents of a variable.&lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:sequence&gt;
+      &lt;xs:element minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot; name=&quot;Size&quot; type=&quot;StringType&quot;&gt;
+        &lt;xs:annotation&gt;
+          &lt;xs:documentation&gt;The size of the tree.&lt;/xs:documentation&gt;
+        &lt;/xs:annotation&gt;
+      &lt;/xs:element&gt;
+      &lt;xs:element maxOccurs=&quot;1&quot; name=&quot;HeadPointer&quot; type=&quot;StringType&quot;&gt;
+        &lt;xs:annotation&gt;
+          &lt;xs:documentation&gt;Expression that points to the head of the tree.&lt;/xs:documentation&gt;
+        &lt;/xs:annotation&gt;
+      &lt;/xs:element&gt;
+      &lt;xs:element maxOccurs=&quot;1&quot; name=&quot;LeftPointer&quot; type=&quot;StringType&quot;&gt;
+        &lt;xs:annotation&gt;
+          &lt;xs:documentation&gt;Expression that points to the left child of a tree node. This expression is evaluated under the context of the tree node and not the parent type.&lt;/xs:documentation&gt;
+        &lt;/xs:annotation&gt;
+      &lt;/xs:element&gt;
+      &lt;xs:element maxOccurs=&quot;1&quot; name=&quot;RightPointer&quot; type=&quot;StringType&quot;&gt;
+        &lt;xs:annotation&gt;
+          &lt;xs:documentation&gt;Expression that points to the right child of a tree node. This expression is evaluated under the context of the tree node and not the parent type.&lt;/xs:documentation&gt;
+        &lt;/xs:annotation&gt;
+      &lt;/xs:element&gt;
+      &lt;xs:element maxOccurs=&quot;1&quot; name=&quot;ValueNode&quot; type=&quot;TreeItemsNodeType&quot;&gt;
+        &lt;xs:annotation&gt;
+          &lt;xs:documentation&gt;Expression that points to the value of the tree node. It can be left empty or have 'this' to refer to the tree node itself. This expression is evaluated under the context of the tree node and not the parent type.&lt;/xs:documentation&gt;
+        &lt;/xs:annotation&gt;
+      &lt;/xs:element&gt;
+    &lt;/xs:sequence&gt;
+    &lt;xs:attributeGroup ref=&quot;CommonAttributes&quot; /&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;xs:complexType name=&quot;UIVisualizerItemType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;Specifies a UI visualizer which can handle objects of this type. The UI visualizer must be previously defined in the natvis file.&lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:simpleContent&gt;
+      &lt;xs:extension base=&quot;xs:string&quot;&gt;
+        &lt;xs:attribute name=&quot;ServiceId&quot; type=&quot;GuidType&quot; use=&quot;required&quot;&gt;
+          &lt;xs:annotation&gt;
+            &lt;xs:documentation&gt;The service GUID of the visualizer.&lt;/xs:documentation&gt;
+          &lt;/xs:annotation&gt;
+        &lt;/xs:attribute&gt;
+        &lt;xs:attribute name=&quot;Id&quot; type=&quot;xs:int&quot; use=&quot;required&quot;&gt;
+          &lt;xs:annotation&gt;
+            &lt;xs:documentation&gt;Specifies the visualizer id. Use to differentiate multiple viewers provided by the visualizer service.&lt;/xs:documentation&gt;
+          &lt;/xs:annotation&gt;
+        &lt;/xs:attribute&gt;
+      &lt;/xs:extension&gt;
+    &lt;/xs:simpleContent&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;xs:complexType name=&quot;MostDerivedObjectType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;
+        Specifies an expression which evaluates to the current object, casted to its most-derived type.
+        In most cases, the debugger is able to automatically determine an object's most-derived type, in which case use of the &amp;lt;MostDerivedType&amp;gt; element is unnecessary. Automatic determination of an object's most-derived type requires the object to be an instance of a C++ class, with a
+        compiler-generated virtual function table. This is sufficient for most class-hierarchies; however, custom logic may occasionally be necessary
+        when dealing with a class hierarchy that does not contain virtual functions, or when the virtual function table is manually constructed by the application code.
+      &lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:simpleContent&gt;
+      &lt;xs:extension base=&quot;StringType&quot;&gt;
+        &lt;xs:attributeGroup ref=&quot;CommonAttributes&quot; /&gt;
+        &lt;xs:attribute name=&quot;IgnoreVTable&quot; type=&quot;xs:boolean&quot; use=&quot;optional&quot;&gt;
+          &lt;xs:annotation&gt;
+            &lt;xs:documentation&gt;
+              If true, indicates that the most derived type of the object will always be the static type of the provided expression. By default,
+              the debugger will use vtables to calculate the most-derived type of the provided most-derived-type expressions. This option should
+              be used only when the application code builds vtables using custom logic that the debugger does not understand.
+            &lt;/xs:documentation&gt;
+          &lt;/xs:annotation&gt;
+        &lt;/xs:attribute&gt;
+      &lt;/xs:extension&gt;
+    &lt;/xs:simpleContent&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;xs:simpleType name=&quot;SmartPointerUsage&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;Specifies how a smart pointer may be used syntactically.&lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:restriction base=&quot;xs:normalizedString&quot;&gt;
+      &lt;xs:enumeration value=&quot;Minimal&quot;&gt;
+        &lt;xs:annotation&gt;
+          &lt;xs:documentation&gt;
+            Indicates that the smart pointer may be used syntactically only for the purposes of dereferencing and comparing.
+            It defines the following overloaded operators:
+            - operator*()    (dereference)
+            - operator-&gt;()   (access field of dereferenced value)
+            - operator==()   (compare with raw pointer or another smart pointer of the same type)
+            - operator!=()   (compare with raw pointer or another smart pointer of the same type)
+          &lt;/xs:documentation&gt;
+        &lt;/xs:annotation&gt;
+      &lt;/xs:enumeration&gt;
+      &lt;xs:enumeration value=&quot;Indexable&quot;&gt;
+        &lt;xs:annotation&gt;
+          &lt;xs:documentation&gt;
+            Indicates that the smart pointer may be used syntactically for the purposes of dereferencing and comparing, and indexing
+            It defines the following overloaded operators:
+            - operator+()  (add an offset of type size_t)
+            - operator-()  (subtract an offset of type size_t)
+            - operator[]   (add an offset of type size_t and dereference)
+            - All of the operators supported by SmartPointerUsage=&amp;quot;Minimal&amp;quot;
+          &lt;/xs:documentation&gt;
+        &lt;/xs:annotation&gt;
+      &lt;/xs:enumeration&gt;
+      &lt;xs:enumeration value=&quot;Full&quot;&gt;
+        &lt;xs:annotation&gt;
+          &lt;xs:documentation&gt;
+            Indicates that the smart pointer will contain a conversion operator to the underlying pointer. All valid uses of the underlying pointer in the language may be used through the conversion operator. Direct assignment to the smart pointer is still forbidden; in order to modify the internal pointer in an expression, you must do so explicitly.
+          &lt;/xs:documentation&gt;
+        &lt;/xs:annotation&gt;
+      &lt;/xs:enumeration&gt;
+    &lt;/xs:restriction&gt;
+  &lt;/xs:simpleType&gt;
+
+  &lt;xs:complexType name=&quot;SmartPointerType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;
+        Indicates that the given type is a smart pointer. The text inside this element specifies the expression to evaluate the underlying pointer.
+        The &amp;lt;SmartPointer&amp;gt; element has the following effects:
+          - If no alternative &amp;lt;DisplayString&amp;gt; element is provided (or all &amp;lt;DisplayString&amp;gt; elements have failed conditions), the underlying pointer will be the display string
+          - If no alternative &amp;lt;StringView&amp;gt; element is provided (or all &amp;lt;StringView&amp;gt; elements have failed conditions), the underlying pointer will be the string view, if it has one.
+          - If no alternative &amp;lt;Expand&amp;gt; element is provided, the expansion of the smart pointer will be the expansion of the underlying pointer.
+          - The smart pointer class will also support overloaded operators as determined by the &amp;lt;Usage&amp;gt; attribute. You can opt out of this behavior by specifying
+              'DefaultExpansion=&amp;quot;false&amp;quot;'
+      &lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:simpleContent&gt;
+      &lt;xs:extension base=&quot;StringType&quot;&gt;
+        &lt;xs:attributeGroup ref=&quot;CommonAttributes_NoCondition&quot; /&gt;
+        &lt;xs:attribute name=&quot;Usage&quot; type=&quot;SmartPointerUsage&quot; use=&quot;required&quot;&gt;
+          &lt;xs:annotation&gt;
+            &lt;xs:documentation&gt;Indicates which combinations of operators this smart pointer object supports.
+            &lt;/xs:documentation&gt;
+          &lt;/xs:annotation&gt;
+        &lt;/xs:attribute&gt;
+        &lt;xs:attribute name=&quot;DefaultExpansion&quot; type=&quot;xs:boolean&quot; use=&quot;optional&quot;&gt;
+          &lt;xs:annotation&gt;
+            &lt;xs:documentation&gt;
+              If true and no expand element is provided, a default expansion will be supplied based on the expansion of the underyling pointer. If false, no &amp;lt;Expand&amp;gt; element will be automatically created
+              based on the smart pointer. If this attribute is not present, the default value is 'true'.
+            &lt;/xs:documentation&gt;
+          &lt;/xs:annotation&gt;
+        &lt;/xs:attribute&gt;
+      &lt;/xs:extension&gt;
+    &lt;/xs:simpleContent&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;xs:complexType name=&quot;VisualizerType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;Specifies a visualizer entry which customizes the debugger view of a type.&lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:sequence&gt;
+      &lt;xs:element minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot; name=&quot;AlternativeType&quot; type=&quot;AlternativeTypeType&quot;/&gt;
+      &lt;xs:element minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot; name=&quot;Version&quot; type=&quot;VersionType&quot; /&gt;
+      &lt;xs:choice minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot;&gt;
+        &lt;xs:sequence&gt;
+          &lt;xs:element minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot; name=&quot;Intrinsic&quot; type=&quot;IntrinsicType&quot; /&gt;
+          &lt;xs:element minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot; name=&quot;MostDerivedType&quot; type=&quot;MostDerivedObjectType&quot; /&gt;
+          &lt;xs:element minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot; name=&quot;CustomVisualizer&quot; type=&quot;CustomVisualizerType&quot; /&gt;
+          &lt;xs:element minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot; name=&quot;SmartPointer&quot; type=&quot;SmartPointerType&quot; /&gt;
+          &lt;xs:element minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot; name=&quot;DisplayString&quot; type=&quot;DisplayStringType&quot;/&gt;
+          &lt;xs:element minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot; name=&quot;StringView&quot; type=&quot;StringViewType&quot;/&gt;
+          &lt;xs:element minOccurs=&quot;0&quot; name=&quot;Expand&quot; type=&quot;ExpandType&quot;/&gt;
+        &lt;/xs:sequence&gt;
+        &lt;xs:element minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot; name=&quot;UIVisualizer&quot; type=&quot;UIVisualizerItemType&quot;/&gt;
+      &lt;/xs:choice&gt;
+    &lt;/xs:sequence&gt;
+    &lt;xs:attribute name=&quot;Name&quot; type=&quot;TypeNameType&quot; use=&quot;required&quot; /&gt;
+    &lt;xs:attributeGroup ref=&quot;ViewConstraints&quot; /&gt;
+    &lt;xs:attribute name=&quot;Priority&quot; type=&quot;PriorityType&quot; /&gt;
+    &lt;xs:attribute name=&quot;Inheritable&quot; type=&quot;xs:boolean&quot; use=&quot;optional&quot;&gt;
+      &lt;xs:annotation&gt;
+        &lt;xs:documentation&gt;
+          True if this visualizer may be used by objects of classes derived from the given type, false if an object must be directly of this type for the visualizer to take effect.
+          Default is true.
+        &lt;/xs:documentation&gt;
+      &lt;/xs:annotation&gt;
+    &lt;/xs:attribute&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;xs:simpleType name=&quot;PriorityType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;Specifies an optional priority to assign to this entry for type matching. Higher priority entries within a particular file or directory
+      are checked first. &amp;lt;Type&amp;gt; entries that do not specify a priority receive default priority of &amp;quot;Medium&amp;quot;  &amp;lt;AlternativeType&amp;gt; entries which do not specify a priority
+      will inherit the priority of the enclosing &amp;lt;Type&amp;gt; element. The priority is only used to disambiguate type matching when all other means of disambiguation are unavailable.
+      For example, entries with more specific template instantiations, module constraints, or view constraints will take priority regardless of any priority values specified.
+      Similarly, regardless of priority, natvis files that are part of a loaded project will always take precedence over files in the user natvis directory,
+      which will, in turn, take precedence over files in the system-wide natvis directory.
+      If two entries have the same priority and cannot otherwise be disambiguated, it is unspecified which one will get used.
+      &lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:union&gt;
+      &lt;xs:simpleType&gt;
+        &lt;xs:restriction base=&quot;xs:string&quot;&gt;
+          &lt;xs:enumeration value=&quot;Low&quot; /&gt;
+          &lt;xs:enumeration value=&quot;MediumLow&quot; /&gt;
+          &lt;xs:enumeration value=&quot;Medium&quot; /&gt;
+          &lt;xs:enumeration value=&quot;MediumHigh&quot; /&gt;
+          &lt;xs:enumeration value=&quot;High&quot; /&gt;
+        &lt;/xs:restriction&gt;
+      &lt;/xs:simpleType&gt;
+    &lt;/xs:union&gt;
+  &lt;/xs:simpleType&gt;
+
+  &lt;xs:complexType name=&quot;UIVisualizerType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;Specifies details of a UI visualizer which creates its own interface to display an object. Visualizer entry for a type needs to reference a UI visualizer in order to associate the type with the UI visualizer.&lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:simpleContent&gt;
+      &lt;xs:extension base=&quot;xs:string&quot;&gt;
+        &lt;xs:attribute name=&quot;ServiceId&quot; type=&quot;GuidType&quot; use=&quot;required&quot;&gt;
+          &lt;xs:annotation&gt;
+            &lt;xs:documentation&gt;Specifies the visualizer service GUID. The service must be provided by a Visual Studio package that also implements IVsCppDebugUIVisualizer interface. The debugger will load the package only when user requests this visualization service.&lt;/xs:documentation&gt;
+          &lt;/xs:annotation&gt;
+        &lt;/xs:attribute&gt;
+        &lt;xs:attribute name=&quot;Id&quot; type=&quot;xs:int&quot; use=&quot;required&quot;&gt;
+          &lt;xs:annotation&gt;
+            &lt;xs:documentation&gt;Specifies the visualizer id. Use to differentiate multiple viewers provided by this visualizer service.&lt;/xs:documentation&gt;
+          &lt;/xs:annotation&gt;
+        &lt;/xs:attribute&gt;
+        &lt;xs:attribute name=&quot;MenuName&quot; type=&quot;xs:string&quot; use=&quot;required&quot;&gt;
+          &lt;xs:annotation&gt;
+            &lt;xs:documentation&gt;Specifies the name which will be shown in the UI visualizer list for a variable.&lt;/xs:documentation&gt;
+          &lt;/xs:annotation&gt;
+        &lt;/xs:attribute&gt;
+        &lt;xs:attribute name=&quot;Description&quot; type=&quot;xs:string&quot; use=&quot;optional&quot;&gt;
+          &lt;xs:annotation&gt;
+            &lt;xs:documentation&gt;Specifies the description for this UI visualizer.&lt;/xs:documentation&gt;
+          &lt;/xs:annotation&gt;
+        &lt;/xs:attribute&gt;
+      &lt;/xs:extension&gt;
+    &lt;/xs:simpleContent&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;xs:complexType name=&quot;HResultType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;Specifies a visualizer entry which customizes the debugger view of an HRESULT.&lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:sequence&gt;
+      &lt;xs:element minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot; name=&quot;AlternativeHResult&quot; type=&quot;AlternativeHResultType&quot;&gt;
+        &lt;xs:annotation&gt;
+          &lt;xs:documentation&gt;Other HResult types that will share the same visualizer.&lt;/xs:documentation&gt;
+        &lt;/xs:annotation&gt;
+      &lt;/xs:element&gt;
+      &lt;xs:element minOccurs=&quot;1&quot; maxOccurs=&quot;1&quot; name=&quot;HRValue&quot; type=&quot;StringType&quot;&gt;
+        &lt;xs:annotation&gt;
+          &lt;xs:documentation&gt;32 bit HRESULT value to be customized.&lt;/xs:documentation&gt;
+        &lt;/xs:annotation&gt;
+      &lt;/xs:element&gt;
+      &lt;xs:element minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot; name=&quot;HRDescription&quot; type=&quot;StringType&quot;&gt;
+        &lt;xs:annotation&gt;
+          &lt;xs:documentation&gt;The description for this HRESULT value to be shown in the debugger windows.&lt;/xs:documentation&gt;
+        &lt;/xs:annotation&gt;
+      &lt;/xs:element&gt;
+    &lt;/xs:sequence&gt;
+    &lt;xs:attribute name=&quot;Name&quot; type=&quot;StringType&quot; use=&quot;required&quot;&gt;
+      &lt;xs:annotation&gt;
+        &lt;xs:documentation&gt;The name of the HRESULT value to be shown in the debugger windows.&lt;/xs:documentation&gt;
+      &lt;/xs:annotation&gt;
+    &lt;/xs:attribute&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;xs:complexType name=&quot;LocalizedStringType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;
+        Defines a localized string resource that can be referenced by natvis elements that accept strings (.g.e.g. DisplayString, Name attribute of Item element).
+        Use @&amp;lt;id&amp;gt;; format to reference a localized string (e.g. @1001;)
+      &lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:simpleContent&gt;
+      &lt;xs:extension base=&quot;xs:string&quot;&gt;
+        &lt;xs:attribute name=&quot;Id&quot; use=&quot;required&quot;&gt;
+          &lt;xs:annotation&gt;
+            &lt;xs:documentation&gt;The id of the localized string. Use @&amp;lt;id&amp;gt;; format to reference this localized string.&lt;/xs:documentation&gt;
+          &lt;/xs:annotation&gt;
+          &lt;xs:simpleType&gt;
+            &lt;xs:restriction base=&quot;xs:unsignedInt&quot;&gt;
+              &lt;xs:minInclusive value=&quot;1&quot;/&gt;
+            &lt;/xs:restriction&gt;
+          &lt;/xs:simpleType&gt;
+        &lt;/xs:attribute&gt;
+      &lt;/xs:extension&gt;
+    &lt;/xs:simpleContent&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;xs:complexType name=&quot;LocalizedStringsType&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;
+        Specifies a list of localized strings that can be referenced by natvis elements. Define localized strings in a satellite natvis file with the same name as the main file
+        and deploy it into a locale specific folder next to the main natvis file. Debugger will load localized resources from the appropriate satellite file.
+        Define localized strings in the main natvis file to serve as defaults when there is no satellite file for a locale.
+      &lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:sequence&gt;
+      &lt;xs:element minOccurs=&quot;1&quot; maxOccurs=&quot;unbounded&quot; name=&quot;LocalizedString&quot; type=&quot;LocalizedStringType&quot;/&gt;
+    &lt;/xs:sequence&gt;
+  &lt;/xs:complexType&gt;
+
+  &lt;!-- Definition of complex elements--&gt;
+
+  &lt;xs:element name=&quot;AutoVisualizer&quot;&gt;
+    &lt;xs:annotation&gt;
+      &lt;xs:documentation&gt;Root element of the natvis file.&lt;/xs:documentation&gt;
+    &lt;/xs:annotation&gt;
+    &lt;xs:complexType&gt;
+      &lt;xs:sequence&gt;
+        &lt;xs:element minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot; name=&quot;Version&quot; type=&quot;VersionType&quot;&gt;
+          &lt;xs:annotation&gt;
+            &lt;xs:documentation&gt;Specifies a matching module name and version for all visualizers which do not explicitly specify a module name and version in this file.&lt;/xs:documentation&gt;
+          &lt;/xs:annotation&gt;
+        &lt;/xs:element&gt;
+        &lt;xs:element minOccurs=&quot;0&quot; maxOccurs=&quot;1&quot; name=&quot;LocalizedStrings&quot; type=&quot;LocalizedStringsType&quot;/&gt;
+        &lt;xs:element minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot; name=&quot;UIVisualizer&quot; type=&quot;UIVisualizerType&quot;/&gt;
+        &lt;xs:choice minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;&gt;
+          &lt;xs:element minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot; name=&quot;Type&quot; type=&quot;VisualizerType&quot; /&gt;
+          &lt;xs:element minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot; name=&quot;HResult&quot; type=&quot;HResultType&quot;/&gt;
+          &lt;xs:element minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot; name=&quot;Intrinsic&quot; type=&quot;IntrinsicType&quot; /&gt;
+        &lt;/xs:choice&gt;
+      &lt;/xs:sequence&gt;
+    &lt;/xs:complexType&gt;
+  &lt;/xs:element&gt;
+&lt;/xs:schema&gt;
+</code></pre>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/JimBobUKII/fountain-of-knowledge/blob/main/guides/vscode/cpp/natvis.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            Copyright &#0169; 2021 Jason Rose
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

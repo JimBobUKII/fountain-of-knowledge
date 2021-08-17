@@ -1,0 +1,185 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Visual Studio Code on macOS | Fountain of Knowledge </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Visual Studio Code on macOS | Fountain of Knowledge ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    <meta property="docfx:rel" content="../../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="visual-studio-code-on-macos">Visual Studio Code on macOS</h1>
+
+<h2 id="installation">Installation</h2>
+<ol>
+<li><a href="https://go.microsoft.com/fwlink/?LinkID=534106">Download Visual Studio Code</a> for macOS.</li>
+<li>Open the browser's download list and locate the downloaded archive.</li>
+<li>Extract the archive contents. Use double-click for some browsers or select the 'magnifying glass' icon with Safari.</li>
+<li>Drag <code>Visual Studio Code.app</code> to the <code>Applications</code> folder, making it available in the macOS Launchpad.</li>
+<li>Add VS Code to your Dock by right-clicking on the icon to bring up the context menu and choosing <strong>Options</strong>, <strong>Keep in Dock</strong>.</li>
+</ol>
+<h2 id="launching-from-the-command-line">Launching from the command line</h2>
+<p>You can also run VS Code from the terminal by typing 'code' after adding it to the path:</p>
+<ul>
+<li>Launch VS Code.</li>
+<li>Open the <strong>Command Palette</strong> (<code>kbstyle(Cmd+Shift+P)</code>) and type 'shell command' to find the <strong>Shell Command: Install 'code' command in PATH</strong> command.</li>
+</ul>
+<p><img src="images/mac/shell-command.png" alt="macOS shell commands"></p>
+<ul>
+<li>Restart the terminal for the new <code>$PATH</code> value to take effect. You'll be able to type 'code .' in any folder to start editing files in that folder.</li>
+</ul>
+<blockquote>
+<p><strong>Note:</strong> If you still have the old <code>code</code> alias in your <code>.bash_profile</code> (or equivalent) from an early VS Code version, remove it and replace it by executing the <strong>Shell Command: Install 'code' command in PATH</strong> command.</p>
+</blockquote>
+<h3 id="alternative-manual-instructions">Alternative manual instructions</h3>
+<p>Instead of running the command above, you can manually add VS Code to your path,
+to do so run the following commands:</p>
+<pre><code class="lang-bash">cat &lt;&lt; EOF &gt;&gt; ~/.bash_profile
+# Add Visual Studio Code (code)
+export PATH=&quot;\$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin&quot;
+EOF
+</code></pre>
+<p>Start a new terminal to pick up your <code>.bash_profile</code> changes.</p>
+<p><strong>Note</strong>: The leading slash <code>\</code> is required to prevent <code>$PATH</code> from expanding during the concatenation. Remove the leading slash if you want to run the export command directly in a terminal.</p>
+<p><strong>Note</strong>: Since <code>zsh</code> became the default shell in macOS Catalina, run the following commands to add VS Code to your path:</p>
+<pre><code class="lang-zsh">cat &lt;&lt; EOF &gt;&gt; ~/.zprofile
+# Add Visual Studio Code (code)
+export PATH=&quot;\$PATH:/Applications/Visual Studio Code.app/Contents/Resources/app/bin&quot;
+EOF
+</code></pre>
+<h2 id="touch-bar-support">Touch Bar support</h2>
+<p>Out of the box VS Code adds actions to navigate in editor history as well as the full Debug tool bar to control the debugger on your Touch Bar:</p>
+<p><img src="images/mac/touchbar.gif" alt="macOS Touch Bar"></p>
+<h2 id="mojave-privacy-protections">Mojave privacy protections</h2>
+<p>After upgrading to macOS Mojave version, you may see dialogs saying &quot;Visual Studio Code would like to access your {calendar/contacts/photos}.&quot; This is due to the new privacy protections in Mojave and is not specific to VS Code. The same dialogs may be displayed when running other applications as well. The dialog is shown once for each type of personal data and it is fine to choose <strong>Don't Allow</strong> since VS Code does not need access to those folders. You can read a more detailed explanation in this <a href="https://discuss.atom.io/t/why-does-macos-say-that-atom-wants-to-access-my-calendar-contacts-photos-etc">blog post</a>.</p>
+<h2 id="updates">Updates</h2>
+<p>VS Code ships monthly <a href="/updates">releases</a> and supports auto-update when a new release is available. If you're prompted by VS Code, accept the newest update and it will get installed (you won't need to do anything else to get the latest bits).</p>
+<blockquote>
+<p>Note: You can <a href="/docs/supporting/faq.md#how-do-i-opt-out-of-vs-code-autoupdates">disable auto-update</a> if you prefer to update VS Code on your own schedule.</p>
+</blockquote>
+<h2 id="preferences-menu">Preferences menu</h2>
+<p>You can configure VS Code through <a href="/docs/getstarted/settings.md">settings</a>, <a href="/docs/getstarted/themes.md">color themes</a>, and <a href="/docs/getstarted/keybindings.md">custom keybindings</a> available through the <strong>Code</strong> &gt; <strong>Preferences</strong> menu group.</p>
+<p>You may see mention of <strong>File</strong> &gt; <strong>Preferences</strong> in documentation, which is the <strong>Preferences</strong> menu group location on Windows and Linux. On a macOS, the <strong>Preferences</strong> menu group is under <strong>Code</strong>, not <strong>File</strong>.</p>
+<h2 id="next-steps">Next steps</h2>
+<p>Once you have installed VS Code, these topics will help you learn more about VS Code:</p>
+<ul>
+<li><a href="/docs/setup/additional-components.md">Additional Components</a> - Learn how to install Git, Node.js, TypeScript, and tools like Yeoman.</li>
+<li><a href="/docs/getstarted/userinterface.md">User Interface</a> - A quick orientation around VS Code.</li>
+<li><a href="/docs/getstarted/settings.md">User/Workspace Settings</a> - Learn how to configure VS Code to your preferences settings.</li>
+</ul>
+<h2 id="common-questions">Common questions</h2>
+<h3 id="why-do-i-see-visual-studio-code-would-like-access-to-your-calendar">Why do I see &quot;Visual Studio Code would like access to your calendar.&quot;</h3>
+<p>If you are running macOS Mojave version, you may see dialogs saying &quot;Visual Studio Code would like to access your {calendar/contacts/photos}.&quot; This is due to the new privacy protections in Mojave <a href="#mojave-privacy-protections">discussed above</a>. It is fine to choose <strong>Don't Allow</strong> since VS Code does not need access to those folders.</p>
+<h3 id="vs-code-fails-to-update">VS Code fails to update</h3>
+<p>If VS Code doesn't update once it restarts, it might be set under quarantine by macOS. Follow the steps in this <a href="https://github.com/microsoft/vscode/issues/7426#issuecomment-425093469">issue</a> for resolution.</p>
+<h3 id="does-vs-code-run-on-mac-m1-machines">Does VS Code run on Mac M1 machines?</h3>
+<p>Yes, VS Code supports macOS ARM64 builds that can run on Macs with the Apple M1 chip. You can install the Universal build, which includes both Intel and Apple Silicon builds, or one of the platform specific builds.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/JimBobUKII/fountain-of-knowledge/blob/main/guides/vscode/setup/mac.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            Copyright &#0169; 2021 Jason Rose
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

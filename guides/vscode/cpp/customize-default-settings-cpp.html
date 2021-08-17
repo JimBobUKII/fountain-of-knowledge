@@ -1,0 +1,216 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Customizing default settings | Fountain of Knowledge </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Customizing default settings | Fountain of Knowledge ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    <meta property="docfx:rel" content="../../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="customizing-default-settings">Customizing default settings</h1>
+
+<p>You can override the default values for properties set in <code>c_cpp_properties.json</code>.</p>
+<h2 id="visual-studio-code-settings">Visual Studio Code settings</h2>
+<p>The following <code>C_Cpp.default.*</code> settings map to each of the properties in a configuration block of <code>c_cpp_properties.json</code>. Namely:</p>
+<pre><code class="lang-json">C_Cpp.default.includePath                          : string[]
+C_Cpp.default.defines                              : string[]
+C_Cpp.default.compileCommands                      : string
+C_Cpp.default.macFrameworkPath                     : string[]
+C_Cpp.default.forcedInclude                        : string[]
+C_Cpp.default.intelliSenseMode                     : string
+C_Cpp.default.compilerPath                         : string
+C_Cpp.default.cStandard                            : c89 | c99 | c11 | c17
+C_Cpp.default.cppStandard                          : c++98 | c++03 | c++11 | c++14 | c++17 | c++20
+C_Cpp.default.browse.path                          : string[]
+C_Cpp.default.browse.databaseFilename              : string
+C_Cpp.default.browse.limitSymbolsToIncludedHeaders : boolean
+</code></pre>
+<p>These settings have all of the benefits of VS Code settings, meaning that they can have default, &quot;User&quot;, &quot;Workspace&quot;, and &quot;Folder&quot; values.  So you can set a global value for <code>C_Cpp.default.cppStandard</code> in your &quot;User&quot; settings and have it apply to all of the folders you open. If any one folder needs a different value, you can override the value by adding a &quot;Folder&quot; or &quot;Workspace&quot; value.</p>
+<p>This property of VS Code settings allows you to configure each of your workspaces independently - making the <code>c_cpp_properties.json</code> file optional.</p>
+<h2 id="updated-c_cpp_propertiesjson-syntax">Updated <code>c_cpp_properties.json</code> syntax</h2>
+<p>A special variable has been added to the accepted syntax of <code>c_cpp_properties.json</code> that will instruct the extension to insert  the value from the VS Code settings mentioned above. If you set the value of any setting in <code>c_cpp_properties.json</code> to &quot;${default}&quot; it will instruct the extension to read the VS Code default setting for that property and insert it. For example:</p>
+<pre><code class="lang-json">&quot;configurations&quot;: [
+    {
+        &quot;name&quot;: &quot;Win32&quot;,
+        &quot;includePath&quot;: [
+            &quot;additional/paths&quot;,
+            &quot;${default}&quot;
+        ],
+        &quot;defines&quot;: [
+            &quot;${default}&quot;
+        ],
+        &quot;macFrameworkPath&quot;: [
+            &quot;${default}&quot;,
+            &quot;additional/paths&quot;
+        ],
+        &quot;forcedInclude&quot;: [
+            &quot;${default}&quot;,
+            &quot;additional/paths&quot;
+        ],
+        &quot;compileCommands&quot;: &quot;${default}&quot;,
+        &quot;browse&quot;: {
+            &quot;limitSymbolsToIncludedHeaders&quot;: true,
+            &quot;databaseFilename&quot;: &quot;${default}&quot;,
+            &quot;path&quot;: [
+                &quot;${default}&quot;,
+                &quot;additional/paths&quot;
+            ]
+        },
+        &quot;intelliSenseMode&quot;: &quot;${default}&quot;,
+        &quot;cStandard&quot;: &quot;${default}&quot;,
+        &quot;cppStandard&quot;: &quot;${default}&quot;,
+        &quot;compilerPath&quot;: &quot;${default}&quot;
+    }
+],
+</code></pre>
+<p>Note that for the properties that accept string[], the syntax proposed above allows you to augment the VS Code setting with additional values, thus allowing you to have common paths listed in the VS Code settings and configuration-specific settings in <code>c_cpp_properties.json</code>.</p>
+<p>If a property is missing from <code>c_cpp_properties.json</code>, the extension will use the value in the VS Code setting. If a developer assigns values to all of the settings that apply for a given folder, then <code>c_cpp_properties.json</code> could be removed from the .vscode folder as it will no longer be needed.</p>
+<p>For in-depth information about the c_cpp_properties.json settings file, See <a href="/docs/cpp/c-cpp-properties-schema-reference.md">c_cpp_properties.json reference</a>.</p>
+<h3 id="system-includes">System includes</h3>
+<p>A new setting will be added that allows you specify the system include path separate from the folder's include path. If this setting has a value, then the system include path the extension gets from the compiler specified in the <code>compilerPath</code> setting will not be added to the path array that the extension uses for IntelliSense. We may want to provide a VS Code command to populate this value from the compiler's default for users who are interested in using it in case they want to make some modifications to the defaults.</p>
+<pre><code class="lang-json">C_Cpp.default.systemIncludePath : string[]
+</code></pre>
+<h3 id="system-include-pathdefines-resolution-strategies">System include path/defines resolution strategies</h3>
+<p>The extension determines the system includePath and defines to send to the IntelliSense engine in the following manner:</p>
+<ol>
+<li><p>If <code>compileCommands</code> has a valid value and the file open in the editor is in the database, use the compile command in the database entry to determine the include path and defines.</p>
+<ul>
+<li>The system include path and defines are determined using the following logic (in order):
+<ol>
+<li>If <code>systemIncludePath</code> has a value, use it (continue to the next step to search for system defines).</li>
+<li>If <code>compilerPath</code> is valid, query it.</li>
+<li>Interpret the first argument in the command as the compiler and attempt to query it.</li>
+<li>If <code>compilerPath</code> is &quot;&quot;, use an empty array for system include path and defines.</li>
+<li>If <code>compilerPath</code> is undefined, look for a compiler on the system and query it.</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><p>If <code>compileCommands</code> is invalid or the current file is not listed in the database, use the <code>includePath</code> and <code>defines</code> properties in the configuration for IntelliSense.</p>
+<ul>
+<li>The system include path and defines are determined using the following logic (in order):
+<ol>
+<li>If <code>systemIncludePath</code> has a value, use it (continue to the next step to search for system defines).</li>
+<li>If <code>compilerPath</code> is valid, query it.</li>
+<li>If <code>compilerPath</code> is &quot;&quot;, use an empty array for system include path and defines (they are assumed to be in the <code>includePath</code> and <code>defines</code> for the current config already).</li>
+<li>If <code>compilerPath</code> is undefined, look for a compiler on the system and query it.</li>
+</ol>
+</li>
+</ul>
+</li>
+</ol>
+<p>System includes should not be added to the <code>includePath</code> or <code>browse.path</code> variables. If the extension detects any system include paths in the <code>includePath</code> property it will silently remove them so that it can ensure system include paths are added last and in the correct order (this is especially important for GCC/Clang).</p>
+<h3 id="enhanced-semantic-colorization">Enhanced semantic colorization</h3>
+<p>When IntelliSense is enabled, the Visual Studio Code C/C++ extension supports semantic colorization. See <a href="/docs/cpp/colorization-cpp.md">Enhanced colorization</a> for more details about setting colors for classes, functions, variables and so on.</p>
+<h3 id="extension-logging">Extension logging</h3>
+<p>If you are experiencing a problem with the extension that we can't diagnose based on information in your issue report, we might ask you to enable logging and send us your logs. See <a href="/docs/cpp/enable-logging-cpp.md">C/C++ extension logging</a> for information about how to collect logs.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/JimBobUKII/fountain-of-knowledge/blob/main/guides/vscode/cpp/customize-default-settings-cpp.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            Copyright &#0169; 2021 Jason Rose
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

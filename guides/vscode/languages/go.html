@@ -1,0 +1,201 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Go in Visual Studio Code | Fountain of Knowledge </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Go in Visual Studio Code | Fountain of Knowledge ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    <meta property="docfx:rel" content="../../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="go-in-visual-studio-code">Go in Visual Studio Code</h1>
+
+<p>Using the Go extension for Visual Studio Code, you get features like IntelliSense, code navigation, symbol search, testing, debugging, and many more that will help you in <a href="https://golang.org/">Go</a> development.</p>
+<p><img src="images/go/go-extension.png" alt="Go extension banner"></p>
+<p>You can install the Go extension from the VS Code <a href="https://marketplace.visualstudio.com/items?itemName=golang.go">Marketplace</a>.</p>
+<p>Watch <a href="https://youtu.be/1MXIGYrMk80">&quot;Getting started with VS Code Go&quot;</a> for an explanation of how to build your first Go application using VS Code Go.</p>
+<p>This article describes only a subset of the features the Go extension provides. See the extension's <a href="https://github.com/golang/vscode-go/blob/master../features.md">documentation</a> for the full, up-to-date list of supported features.</p>
+<h2 id="intellisense">IntelliSense</h2>
+<p><img src="images/go/completion-signature-help.gif" alt="IntelliSense"></p>
+<p>IntelliSense features are provided by the Go language server, <a href="https://golang.org/s/gopls">gopls</a>, maintained by the Go team. You can configure the behavior of <code>gopls</code> using the <a href="https://github.com/golang/vscode-go/blob/master../settings.md#settings-for-gopls"><code>gopls</code> settings</a>.</p>
+<h3 id="auto-completions">Auto completions</h3>
+<p>As you type in a Go file, you can see IntelliSense providing you with suggested completions. This even works for members in current, imported, and not yet imported packages. Just type any package name followed by <code>.</code>, and you will get suggestions for the corresponding package members.</p>
+<blockquote>
+<p><strong>Tip</strong>: Use <code>kb(editor.action.triggerSuggest)</code> to trigger the suggestions manually.</p>
+</blockquote>
+<h3 id="hover-information">Hover Information</h3>
+<p>Hovering on any variable, function, or struct will give you information on that item such as documentation, signature, etc.</p>
+<h3 id="signature-help">Signature help</h3>
+<p>When you open the <code>(</code> while calling a function, a pop-up provides signature help for the function. As you keep typing the parameters, the hint (underline) moves to the next parameter.</p>
+<blockquote>
+<p><strong>Tip</strong>: Use <code>kb(editor.action.triggerParameterHints)</code> to manually trigger the signature help when the cursor is inside the <code>()</code> in the function call.</p>
+</blockquote>
+<h2 id="code-navigation">Code navigation</h2>
+<p>Code navigation features are available in the context menu in the editor.</p>
+<ul>
+<li><strong>Go To Definition</strong> <code>kb(editor.action.revealDefinition)</code> - Go to the source code of the type definition.</li>
+<li><strong>Peek Definition</strong> <code>kb(editor.action.peekDefinition)</code> - Bring up a Peek window with the type definition.</li>
+<li><strong>Go to References</strong> <code>kb(editor.action.goToReferences)</code> - Show all references for the type.</li>
+<li><strong>Show Call Hierarchy</strong> <code>kb(editor.showCallHierarchy)</code> - Show all calls from or to a function.</li>
+</ul>
+<p>You can navigate via symbol search using the <strong>Go to Symbol</strong> commands from the <strong>Command Palette</strong> (<code>kb(workbench.action.showCommands)</code>).</p>
+<ul>
+<li>Go to Symbol in File - <code>kb(workbench.action.gotoSymbol)</code></li>
+<li>Go to Symbol in Workspace - <code>kb(workbench.action.showAllSymbols)</code></li>
+</ul>
+<p>You can also navigate back and forth between a Go file and its test implementation using the <strong>Go: Toggle Test File</strong> command.</p>
+<h2 id="build-test-and-diagnose">Build, test, and diagnose</h2>
+<p>The Go language server (<code>gopls</code>) detects build and vet errors found on the workspace. The errors and warnings from running any/all of the above will be shown red/green squiggly lines in the editor. These diagnostics also show up in the <strong>Problems</strong> panel  (<strong>View</strong> &gt; <strong>Problems</strong>).</p>
+<p>You can add additional lint checks using the <code>go.lintOnSave</code> setting and configuring your choice of linting tool (<code>staticcheck</code>, <code>golangci-lint</code>, or <code>revive</code>) using the <code>go.lintTool</code> setting.</p>
+<p>You can configure the extension to run tests and compute test coverage using:</p>
+<ul>
+<li><code>go.testOnSave</code></li>
+<li><code>go.coverOnSave</code></li>
+<li><code>go.testFlags</code></li>
+</ul>
+<h2 id="formatting">Formatting</h2>
+<p>You can format your Go file using <code>kb(editor.action.formatDocument)</code> or by running the <strong>Format Document</strong> command from the <strong>Command Palette</strong> or the context menu in the editor.</p>
+<p>By default, formatting is run when you save your Go file. You can disable this behavior by setting <code>editor.formatOnSave</code> to <code>false</code> for the <code>[go]</code> language identifier. You can change this using your JSON setting files.</p>
+<pre><code class="lang-json">&quot;[go]&quot;: {
+        &quot;editor.formatOnSave&quot;: false
+}
+</code></pre>
+<p>When you have multiple formatters activated for Go files, you can select the Go extension as the default formatter.</p>
+<pre><code class="lang-json">&quot;[go]&quot;: {
+    &quot;editor.defaultFormatter&quot;: &quot;golang.go&quot;
+}
+</code></pre>
+<p>Formatting is provided by <code>gopls</code>. If you want <code>gofumpt</code>-style formatting, you can configure <code>gopls</code> to use <code>gofumpt</code>.</p>
+<pre><code class="lang-json">&quot;gopls&quot;: {
+    &quot;formatting.gofumpt&quot;: true
+}
+</code></pre>
+<h2 id="test">Test</h2>
+<p>There are many test-related commands that you can explore by typing <strong>Go: test</strong> in the <strong>Command Palette</strong>.</p>
+<p><img src="images/go/testcommands.png" alt="Test Commands"></p>
+<p>The first three above can be used to generate test skeletons for the functions in the current package, file, or at the cursor using <code>gotests</code>. The last few can be used to run tests in the current package, file, or at the cursor using <code>go test</code>. There is also a command for getting test coverage.</p>
+<h2 id="import-packages">Import packages</h2>
+<p>Run the command <strong>Go: Add Import</strong> to get a list of packages that can be imported to your Go file. Choose one and it will get added in the import block of your Go file.</p>
+<h2 id="rename-symbols">Rename symbols</h2>
+<p>You can rename symbols using <code>kb(editor.action.rename)</code> or by running the <strong>Rename Symbol</strong> command in the context menu in the editor.</p>
+<h2 id="debugging">Debugging</h2>
+<p>The Go extension lets you debug Go code as well. You will need to install the <a href="https://github.com/go-delve/delve">Delve</a> debugger manually as a prerequisite. Read <a href="https://github.com/golang/vscode-go/blob/master../debugging.md">Debug Go programs in VS Code</a> for setup steps, information on remote debugging and a troubleshooting guide.</p>
+<h2 id="next-steps">Next steps</h2>
+<p>This has been a brief overview showing the Go extension features within VS Code. For more information, see the details provided in the Go extension <a href="https://github.com/golang/vscode-go/blob/master/README.md">README</a>.</p>
+<p>To stay up to date on the latest features/bug fixes for the Go extension, see the <a href="https://github.com/golang/vscode-go/blob/master/CHANGELOG.md">CHANGELOG</a>.</p>
+<p>If you have any issues or feature requests, feel free to log them in the Go extension <a href="https://github.com/golang/vscode-go/issues">vscode-go repo</a>.</p>
+<p>If you'd like to learn more about VS Code, try these topics:</p>
+<ul>
+<li><a href="../editor/codebasics.html">Basic Editing</a> - A quick introduction to the basics of the VS Code editor.</li>
+<li><a href="../editor/extension-marketplace.html">Install an Extension</a> - Learn about other extensions are available in the <a href="https://marketplace.visualstudio.com/vscode">Marketplace</a>.</li>
+<li><a href="../editor/editingevolved.html">Code Navigation</a> - Move quickly through your source code.</li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/JimBobUKII/fountain-of-knowledge/blob/main/guides/vscode/languages/go.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            Copyright &#0169; 2021 Jason Rose
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Visual Studio Code on Raspberry Pi | Fountain of Knowledge </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Visual Studio Code on Raspberry Pi | Fountain of Knowledge ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    <meta property="docfx:rel" content="../../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="visual-studio-code-on-raspberry-pi">Visual Studio Code on Raspberry Pi</h1>
+
+<p>You can run Visual Studio Code on <a href="https://www.raspberrypi.org">Raspberry Pi</a> devices.</p>
+<p><a href="https://www.raspberrypi.org"><img src="images/raspberry-pi-os/RPi-Logo-Landscape-Reg-SCREEN.png" alt="Raspberry Pi Logo"></a></p>
+<p>By downloading and using Visual Studio Code, you agree to the <a href="https://code.visualstudio.com/license">license terms</a> and <a href="https://go.microsoft.com/fwlink/?LinkID=528096&amp;clcid=0x409">privacy statement</a>.</p>
+<h2 id="installation">Installation</h2>
+<p>Visual Studio Code is officially distributed via the <a href="https://www.raspberrypi.org/software/operating-systems">Raspberry Pi OS</a> (previously called Raspbian) APT repository, in both 32-bit and 64-bit variants.</p>
+<p>You can install it by running:</p>
+<pre><code class="lang-bash">sudo apt update
+sudo apt install code
+</code></pre>
+<h3 id="running-vs-code">Running VS Code</h3>
+<p>After installing the VS Code package, you can run VS Code by typing <code>code</code> in a terminal or launching it via the <strong>Programming</strong> menu.</p>
+<p><img src="images/raspberry-pi-os/vscode-under-programming.jpg" alt="Visual Studio Code under the Programming menu on Raspberry Pi"></p>
+<h2 id="updates">Updates</h2>
+<p>Your Raspberry Pi should handle updating VS Code in the same way as other packages on the system:</p>
+<pre><code class="lang-bash">sudo apt update
+sudo apt upgrade code
+</code></pre>
+<p>You can always check when a new release is available in our <a href="/updates">Updates</a> page.</p>
+<h2 id="system-requirements">System requirements</h2>
+<p>VS Code is supported on these Raspberry Pi models running a 32-bit or 64-bit version of Raspberry Pi OS:</p>
+<ul>
+<li>Raspberry Pi 3 Model B/B+</li>
+<li>Raspberry Pi 4 Model B</li>
+<li>Raspberry Pi 400</li>
+</ul>
+<p>While 1 GB of memory (RAM) meets the minimum system requirements, users will benefit from installing VS Code on a Raspberry Pi 4 with more memory.</p>
+<p>First-generation Raspberry Pi modules and Raspberry Pi Zero are not supported as they only include an ARMv6 CPU.</p>
+<h2 id="next-steps">Next steps</h2>
+<p>Once you have installed VS Code, these topics will help you learn more about it:</p>
+<ul>
+<li><a href="/docs/setup/additional-components.md">Additional Components</a> - Learn how to install Git, Node.js, TypeScript, and tools like Yeoman.</li>
+<li><a href="/docs/getstarted/userinterface.md">User Interface</a> - A quick orientation to VS Code.</li>
+<li><a href="/docs/getstarted/settings.md">User/Workspace Settings</a> - Learn how to configure VS Code to your preferences through settings.</li>
+</ul>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/JimBobUKII/fountain-of-knowledge/blob/main/guides/vscode/setup/raspberry-pi.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            Copyright &#0169; 2021 Jason Rose
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

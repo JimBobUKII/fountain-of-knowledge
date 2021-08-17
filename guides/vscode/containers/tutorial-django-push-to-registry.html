@@ -1,0 +1,161 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Push Django images to a registry | Fountain of Knowledge </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Push Django images to a registry | Fountain of Knowledge ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    <meta property="docfx:rel" content="../../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="push-django-images-to-a-registry">Push Django images to a registry</h1>
+
+<h2 id="create-a-container-registry">Create a container registry</h2>
+<p>Create a container registry to push images to. For more information about how to authenticate to and work with registries, see <a href="quickstart-container-registries.html">Using container registries</a>.</p>
+<p>Make sure that the registry endpoint you created is visible under <strong>Registries</strong> in the <strong>Docker Explorer</strong> of VS Code:</p>
+<p><img src="images/quickstarts/python-django-registries.png" alt="Docker Explorer in VS Code showing registries"></p>
+<h2 id="settings-for-django-apps">Settings for Django apps</h2>
+<ol>
+<li><p>In your Django project's <code>settings.py</code> file, modify the <code>ALLOWED_HOSTS</code> list to include the root URL to which you intend to deploy the app. For example, the following code assumes deployment to an Azure App Service (azurewebsites.net) named &quot;vsdocs-django-sample-container&quot;:</p>
+<pre><code class="lang-python">ALLOWED_HOSTS = [
+    # Example host name only; customize to your specific host
+    &quot;vsdocs-django-sample-container.azurewebsites.net&quot;
+]
+</code></pre>
+<p>Without this entry, you'll see a &quot;DisallowedHost&quot; message after deployment that instructs to you add the website domain to <code>ALLOWED_HOSTS</code>. This will require you to rebuild, push, and redeploy the image once again.</p>
+</li>
+<li><p>On the <strong>Command Palette</strong> (<code>kb(workbench.action.showCommands)</code>), select <strong>Docker: Build Image</strong> to rebuild image with new settings.</p>
+<blockquote>
+<p><strong>Tip</strong>: If you want to test your image in production on multiple hosting services, you can simply input <code>&quot;*&quot;</code> in ALLOWED_HOSTS.</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="push-the-image-to-a-registry">Push the image to a registry</h2>
+<p>Once <code>ALLOWED_HOSTS</code> have been declared, the next step is to push your Django image to a container registry:</p>
+<ol>
+<li><p>Open the <strong>Command Palette</strong> (<code>kb(workbench.action.showCommands)</code>) and select <strong>Docker: Push</strong>.</p>
+</li>
+<li><p>Choose the image you just built to push into the registry.</p>
+</li>
+<li><p>Choose the registry you created to push into. This will help with correctly tagging the image.</p>
+<p><img src="images/quickstarts/select-registry.png" alt="Select a registry"></p>
+</li>
+<li><p>Once a registry and full tag have been chosen, the image will be pushed. Upload progress will appear in the <strong>Terminal</strong> window.</p>
+</li>
+<li><p>Once completed, expand the <strong>Registries</strong> &gt; <strong>Azure</strong> (or <strong>DockerHub</strong>) node in the <strong>Docker Explorer</strong>, then expand the registry and image name to see the exact image. (You may need to refresh the <strong>Docker Explorer</strong>.)</p>
+<p><img src="images/quickstarts/python-django-image-in-acr.png" alt="The built app image in the Azure Container Registry"></p>
+</li>
+</ol>
+<blockquote>
+<p><strong>Tip</strong>: The first time you push an image, you will see that VS Code uploads each layer the image is comprised of. Subsequent push operations, however, will only update layers starting from the first that has been changed. Since you app code is usually what changes most often, this is typically why app code is copied in the final lines of a Dockerfile. To see this inner loop in action, make a small change to your code, rebuild the image, and then push again to the registry.</p>
+</blockquote>
+<p>Now that you've pushed your image to a registry, you're ready to deploy it to any container-ready cloud service. For details on deploying to Azure App Service, see <a href="https://docs.microsoft.com/azure/python/tutorial-deploy-containers-01">Deploy a container</a>.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/JimBobUKII/fountain-of-knowledge/blob/main/guides/vscode/containers/tutorial-django-push-to-registry.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            Copyright &#0169; 2021 Jason Rose
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

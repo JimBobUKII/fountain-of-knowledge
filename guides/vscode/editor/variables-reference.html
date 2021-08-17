@@ -1,0 +1,352 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Variables Reference | Fountain of Knowledge </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Variables Reference | Fountain of Knowledge ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    <meta property="docfx:rel" content="../../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="variables-reference">Variables Reference</h1>
+
+<p>Visual Studio Code supports variable substitution in <a href="debugging.html">Debugging</a> and <a href="tasks.html">Task</a> configuration files as well as some select settings. Variable substitution is supported inside some key and value strings in <code>launch.json</code> and <code>tasks.json</code> files using <strong>${variableName}</strong> syntax.</p>
+<h2 id="predefined-variables">Predefined variables</h2>
+<p>The following predefined variables are supported:</p>
+<ul>
+<li><strong>${workspaceFolder}</strong> - the path of the folder opened in VS Code</li>
+<li><strong>${workspaceFolderBasename}</strong> - the name of the folder opened in VS Code without any slashes (/)</li>
+<li><strong>${file}</strong> - the current opened file</li>
+<li><strong>${fileWorkspaceFolder}</strong> - the current opened file's workspace folder</li>
+<li><strong>${relativeFile}</strong> - the current opened file relative to <code>workspaceFolder</code></li>
+<li><strong>${relativeFileDirname}</strong> - the current opened file's dirname relative to <code>workspaceFolder</code></li>
+<li><strong>${fileBasename}</strong> - the current opened file's basename</li>
+<li><strong>${fileBasenameNoExtension}</strong> - the current opened file's basename with no file extension</li>
+<li><strong>${fileDirname}</strong> - the current opened file's dirname</li>
+<li><strong>${fileExtname}</strong> - the current opened file's extension</li>
+<li><strong>${cwd}</strong> - the task runner's current working directory on startup</li>
+<li><strong>${lineNumber}</strong> - the current selected line number in the active file</li>
+<li><strong>${selectedText}</strong> - the current selected text in the active file</li>
+<li><strong>${execPath}</strong> - the path to the running VS Code executable</li>
+<li><strong>${defaultBuildTask}</strong> - the name of the default build task</li>
+<li><strong>${pathSeparator}</strong> - the character used by the operating system to separate components in file paths</li>
+</ul>
+<h3 id="predefined-variables-examples">Predefined variables examples</h3>
+<p>Supposing that you have the following requirements:</p>
+<ol>
+<li>A file located at <code>/home/your-username/your-project/folder/file.ext</code> opened in your editor;</li>
+<li>The directory <code>/home/your-username/your-project</code> opened as your root workspace.</li>
+</ol>
+<p>So you will have the following values for each variable:</p>
+<ul>
+<li><strong>${workspaceFolder}</strong> - <code>/home/your-username/your-project</code></li>
+<li><strong>${workspaceFolderBasename}</strong> - <code>your-project</code></li>
+<li><strong>${file}</strong> - <code>/home/your-username/your-project/folder/file.ext</code></li>
+<li><strong>${fileWorkspaceFolder}</strong> - <code>/home/your-username/your-project</code></li>
+<li><strong>${relativeFile}</strong> - <code>folder/file.ext</code></li>
+<li><strong>${relativeFileDirname}</strong> - <code>folder</code></li>
+<li><strong>${fileBasename}</strong> - <code>file.ext</code></li>
+<li><strong>${fileBasenameNoExtension}</strong> - <code>file</code></li>
+<li><strong>${fileDirname}</strong> - <code>/home/your-username/your-project/folder</code></li>
+<li><strong>${fileExtname}</strong> - <code>.ext</code></li>
+<li><strong>${lineNumber}</strong> - line number of the cursor</li>
+<li><strong>${selectedText}</strong> - text selected in your code editor</li>
+<li><strong>${execPath}</strong> - location of Code.exe</li>
+<li><strong>${pathSeparator}</strong> - <code>/</code> on macOS or linux, <code>\</code> on Windows</li>
+</ul>
+<blockquote>
+<p><strong>Tip</strong>: Use IntelliSense inside string values for <code>tasks.json</code> and <code>launch.json</code> to get a full list of predefined variables.</p>
+</blockquote>
+<h3 id="variables-scoped-per-workspace-folder">Variables scoped per workspace folder</h3>
+<p>By appending the root folder's name to a variable (separated by a colon), it is possible to reach into sibling root folders of a workspace. Without the root folder name, the variable is scoped to the same folder where it is used.</p>
+<p>For example, in a multi root workspace with folders <code>Server</code> and <code>Client</code>, a <code>${workspaceFolder:Client}</code> refers to the path of the <code>Client</code> root.</p>
+<h2 id="environment-variables">Environment variables</h2>
+<p>You can also reference environment variables through the <strong>${env:Name}</strong> syntax (for example, <code>${env:USERNAME}</code>).</p>
+<pre><code class="lang-json">{
+    &quot;type&quot;: &quot;node&quot;,
+    &quot;request&quot;: &quot;launch&quot;,
+    &quot;name&quot;: &quot;Launch Program&quot;,
+    &quot;program&quot;: &quot;${workspaceFolder}/app.js&quot;,
+    &quot;cwd&quot;: &quot;${workspaceFolder}&quot;,
+    &quot;args&quot;: [ &quot;${env:USERNAME}&quot; ]
+}
+</code></pre>
+<h2 id="configuration-variables">Configuration variables</h2>
+<p>You can reference VS Code settings (&quot;configurations&quot;) through <strong>${config:Name}</strong> syntax (for example, <code>${config:editor.fontSize}</code>).</p>
+<h2 id="command-variables">Command variables</h2>
+<p>If the predefined variables from above are not sufficient, you can use any VS Code command as a variable through the <strong>${command:commandID}</strong> syntax.</p>
+<p>A command variable is replaced with the (string) result from the command evaluation. The implementation of a command can range from a simple calculation with no UI, to some sophisticated functionality based on the UI features available via VS Code's extension API. If the command returns anything other than a string, then the variable replacement will not complete. Command variables <strong>must</strong> return a string.</p>
+<p>An example of this functionality is in VS Code's Node.js debugger extension, which provides an interactive command <code>extension.pickNodeProcess</code> for selecting a single process from the list of all running Node.js processes. The command returns the process ID of the selected process. This makes it possible to use the <code>extension.pickNodeProcess</code> command in an <strong>Attach by Process ID</strong> launch configuration in the following way:</p>
+<pre><code class="lang-json">{
+    &quot;configurations&quot;: [
+        {
+            &quot;type&quot;: &quot;node&quot;,
+            &quot;request&quot;: &quot;attach&quot;,
+            &quot;name&quot;: &quot;Attach by Process ID&quot;,
+            &quot;processId&quot;: &quot;${command:extension.pickNodeProcess}&quot;
+        }
+    ]
+}
+</code></pre>
+<h2 id="input-variables">Input variables</h2>
+<p>Command variables are already powerful but they lack a mechanism to configure the command being run for a specific use case. For example, it is not possible to pass a <strong>prompt message</strong> or a <strong>default value</strong> to a generic &quot;user input prompt&quot;.</p>
+<p>This limitation is solved with <strong>input variables</strong> which have the syntax: <code>${input:variableID}</code>. The <code>variableID</code> refers to entries in the <code>inputs</code> section of <code>launch.json</code> and <code>tasks.json</code>, where additional configuration attributes are specified.</p>
+<p>The following example shows the overall structure of a <code>tasks.json</code> that makes use of input variables:</p>
+<pre><code class="lang-json">{
+    &quot;version&quot;: &quot;2.0.0&quot;,
+    &quot;tasks&quot;: [
+        {
+            &quot;label&quot;: &quot;task name&quot;,
+            &quot;command&quot;: &quot;${input:variableID}&quot;,
+            // ...
+        }
+    ],
+    &quot;inputs&quot;: [
+        {
+            &quot;id&quot;: &quot;variableID&quot;,
+            &quot;type&quot;: &quot;type of input variable&quot;,
+            // type specific configuration attributes
+        }
+    ]
+}
+</code></pre>
+<p>Currently VS Code supports three types of input variables:</p>
+<ul>
+<li><strong>promptString</strong>: Shows an input box to get a string from the user.</li>
+<li><strong>pickString</strong>: Shows a Quick Pick dropdown to let the user select from several options.</li>
+<li><strong>command</strong>: Runs an arbitrary command.</li>
+</ul>
+<p>Each type requires additional configuration attributes:</p>
+<p><code>promptString</code>:</p>
+<ul>
+<li><strong>description</strong>: Shown in the quick input, provides context for the input.</li>
+<li><strong>default</strong>: Default value that will be used if the user doesn't enter something else.</li>
+<li><strong>password</strong>: Set to true to input with a password prompt that will not show the typed value.</li>
+</ul>
+<p><code>pickString</code>:</p>
+<ul>
+<li><strong>description</strong>: Shown in the quick pick, provides context for the input.</li>
+<li><strong>options</strong>:  An array of options for the user to pick from.</li>
+<li><strong>default</strong>: Default value that will be used if the user doesn't enter something else. It must be one of the option values.</li>
+</ul>
+<p><code>command</code>:</p>
+<ul>
+<li><strong>command</strong>: Command being run on variable interpolation.</li>
+<li><strong>args</strong>: Optional option bag passed to the command's implementation.</li>
+</ul>
+<p>Below is an example of a <code>tasks.json</code> that illustrates the use of <code>inputs</code> using Angular CLI:</p>
+<pre><code class="lang-json">{
+    &quot;version&quot;: &quot;2.0.0&quot;,
+    &quot;tasks&quot;: [
+        {
+            &quot;label&quot;: &quot;ng g&quot;,
+            &quot;type&quot;: &quot;shell&quot;,
+            &quot;command&quot;: &quot;ng&quot;,
+            &quot;args&quot;: [
+                &quot;g&quot;,
+                &quot;${input:componentType}&quot;,
+                &quot;${input:componentName}&quot;
+            ],
+        }
+    ],
+    &quot;inputs&quot;: [
+        {
+            &quot;type&quot;: &quot;pickString&quot;,
+            &quot;id&quot;: &quot;componentType&quot;,
+            &quot;description&quot;: &quot;What type of component do you want to create?&quot;,
+            &quot;options&quot;: [&quot;component&quot;, &quot;directive&quot;, &quot;pipe&quot;, &quot;service&quot;, &quot;class&quot;, &quot;guard&quot;, &quot;interface&quot;, &quot;enum&quot;, &quot;enum&quot;],
+            &quot;default&quot;: &quot;component&quot;
+        },
+        {
+            &quot;type&quot;: &quot;promptString&quot;,
+            &quot;id&quot;: &quot;componentName&quot;,
+            &quot;description&quot;: &quot;Name your component.&quot;,
+            &quot;default&quot;: &quot;my-new-component&quot;
+        }
+    ]
+}
+</code></pre>
+<p>Running the example:</p>
+<p><img src="images/tasks/run-input-example.gif" alt="Inputs Example"></p>
+<p>The following example shows how to use a user input variable of type <code>command</code> in a debug configuration that lets the user pick a test case from a list of all test cases found in a specific folder. It is assumed that some extension provides an <code>extension.mochaSupport.testPicker</code> command that locates all test cases in a configurable location and shows a picker UI to pick one of them. The arguments for a command input are defined by the command itself.</p>
+<pre><code class="lang-json">{
+    &quot;configurations&quot;: [
+        {
+            &quot;type&quot;: &quot;node&quot;,
+            &quot;request&quot;: &quot;launch&quot;,
+            &quot;name&quot;: &quot;Run specific test&quot;,
+            &quot;program&quot;: &quot;${workspaceFolder}/${input:pickTest}&quot;
+        }
+    ],
+    &quot;inputs&quot;: [
+        {
+            &quot;id&quot;: &quot;pickTest&quot;,
+            &quot;type&quot;: &quot;command&quot;,
+            &quot;command&quot;: &quot;extension.mochaSupport.testPicker&quot;,
+            &quot;args&quot;: {
+                &quot;testFolder&quot;: &quot;/out/tests&quot;,
+            }
+        }
+    ]
+}
+</code></pre>
+<p>Command inputs can also be used with tasks. In this example, the built-in Terminate Task command is used. It can accept an argument to terminate all tasks.</p>
+<pre><code class="lang-json">{
+    &quot;version&quot;: &quot;2.0.0&quot;,
+    &quot;tasks&quot;: [
+        {
+            &quot;label&quot;: &quot;Terminate All Tasks&quot;,
+            &quot;command&quot;: &quot;echo ${input:terminate}&quot;,
+            &quot;type&quot;: &quot;shell&quot;,
+            &quot;problemMatcher&quot;: []
+        }
+    ],
+     &quot;inputs&quot;: [
+        {
+            &quot;id&quot;: &quot;terminate&quot;,
+            &quot;type&quot;: &quot;command&quot;,
+            &quot;command&quot;: &quot;workbench.action.tasks.terminate&quot;,
+            &quot;args&quot;: &quot;terminateAll&quot;
+        }
+    ]
+}
+</code></pre>
+<h2 id="common-questions">Common questions</h2>
+<h3 id="details-of-variable-substitution-in-a-debug-configuration-or-task">Details of variable substitution in a debug configuration or task</h3>
+<p>Variable substitution in debug configurations or tasks is a two pass process:</p>
+<ul>
+<li>In the first pass, all variables are evaluated to string results. If a variable occurs more than once, it is only evaluated once.</li>
+<li>In the second pass, all variables are substituted with the results from the first pass.</li>
+</ul>
+<p>A consequence of this is that the evaluation of a variable (for example, a command-based variable implemented in an extension) has <strong>no access</strong> to other substituted variables in the debug configuration or task. It only sees the original variables. This means that variables cannot depend on each other (which ensures isolation and makes substitution robust against evaluation order).</p>
+<h3 id="is-variable-substitution-supported-in-user-and-workspace-settings">Is variable substitution supported in User and Workspace settings?</h3>
+<p>The predefined variables are supported in a select number of setting keys in <code>settings.json</code> files such as the terminal <code>cwd</code>, <code>env</code>, <code>shell</code> and <code>shellArgs</code> values. Some <a href="../getstarted/settings.html">settings</a> like <code>window.title</code> have their own variables:</p>
+<pre><code class="lang-json">  &quot;window.title&quot;: &quot;${dirty}${activeEditorShort}${separator}${rootName}${separator}${appName}&quot;
+</code></pre>
+<p>Refer to the comments in the Settings editor (<code>kb(workbench.action.openSettings)</code>) to learn about setting specific variables.</p>
+<h3 id="why-isnt-workspaceroot-documented">Why isn't ${workspaceRoot} documented?</h3>
+<p>The variable <code>${workspaceRoot}</code> was deprecated in favor of <code>${workspaceFolder}</code> to better align with <a href="multi-root-workspaces.html">Multi-root Workspace</a> support.</p>
+<h3 id="why-arent-variables-in-tasksjson-being-resolved">Why aren't variables in tasks.json being resolved?</h3>
+<p>Not all values in <code>tasks.json</code> support variable substitution. Specifically, only <code>command</code>, <code>args</code>, and <code>options</code> support variable substitution.</p>
+<h3 id="how-can-i-know-a-variables-actual-value">How can I know a variable's actual value?</h3>
+<p>One easy way to check a variable's runtime value is to create a VS Code <a href="tasks.html">task</a> to output the variable value to the console. For example, to see the resolved value for <code>${workspaceFolder}</code>, you can create and run (<strong>Terminal</strong> &gt; <strong>Run Task</strong>) the following simple 'echo' task in <code>tasks.json</code>:</p>
+<pre><code class="lang-json">{
+    &quot;version&quot;: &quot;2.0.0&quot;,
+    &quot;tasks&quot;: [
+        {
+            &quot;label&quot;: &quot;echo&quot;,
+            &quot;type&quot;: &quot;shell&quot;,
+            &quot;command&quot;: &quot;echo ${workspaceFolder}&quot;
+        }
+    ]
+}
+</code></pre>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/JimBobUKII/fountain-of-knowledge/blob/main/guides/vscode/editor/variables-reference.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            Copyright &#0169; 2021 Jason Rose
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,193 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>What is a VS Code &quot;workspace&quot;? | Fountain of Knowledge </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="What is a VS Code &quot;workspace&quot;? | Fountain of Knowledge ">
+    <meta name="generator" content="docfx 2.56.7.0">
+    
+    <link rel="shortcut icon" href="../../../favicon.ico">
+    <link rel="stylesheet" href="../../../styles/docfx.vendor.css">
+    <link rel="stylesheet" href="../../../styles/docfx.css">
+    <link rel="stylesheet" href="../../../styles/main.css">
+    <meta property="docfx:navrel" content="../../../toc.html">
+    <meta property="docfx:tocrel" content="../../toc.html">
+    
+    <meta property="docfx:rel" content="../../../">
+    
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="../../../index.html">
+                <img id="logo" class="svg" src="../../../logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div class="container body-content">
+        
+        <div id="search-results">
+          <div class="search-list">Search Results for <span></span></div>
+          <div class="sr-items">
+            <p><i class="glyphicon glyphicon-refresh index-loading"></i></p>
+          </div>
+          <ul id="pagination" data-first="First" data-prev="Previous" data-next="Next" data-last="Last"></ul>
+        </div>
+      </div>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="what-is-a-vs-code-workspace">What is a VS Code &quot;workspace&quot;?</h1>
+
+<p>A Visual Studio Code &quot;workspace&quot; is the collection of one or more folders that are opened in a VS Code window (instance). In most cases, you will have a single folder opened as the workspace but, depending on your development workflow, you can include more than one folder, using an advanced configuration called <a href="#multiroot-workspaces">Multi-root workspaces</a>.</p>
+<p>The concept of a workspace enables VS Code to:</p>
+<ul>
+<li>Configure settings that only apply to a specific folder or folders but not others.</li>
+<li>Persist <a href="tasks.html">task</a> and <a href="debugging.html">debugger launch</a> configurations that are only valid in the context of that workspace.</li>
+<li>Store and restore UI state associated with that workspace (for example, the files that are opened).</li>
+<li>Selectively enable or disable extensions only for that workspace.</li>
+</ul>
+<p>You may see the terms &quot;folder&quot; and &quot;workspace&quot; used interchangeably in VS Code documentation, issues, and community discussions. Think of a workspace as the root of a project that has extra VS Code knowledge and capabilities.</p>
+<blockquote>
+<p><strong>Note:</strong> It is also possible to open VS Code without a workspace. For example, when you open a new VS Code window by selecting a file from your platform's <strong>File</strong> menu, you will not be inside a workspace. In this mode, some of VS Code's capabilities are reduced but you can still open text files and edit them.</p>
+</blockquote>
+<h2 id="how-do-i-open-a-vs-code-workspace">How do I open a VS Code &quot;workspace&quot;?</h2>
+<p>The easiest way to open a workspace is using the <strong>File</strong> menu and selecting one of the available folder entries for opening. Alternatively if you launch VS Code from a terminal, you can pass the path to a folder as the first argument to the <code>code</code> command for opening.</p>
+<h2 id="single-folder-workspaces">Single-folder workspaces</h2>
+<p>You don't have to do anything for a folder to become a VS Code workspace other than open the folder with VS Code. Once a folder has been opened, VS Code will automatically keep track of things such as your open files and editor layout so the editor will be as you left it when you reopen that folder. You can also add other folder-specific configurations such as workspace-specific <a href="../getstarted/settings.html">settings</a> (versus global user settings), <a href="tasks.html">task definitions</a>, and <a href="debugging.html">debugging launch</a> files (see below in the <a href="#workspace-settings">workspace settings</a> section).</p>
+<p><img src="images/workspaces/single-folder-workspace.png" alt="Single-folder workspace"></p>
+<p><em>A single-folder workspace opened inside VS Code</em></p>
+<h2 id="multi-root-workspaces">Multi-root workspaces</h2>
+<p><a href="multi-root-workspaces.html">Multi-root workspaces</a> are an advanced capability of VS Code that allows you to configure multiple distinct folders to be part of the workspace. Instead of opening a folder as workspace, you will open a <code>&lt;name&gt;.code-workspace</code> JSON file that lists the folders of the workspace. For example:</p>
+<pre><code class="lang-json">{
+    &quot;folders&quot;: [
+        {
+            &quot;path&quot;: &quot;my-folder-a&quot;
+        },
+        {
+            &quot;path&quot;: &quot;my-folder-b&quot;
+        }
+    ]
+}
+</code></pre>
+<p><img src="images/workspaces/multi-root-workspace.png" alt="Multi-root workspace"></p>
+<p><em>A multi-root workspace opened in VS Code</em></p>
+<blockquote>
+<p><strong>Note:</strong> The visual difference of having a folder opened versus opening a <code>.code-workspace</code> file can be subtle. To give you a hint that a <code>.code-workspace</code> file has been opened, some areas of the user interface (for example, the root of the File Explorer) show an extra <strong>(Workspace)</strong> suffix next to the name.</p>
+</blockquote>
+<h3 id="untitled-multi-root-workspaces">Untitled multi-root workspaces</h3>
+<p>It is easy to add or remove folders in your workspace. You can start off by opening a folder in VS Code and then later add more folders as you see fit. Unless you already have opened a <code>.code-workspace</code> file, the first time you add a second folder to a workspace, VS Code will automatically create an &quot;untitled&quot; workspace. In the background, VS Code automatically maintains a <code>untitled.code-workspace</code> file for you that contains all of the folders and workspace settings from your current session. The workspace will remain &quot;untitled&quot; until you decide to save it to disk.</p>
+<p><img src="images/workspaces/untitled-workspace.png" alt="Untitled multi-root workspace"></p>
+<p><em>An untitled multi-root workspace opened in VS Code</em></p>
+<blockquote>
+<p><strong>Note:</strong> There is really no difference between an untitled workspace and a saved workspace other than the fact that an untitled workspace is automatically created for you for your convenience and will always restore until you save it. We automatically delete untitled workspaces (after asking you for confirmation) when you close a window in which an untitled workspace is opened.</p>
+</blockquote>
+<h2 id="workspace-settings">Workspace settings</h2>
+<p>Workspace settings enable you to configure settings in the context of the workspace you have opened and always override global user settings. They are physically stored in a JSON file and their location depends on whether you opened a folder as a workspace or you opened a <code>.code-workspace</code> file.</p>
+<p>Refer to the <a href="../getstarted/settings.html">settings</a> documentation for a comprehensive explanation of setting scopes and their file locations.</p>
+<h3 id="single-folder-workspace-settings">Single-folder workspace settings</h3>
+<p>Workspace settings will be stored in <code>.vscode/settings.json</code> when you open a folder as workspace.</p>
+<p><img src="images/workspaces/single-folder-settings.png" alt="Single-folder workspace settings"></p>
+<p><em>The Settings editor when a folder is opened as workspace</em></p>
+<h3 id="multi-root-workspace-settings">Multi-root workspace settings</h3>
+<p>When you open a <code>.code-workspace</code> as workspace, all workspace settings will be added into the <code>.code-workspace</code> file.</p>
+<p>You can still configure settings per root folder and the Settings editor will present a third setting scope called <strong>Folder Settings</strong>:</p>
+<p><img src="images/workspaces/multi-root-settings.png" alt="Multi-root settings"></p>
+<p><em>The Settings editor when a multi-root workspace is opened</em></p>
+<p>Settings configured per folder will override settings defined in the <code>.code-workspace</code>.</p>
+<h2 id="workspace-tasks-and-launch-configurations">Workspace tasks and launch configurations</h2>
+<p>Similar to how <a href="#workspace-settings">workspace settings</a> are specific to a workspace, tasks and launch configurations can also be scoped to a workspace. Depending on whether you have a folder opened as workspace or a <code>.code-workspace</code> file, the location of workspace task and launch configurations will either be inside the <code>.vscode</code> folder or inside the <code>.code-workspace</code> file. In addition, task and launch configurations can always be defined at the level of a folder, even when you have opened a <code>.code-workspace</code> file.</p>
+<p>Refer to <a href="tasks.html">tasks</a> and <a href="debugging.html">debugging</a> chapters for a more comprehensive overview of how to use tasks and launch configurations in VS Code.</p>
+<h2 id="common-questions">Common questions</h2>
+<h3 id="what-is-the-benefit-of-multi-root-workspace-over-a-folder">What is the benefit of multi-root workspace over a folder?</h3>
+<p>The most obvious advantage is that a multi-root workspace allows you to work with multiple projects that may not be stored inside the same parent folder on disk. You can pick folders from anywhere to add to the workspace.</p>
+<p>Even if you are mainly working in a single-folder-based project, you can benefit from using <code>.code-workspace</code> files. You can store multiple <code>.code-workspace</code> files inside the folder to provide a scoped folder-view of certain aspects of the project depending on the scenario (for example <code>client.code-workspace</code>, <code>server.code-workspace</code> to filter out unrelated folders from the File Explorer). Since <code>.code-workspace</code> files support relative paths for the <code>folders</code> section, these workspace files will work for everyone independent of where the folder is stored.</p>
+<p>Finally, if for some projects you want to apply the same set of workspace settings or tasks/launch configurations, consider adding these into a <code>.code-workspace</code> file and add/remove these folders from that workspace.</p>
+<h3 id="why-is-vs-code-restoring-all-untitled-workspaces-on-a-restart">Why is VS Code restoring all untitled workspaces on a restart?</h3>
+<p>Untitled workspaces are designed to be something you must explicitly decide to keep or not. The first time an untitled workspace is created, VS Code adds the specified folders into the workspace file and also all existing workspace settings. This user data is always restored and displayed in a VS Code window until the untitled workspace is saved or deleted.</p>
+<h3 id="how-do-i-delete-an-untitled-workspace">How do I delete an untitled workspace?</h3>
+<p>You can delete an untitled workspace by closing its window and dismissing the prompt to save the untitled workspace.</p>
+<h3 id="can-i-use-a-multi-root-workspace-without-folders">Can I use a multi-root workspace without folders</h3>
+<p>It is possible to leave the <code>folders</code> section of a <code>.code-workspace</code> file empty so that you end up with an instance of VS Code that does not show any root folders. You can still store workspace settings and even tasks or launch configurations in this case.</p>
+<h3 id="does-vs-code-support-projects-or-solutions">Does VS Code support projects or solutions?</h3>
+<p>VS Code doesn't have the concept of a &quot;project&quot; or &quot;solution&quot; as they are sometimes defined in other development tools, for example Visual Studio IDE. You may see the term &quot;project&quot; used in VS Code documentation but it usually means &quot;the thing you're working on&quot;. Depending on your programming language or framework, the toolset itself may support something called a &quot;project&quot; to help define build configurations or enumerate included files.</p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <div class="contribution">
+                <ul class="nav">
+                  <li>
+                    <a href="https://github.com/JimBobUKII/fountain-of-knowledge/blob/main/guides/vscode/editor/workspaces.md/#L1" class="contribution-link">Improve this Doc</a>
+                  </li>
+                </ul>
+              </div>
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+                <h5>In This Article</h5>
+                <div></div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            Copyright &#0169; 2021 Jason Rose
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="../../../styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="../../../styles/docfx.js"></script>
+    <script type="text/javascript" src="../../../styles/main.js"></script>
+  </body>
+</html>
