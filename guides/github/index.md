@@ -1,5 +1,6 @@
 # Github
 
+## Lewis heading
 ## Quickstart
 Get started using GitHub to manage Git repositories and collaborate with others.
 
